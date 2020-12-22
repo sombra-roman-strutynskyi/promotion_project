@@ -1,17 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { SHARED_PIPES } from './pipes';
 
-export const SHARED_MODULES = [
-  
-  CommonModule,
-];
+export const SHARED_MODULES = [CommonModule];
 
 @NgModule({
   declarations: [/*...SHARED_COMPONENTS,*/ ...SHARED_PIPES],
-  imports: [
-    ...SHARED_MODULES
-  ],
-  exports: [/*...SHARED_COMPONENTS,*/ ...SHARED_PIPES, ...SHARED_MODULES]
+  imports: [...SHARED_MODULES],
+  exports: [/*...SHARED_COMPONENTS,*/ ...SHARED_PIPES, ...SHARED_MODULES],
 })
-export class SharedModule { }
+export class SharedModule {}
