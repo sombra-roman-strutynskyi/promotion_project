@@ -5,13 +5,30 @@
   To learn more about this file see: https://angular.io/config/solution-tsconfig.
 */
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "typeRoots": ["node_modules/@types"],
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@env": ["src/environments/environment"],
+      "@shared": ["src/app/shared/index.ts"],
+      "@core": ["src/app/core"],
+      "@auth": ["src/app/auth"],
+      "@modules/*": ["src/app/modules/*"]
     }
-]
+  }
 }
+
