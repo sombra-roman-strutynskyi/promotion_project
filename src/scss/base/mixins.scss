@@ -1,0 +1,10 @@
+@import 'vars';
+
+@mixin max-lines($number, $line-height: $line-height) {
+  height: $number * $line-height;
+  display: -webkit-box;
+  -webkit-line-clamp: $number;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
