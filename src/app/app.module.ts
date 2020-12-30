@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-  AppRoutingModule,
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({}, {}),

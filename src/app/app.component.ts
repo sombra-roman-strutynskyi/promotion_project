@@ -7,8 +7,8 @@ import { CoreService } from '@core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private coreService: CoreService) { }
-  
+  constructor(private coreService: CoreService) {}
+
   ngOnInit() {
     this.coreService.initRouteSubscription();
   }

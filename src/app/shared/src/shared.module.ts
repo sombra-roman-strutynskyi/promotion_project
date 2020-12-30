@@ -33,7 +33,6 @@ export const SHARED_MODULES = [
   exports: [...SHARED_COMPONENTS, ...SHARED_PIPES, ...SHARED_MODULES],
   providers: [SHARED_SERVICES],
 })
-  
 export class SharedModule {
   constructor(private iconService: IconService) {
     this.iconService.load();

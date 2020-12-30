@@ -28,7 +28,7 @@ export class CoreService {
       filter((event) => event instanceof NavigationEnd),
       map((event: NavigationEnd) => {
         console.log('lll');
-        
+
         this._previousUrl =
           this._currentUrl !== '/' ? this._currentUrl : undefined;
         this._currentUrl = event.urlAfterRedirects;

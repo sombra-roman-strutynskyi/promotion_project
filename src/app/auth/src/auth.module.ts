@@ -7,7 +7,12 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { COMPONENTS } from './components';
 @NgModule({
   declarations: [...COMPONENTS],
-  imports: [CommonModule, AuthRoutingModule, SharedModule, CoreModule,
-    AngularFireAuthModule],
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    SharedModule,
+    CoreModule,
+    AngularFireAuthModule,
+  ],
 })
 export class AuthModule {}

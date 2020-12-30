@@ -1,7 +1,5 @@
-import {createAction, props} from '@ngrx/store';
-import {
-  Credentials, User,
-} from '../models';
+import { createAction, props } from '@ngrx/store';
+import { Credentials, User } from '../models';
 
 export const login = createAction(
   '[Auth] Login',
@@ -67,24 +65,23 @@ export const loadUserProfileFailure = createAction(
 
 export const setErrors = createAction(
   '[Auth] Set Errors',
-  props<{ errors?: string[]; }>()
+  props<{ errors?: string[] }>()
 );
 
 export const loginWithGoogle = createAction(
   '[AUTH] Login With Google',
-  props<{payloadType}>()
+  props<{ payloadType }>()
 );
 
 export const loginWithGoogleSuccess = createAction(
   '[AUTH] Login With Google Success',
-  props<{payload2Type}>()
+  props<{ payload2Type }>()
 );
 
 export const loginWithGoogleFailure = createAction(
   '[AUTH] Login With Google Failure',
-  props<{payload3Type}>()
+  props<{ payload3Type }>()
 );
-
 
 export const AuthActions = {
   login,

@@ -10,9 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AuthComponent extends SubscriptionDisposer implements OnInit {
   header;
-  constructor(
-    private coreService: CoreService
-  ) {
+  constructor(private coreService: CoreService) {
     super();
   }
 
@@ -21,7 +19,6 @@ export class AuthComponent extends SubscriptionDisposer implements OnInit {
       .getCurrentPageHeader()
       .pipe(takeUntil(this.ngSubject))
       .subscribe((header) => {
-
         this.header = header;
       });
   }
