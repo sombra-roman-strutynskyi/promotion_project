@@ -29,3 +29,21 @@ export function isObject(value: any) {
 export function isArray<T>(item: T[] | any): item is Array<T> {
   return !!(item && item.constructor === Array);
 }
+
+export function isEmptyString(value) {
+  return isUndefined(value) || (isString(value) && !value.length);
+}
+// Capitalize first letter in a string
+// From: https://stackoverflow.com/a/43237732
+export const capitalize = (str: string) =>
+  `${str.charAt(0).toUpperCase()}${str.toLowerCase().substring(1)}`;
+
+export function removeEmptyObjProperty(myObj: object) {
+  const obj = { ...myObj };
+  Object.keys(obj).forEach(
+    (key) =>
+      (isNullOrUndefined(obj[key]) || isEmptyString(obj[key])) &&
+      delete obj[key]
+  );
+  return obj;
+}

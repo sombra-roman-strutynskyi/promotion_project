@@ -75,6 +75,9 @@
       "pre-commit": [
         "pretty-quick --staged",
         "lint-staged"
+      ],
+      "pre-push": [
+        "npm run lint"
       ]
     }
   }

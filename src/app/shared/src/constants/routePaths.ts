@@ -8,7 +8,8 @@ export const ROUTES_DATA = {
     url: 'auth',
     children: {
       SIGN_IN: {
-        url: 'login',
+        url: 'auth/login',
+        path: 'login',
         title: 'Sign In',
       },
     },

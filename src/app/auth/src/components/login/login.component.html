@@ -1,14 +1,23 @@
-<form class="my-profile-form" [formGroup]="myProfileForm">
-  <clr-input-container>
-    <label class="clr-col-12">Name</label>
-    <input clrInput aria-label="User Name" class="clr-col-12" formControlName="fullName"/>
-  </clr-input-container>
-  <clr-input-container class="p3">
-    <label class="clr-col-12">Email</label>
-    <input clrInput aria-label="Email" class="clr-col-12" formControlName="email"/>
-  </clr-input-container>
-  <clr-input-container class="p3">
-    <label class="clr-col-12">Plan Code</label>
-    <input clrInput aria-label="Plan Code" class="clr-col-12" formControlName="planCode"/>
-  </clr-input-container>
-</form>
+<div class="login row">
+  <div class="col-12">
+    <button class="login__button login__button--google" mat-raised-button>
+      <mat-icon class="login__icon" svgIcon="google-logo"></mat-icon> login in
+      with google
+    </button>
+  </div>
+  <div class="col-12">
+    <button class="login__button login__button--facebook" mat-raised-button>
+      <mat-icon class="login__icon" svgIcon="facebook-logo"></mat-icon> login in
+      with facebook
+    </button>
+  </div>
+  <div class="col-12 login__or">OR</div>
+  <div class="form-container col-12">
+    <app-form
+      [fields]="fields"
+      [model]="loginModal"
+      (submitted)="onSubmit($event)"
+      >
+    </app-form>
+  </div>
+</div>

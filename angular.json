@@ -23,17 +23,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "preserveSymlinks": true,
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss/base"]
             },
-            "styles": [
-              "src/scss/main.scss"
-            ],
+            "styles": ["src/scss/main.scss"],
             "scripts": []
           },
           "configurations": {
@@ -121,9 +116,7 @@
               "tsconfig.spec.json",
               "cypress/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

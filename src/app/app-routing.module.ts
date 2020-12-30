@@ -1,23 +1,17 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { LayoutComponent } from '@shared';
 
 const routes: Routes = [
   {
     path: '',
-    // component: LayoutComponent,
-    // children: [
-    //   {
-    //     path: '',
-    //     loadChildren: () => import('@auth/auth.module').then((m) => m.AuthModule),
-    //   },
-    // ],
+    loadChildren: () => import('@auth').then((m) => m.AuthModule),
   },
-  {path: '**', redirectTo: '/', pathMatch: 'full'},
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

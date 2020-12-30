@@ -1,6 +1,6 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {UserProfile, RoleKey, Company, User} from '../models';
-import {AUTH_FEATURE_KEY, AuthState} from './auth.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { User } from '../models';
+import { AUTH_FEATURE_KEY, AuthState } from './auth.reducer';
 
 // Lookup the 'Auth' feature state managed by NgRx
 const getAuthState = createFeatureSelector<AuthState>(AUTH_FEATURE_KEY);
@@ -16,11 +16,8 @@ const getPending = createSelector(
 );
 
 const getUser = createSelector(getAuthState, (state: AuthState) =>
-  state.userLoaded
-    ? state.user
-    : ({} as UserProfile)
+  state.userLoaded ? state.user : ({} as User)
 );
-
 
 const getUserLoaded = createSelector(
   getAuthState,
@@ -43,5 +40,5 @@ export const authQuery = {
   getUser,
   getUserLoaded,
   getErrors,
-  getRequestPasswordReset
+  getRequestPasswordReset,
 };

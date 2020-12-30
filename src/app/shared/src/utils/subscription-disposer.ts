@@ -1,3 +1,4 @@
+// tslint:disable: component-class-suffix
 import {OnDestroy, Component} from '@angular/core';
 import {Subject} from 'rxjs';
 

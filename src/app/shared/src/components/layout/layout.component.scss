@@ -1,0 +1,12 @@
+@import 'vars';
+@import 'media';
+
+main {
+  display: block;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.h-hooter {
+  height: $hFooter;
+}

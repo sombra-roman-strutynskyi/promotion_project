@@ -1,0 +1,12 @@
+<form class="row" *ngIf="form" [formGroup]="form">
+  <ng-container *ngFor="let field of fields">
+    <app-input
+      class="col-12"
+      [config]="field"
+      [control]="form.controls[field.key]"
+    ></app-input>
+  </ng-container>
+  <button [disabled]="form.invalid" (click)="submitForm()" mat-raised-button>
+    Submit
+  </button>
+</form>

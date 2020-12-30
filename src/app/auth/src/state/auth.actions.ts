@@ -70,6 +70,21 @@ export const setErrors = createAction(
   props<{ errors?: string[]; }>()
 );
 
+export const loginWithGoogle = createAction(
+  '[AUTH] Login With Google',
+  props<{payloadType}>()
+);
+
+export const loginWithGoogleSuccess = createAction(
+  '[AUTH] Login With Google Success',
+  props<{payload2Type}>()
+);
+
+export const loginWithGoogleFailure = createAction(
+  '[AUTH] Login With Google Failure',
+  props<{payload3Type}>()
+);
+
 
 export const AuthActions = {
   login,
