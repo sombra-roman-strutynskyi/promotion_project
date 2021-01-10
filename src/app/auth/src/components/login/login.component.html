@@ -1,12 +1,20 @@
 <div class="login row">
   <div class="col-12">
-    <button class="login__button login__button--google" mat-raised-button>
+    <button
+      class="login__button login__button--google"
+      mat-raised-button
+      (click)="onLoginWithGoogle()"
+    >
       <mat-icon class="login__icon" svgIcon="google-logo"></mat-icon> login in
       with google
     </button>
   </div>
   <div class="col-12">
-    <button class="login__button login__button--facebook" mat-raised-button>
+    <button
+      class="login__button login__button--facebook"
+      mat-raised-button
+      (click)="onLoginWithFacebook()"
+    >
       <mat-icon class="login__icon" svgIcon="facebook-logo"></mat-icon> login in
       with facebook
     </button>

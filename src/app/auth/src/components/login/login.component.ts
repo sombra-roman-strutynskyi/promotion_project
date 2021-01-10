@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IFormField, REGEXPS } from '@shared';
+import { AuthFacade } from '../../services/auth.facade';
 
 @Component({
   selector: 'app-login',
@@ -29,10 +30,17 @@ export class LoginComponent implements OnInit {
   ];
   loginModal = {};
 
-  constructor() {}
+  constructor(private authFacade: AuthFacade) {}
 
   ngOnInit() {}
   onSubmit(data) {
+    this.authFacade.loginWithCredentials(data);
     console.log(data);
+  }
+  onLoginWithGoogle() {
+    this.authFacade.loginWithGoogle();
+  }
+  onLoginWithFacebook() {
+    this.authFacade.loginWithFacebook();
   }
 }

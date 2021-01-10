@@ -25,24 +25,24 @@ export const initialState: AuthState = {
 const authReducer = createReducer(
   initialState,
   on(
-    AuthActions.login,
-    AuthActions.register,
-    AuthActions.resetPassword,
+    AuthActions.loginWithCredentials,
+    // AuthActions.register,
+    // AuthActions.resetPassword,
     (state) => ({
       ...state,
       errors: [],
       pending: true,
     })
   ),
-  on(AuthActions.loginSuccess, (state, { result }) => ({
+  on(AuthActions.loginWithCredentialsSuccess, (state, { result }) => ({
     ...state,
     errors: null,
     pending: false,
-    isAuthenticated: true,
+    // isAuthenticated: true,
   })),
 
   on(
-    AuthActions.loginFailure,
+    AuthActions.loginWithCredentialsFailure,
     AuthActions.resetPasswordFailure,
     AuthActions.loadUserProfileFailure,
     (state, { errors }) => ({
@@ -65,14 +65,14 @@ const authReducer = createReducer(
     pending: true,
   })),
 
-  on(AuthActions.loadUserProfileSuccess, (state, { currentUser }) => ({
-    ...state,
-    user: { ...currentUser },
-    pending: false,
-    errors: [],
-    errorFields: [],
-    userLoaded: true,
-  })),
+  // on(AuthActions.loadUserProfileSuccess, (state, { currentUser }) => ({
+  //   ...state,
+  //   user: { ...currentUser },
+  //   pending: false,
+  //   errors: [],
+  //   errorFields: [],
+  //   userLoaded: true,
+  // })),
   on(AuthActions.registerFailure, (state, { error }) => ({
     ...state,
     pending: false,

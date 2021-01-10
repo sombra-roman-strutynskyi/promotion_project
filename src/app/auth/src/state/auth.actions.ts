@@ -1,18 +1,18 @@
 import { createAction, props } from '@ngrx/store';
-import { Credentials, User } from '../models';
+import { Credentials, IUser } from '../models';
 
-export const login = createAction(
-  '[Auth] Login',
+export const loginWithCredentials = createAction(
+  '[Auth] Login With Credentials',
   props<{ credentials: Credentials }>()
 );
 
-export const loginSuccess = createAction(
-  '[Auth] Login Success',
+export const loginWithCredentialsSuccess = createAction(
+  '[Auth] Login With Credentials Success',
   props<{ result: any }>()
 );
 
-export const loginFailure = createAction(
-  '[Auth] Login Failure',
+export const loginWithCredentialsFailure = createAction(
+  '[Auth] Login With Credentials Failure',
   props<{ errors: string[] }>()
 );
 
@@ -55,7 +55,7 @@ export const loadUserProfile = createAction('[Auth] Load User Profile');
 
 export const loadUserProfileSuccess = createAction(
   '[Auth] Load User Profile Success',
-  props<{ currentUser: User }>()
+  props<{ currentUser: IUser }>()
 );
 
 export const loadUserProfileFailure = createAction(
@@ -68,25 +68,39 @@ export const setErrors = createAction(
   props<{ errors?: string[] }>()
 );
 
-export const loginWithGoogle = createAction(
-  '[AUTH] Login With Google',
-  props<{ payloadType }>()
-);
+export const loginWithGoogle = createAction('[Auth] Login With Google');
 
 export const loginWithGoogleSuccess = createAction(
-  '[AUTH] Login With Google Success',
+  '[Auth] Login With Google Success',
   props<{ payload2Type }>()
 );
 
 export const loginWithGoogleFailure = createAction(
-  '[AUTH] Login With Google Failure',
-  props<{ payload3Type }>()
+  '[Auth] Login With Google Failure',
+  props<{ errors: string[] }>()
+);
+export const loginWithFacebook = createAction('[Auth] Login With Facebook');
+
+export const loginWithFacebookSuccess = createAction(
+  '[Auth] Login With Facebook Success',
+  props<{ payload2Type }>()
+);
+
+export const loginWithFacebookFailure = createAction(
+  '[Auth] Login With Facebook Failure',
+  props<{ errors: string[] }>()
 );
 
 export const AuthActions = {
-  login,
-  loginSuccess,
-  loginFailure,
+  loginWithCredentials,
+  loginWithCredentialsSuccess,
+  loginWithCredentialsFailure,
+  loginWithGoogle,
+  loginWithGoogleSuccess,
+  loginWithGoogleFailure,
+  loginWithFacebook,
+  loginWithFacebookSuccess,
+  loginWithFacebookFailure,
   loginRedirect,
   resetPassword,
   resetPasswordSuccess,

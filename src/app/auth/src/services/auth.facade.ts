@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Credentials } from '../models/user';
-import { AuthActions } from '../state/auth.actions';
+import { AuthActions, loginWithCredentials } from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
 
@@ -17,8 +17,14 @@ export class AuthFacade {
 
   constructor(private store: Store<AuthState>) {}
 
-  login(credentials: Credentials) {
-    this.store.dispatch(AuthActions.login({ credentials }));
+  loginWithCredentials(credentials: Credentials) {
+    this.store.dispatch(AuthActions.loginWithCredentials({ credentials }));
+  }
+  loginWithGoogle() {
+    this.store.dispatch(AuthActions.loginWithGoogle());
+  }
+  loginWithFacebook() {
+    this.store.dispatch(AuthActions.loginWithFacebook());
   }
 
   logout() {
