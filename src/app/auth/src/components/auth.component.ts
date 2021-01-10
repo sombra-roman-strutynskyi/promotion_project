@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { CoreService } from '@core';
-import { isNullOrUndefined, SubscriptionDisposer } from '@shared';
-import { takeUntil } from 'rxjs/operators';
+import { ROUTES_DATA, SubscriptionDisposer } from '@shared';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -10,11 +11,33 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AuthComponent extends SubscriptionDisposer implements OnInit {
   header;
-  constructor(private coreService: CoreService) {
+  activeTab = 0;
+  tabs = [
+    {
+      title: ROUTES_DATA.AUTH.children.SIGN_IN.title,
+      url: ROUTES_DATA.AUTH.children.SIGN_IN.path,
+    },
+    {
+      title: ROUTES_DATA.AUTH.children.SIGN_UP.title,
+      url: ROUTES_DATA.AUTH.children.SIGN_UP.path,
+    },
+  ];
+  constructor(private coreService: CoreService, private router: Router) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.router.events
+      .pipe(
+        takeUntil(this.ngSubject),
+        filter((event) => event instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        this.activeTab = this.tabs.indexOf(
+          this.tabs.find((tab) => tab?.url === '.' + this.router.url)
+        );
+      });
+
     this.coreService
       .getCurrentPageHeader()
       .pipe(takeUntil(this.ngSubject))

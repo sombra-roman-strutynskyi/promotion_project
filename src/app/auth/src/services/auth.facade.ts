@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Credentials } from '../models/user';
+import { Credentials, RegisterUser } from '../models';
 import { AuthActions, loginWithCredentials } from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
@@ -35,8 +35,12 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.logoutConfirmation());
   }
 
-  resetPassword(data?: any) {
-    this.store.dispatch(AuthActions.resetPassword({ credentials: data }));
+  resetPassword(email: string) {
+    this.store.dispatch(AuthActions.resetPassword({ email }));
+  }
+
+  register(user: RegisterUser) {
+    this.store.dispatch(AuthActions.register({ user }));
   }
 
   loadProfile() {

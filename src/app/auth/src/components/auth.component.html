@@ -1,9 +1,24 @@
 <div class="auth row justify-content-center">
   <mat-card class="col-4">
     <mat-card-header>
-      <mat-card-title>{{ header.title }}</mat-card-title>
+      <!-- <mat-card-title>{{ header.title }}</mat-card-title> -->
     </mat-card-header>
     <mat-card-content>
+      <div class="container-fluid">
+        <nav mat-tab-nav-bar class="row">
+          <a
+            class="col-6"
+            mat-tab-link
+            *ngFor="let tab of tabs"
+            [routerLink]="tab.url"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [active]="rla.isActive"
+          >
+            {{ tab.title }}
+          </a>
+        </nav>
+      </div>
       <router-outlet></router-outlet>
     </mat-card-content>
   </mat-card>

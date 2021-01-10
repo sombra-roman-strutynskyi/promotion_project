@@ -1,3 +1,5 @@
+import { deepMerge, deepRemoveEmptyObjProperty } from '@shared';
+
 export interface Credentials {
   email: string;
   password: string;
@@ -20,18 +22,21 @@ export class RegisterUser {
 
 export interface IUser {
   uid?: string;
-  displayName: string;
+  displayName?: string;
+  firstName: string;
+  lastName: string;
   email: string;
   photoURL?: string;
-  phoneNumber: string;
 }
 
 export class User implements IUser {
-  constructor(
-    public uid: string,
-    public displayName: string,
-    public email: string,
-    public phoneNumber: string,
-    public photoURL?: string
-  ) {}
+  uid = '';
+  displayName = '';
+  firstName = '';
+  lastName = '';
+  email = '';
+  photoURL? = '';
+  constructor(data: IUser) {
+    Object.assign(this, deepMerge(this, deepRemoveEmptyObjProperty(data)));
+  }
 }

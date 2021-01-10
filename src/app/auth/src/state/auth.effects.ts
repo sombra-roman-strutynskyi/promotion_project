@@ -33,7 +33,7 @@ import {
   take,
   zipAll,
 } from 'rxjs/operators';
-import { Credentials, IUser } from '../models';
+import { Credentials, IUser, RegisterUser } from '../models';
 import { AuthService } from '../services';
 import { AuthFacade } from '../services/auth.facade';
 import * as AuthActions from './auth.actions';
@@ -73,7 +73,11 @@ export class AuthEffects {
         console.log('call');
 
         return this.authService.googleLogin().pipe(
-          map(() => AuthActions.loadUserProfile()),
+          map((data) => {
+            console.log(data);
+
+            return AuthActions.loadUserProfile();
+          }),
           catchError((errors) => of(AuthActions.loginWithGoogleFailure(errors)))
         );
       })
@@ -85,7 +89,9 @@ export class AuthEffects {
       ofType(AuthActions.loginWithFacebook),
       exhaustMap(() =>
         this.authService.facebookLogin().pipe(
-          map(() => AuthActions.loadUserProfile()),
+          map(() => {
+            return AuthActions.loadUserProfile();
+          }),
           catchError((errors) =>
             of(AuthActions.loginWithFacebookFailure(errors))
           )
@@ -112,6 +118,20 @@ export class AuthEffects {
     )
   );
 
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      exhaustMap(({ user }) =>
+        this.authService.register(user).pipe(
+          map(() => AuthActions.loadUserProfile()),
+          catchError((errors) =>
+            of(AuthActions.loginWithCredentialsFailure(errors))
+          )
+        )
+      )
+    )
+  );
+
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
@@ -126,9 +146,11 @@ export class AuthEffects {
       exhaustMap(
         () =>
           this.authService.getCurrentUser().pipe(
-            map((currentUser: IUser) =>
-              AuthActions.loadUserProfileSuccess({ currentUser })
-            ),
+            map((currentUser: IUser) => {
+              console.log(currentUser);
+
+              return AuthActions.loadUserProfileSuccess({ currentUser });
+            }),
             catchError((errors) =>
               of(AuthActions.loadUserProfileFailure(errors))
             )

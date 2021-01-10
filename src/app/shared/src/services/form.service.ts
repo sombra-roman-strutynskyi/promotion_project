@@ -17,7 +17,7 @@ export class FormService {
       return [field.key, control];
     });
   }
-  getSyncValidators(validationRules: IFormFieldSyncValidation) {
+  getSyncValidators(validationRules: IFormFieldSyncValidation = {}) {
     return Object.entries(validationRules).reduce((rules, [key, val]) => {
       switch (key) {
         case 'required':

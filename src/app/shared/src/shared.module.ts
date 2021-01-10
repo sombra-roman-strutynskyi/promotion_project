@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SHARED_COMPONENTS } from './components';
 
@@ -19,6 +20,7 @@ const MATERIAL_MODULES = [
   MatToolbarModule,
   MatCardModule,
   MatIconModule,
+  MatTabsModule,
 ];
 
 export const SHARED_MODULES = [

@@ -12,6 +12,16 @@ export const ROUTES_DATA = {
         path: 'login',
         title: 'Sign In',
       },
+      SIGN_UP: {
+        url: 'auth/register',
+        path: 'register',
+        title: 'Sign Up',
+      },
+      RESET_PASSWORD: {
+        url: 'auth/reset-password',
+        path: 'reset-password',
+        title: 'Reset Password',
+      },
     },
   },
 };

@@ -7,13 +7,7 @@ import { IFormField } from '../../../models/forms';
   template: `
     <mat-form-field class="field" appearance="standard">
       <mat-label>{{ config.label }} </mat-label>
-      <input
-        matInput
-        [formControl]="control"
-        [type]="
-          config.type === 'password' && hidePassword ? config.type : 'text'
-        "
-      />
+      <input matInput [formControl]="control" [type]="type" />
       <button
         *ngIf="config.type === 'password'"
         mat-icon-button
@@ -42,11 +36,19 @@ import { IFormField } from '../../../models/forms';
 })
 export class InputComponent {
   hidePassword = true;
-
   @Input() config: IFormField;
   @Input() control: AbstractControl;
 
-  constructor() {}
+  get type() {
+    const { type } = this.config;
+    if (!!type) {
+      if (type === 'password' && !this.hidePassword) {
+        return 'text';
+      }
+      return type;
+    }
+    return 'text';
+  }
 
   onShowPassword() {
     this.hidePassword = !this.hidePassword;

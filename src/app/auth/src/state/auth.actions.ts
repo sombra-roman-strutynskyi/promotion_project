@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Credentials, IUser } from '../models';
+import { Credentials, IUser, RegisterUser } from '../models';
 
 export const loginWithCredentials = createAction(
   '[Auth] Login With Credentials',
@@ -18,7 +18,7 @@ export const loginWithCredentialsFailure = createAction(
 
 export const resetPassword = createAction(
   '[Auth] Reset Password',
-  props<{ credentials }>()
+  props<{ email: string }>()
 );
 
 export const resetPasswordSuccess = createAction(
@@ -32,7 +32,7 @@ export const resetPasswordFailure = createAction(
 );
 export const register = createAction(
   '[Auth] Register',
-  props<{ credentials: any }>()
+  props<{ user: RegisterUser }>()
 );
 
 export const registerSuccess = createAction(
@@ -105,6 +105,9 @@ export const AuthActions = {
   resetPassword,
   resetPasswordSuccess,
   resetPasswordFailure,
+  register,
+  registerSuccess,
+  registerFailure,
   logout,
   logoutConfirmation,
   logoutConfirmationDismiss,
