@@ -1,71 +1,13 @@
-import { Location } from '@angular/common';
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpEventType,
-} from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import {
-  combineLatest,
-  forkJoin,
-  from,
-  fromEvent,
-  merge,
-  of,
-  timer,
-  zip,
-} from 'rxjs';
-import {
-  catchError,
-  exhaustMap,
-  map,
-  tap,
-  switchMap,
-  switchMapTo,
-  filter,
-  withLatestFrom,
-  take,
-  zipAll,
-} from 'rxjs/operators';
-import { Credentials, IUser, RegisterUser } from '../models';
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { IUser } from '../models';
 import { AuthService } from '../services';
-import { AuthFacade } from '../services/auth.facade';
 import * as AuthActions from './auth.actions';
-import { authQuery } from './auth.selectors';
-// const PROVIDERS_MAP = {};
-// PROVIDERS_MAP[auth.FacebookAuthProvider.FACEBOOK_SIGN_IN_METHOD] = 'facebook';
-// PROVIDERS_MAP[auth.GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD] = 'google';
-// PROVIDERS_MAP[auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD] = 'password';
-// PROVIDERS_MAP[auth.PhoneAuthProvider.PHONE_SIGN_IN_METHOD] = 'phone';
-
 @Injectable()
 export class AuthEffects {
-  constructor(
-    private actions$: Actions,
-    private db: AngularFireDatabase,
-    private authService: AuthService
-  ) {}
-  // login$ = createEffect(() =>
-  //   this.actions.pipe(
-  //     ofType(AuthActions.login),
-  //     map((action) => action.credentials),
-  //     switchMap(({ email, password }: Credentials) =>
-  //       from(
-  //         this.authFirebase.auth.signInWithEmailAndPassword(email, password)
-  //       ).pipe(
-  //         map((result) => {
-  //           return AuthActions.loginSuccess({ result });
-  //         })
-  //       )
-  //     )
-  //   )
-  // );
+  constructor(private actions$: Actions, private authService: AuthService) {}
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithGoogle),
@@ -156,6 +98,30 @@ export class AuthEffects {
             )
           )
         // }
+      )
+    )
+  );
+
+  changePassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.changePassword),
+      exhaustMap(({ oldPassword, newPassword }) =>
+        this.authService.changePassword(oldPassword, newPassword).pipe(
+          map(() => AuthActions.changePasswordSuccess()),
+          catchError((errors) => of(AuthActions.changePasswordFailure(errors)))
+        )
+      )
+    )
+  );
+
+  resetPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resetPassword),
+      exhaustMap(({ email, redirectUrl }) =>
+        this.authService.passwordForgotten(email, redirectUrl).pipe(
+          map(() => AuthActions.resetPasswordSuccess()),
+          catchError((errors) => of(AuthActions.resetPasswordFailure(errors)))
+        )
       )
     )
   );

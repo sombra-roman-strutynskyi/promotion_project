@@ -12,10 +12,21 @@ import UserFireBase = firebase.User;
 
 @Injectable()
 export class AuthService {
+  private user: UserFireBase;
+
   constructor(
     private authFirebase: AngularFireAuth,
     private dbFirebase: AngularFireDatabase
-  ) {}
+  ) {
+    this.userObservable().subscribe((user) => (this.user = user));
+  }
+
+  private userObservable(): Observable<UserFireBase> {
+    return this.authFirebase.user.pipe(
+      take(1),
+      map((user) => user)
+    );
+  }
 
   facebookLogin(): Observable<UserCredential> {
     const provider = new firebase.auth.FacebookAuthProvider();
@@ -131,6 +142,25 @@ export class AuthService {
           }
           return userCredential;
         })
+    );
+  }
+
+  changePassword(oldPassword: string, newPassword: string): Observable<void> {
+    const credentials = firebase.auth.EmailAuthProvider.credential(
+      this.user.email,
+      oldPassword
+    );
+    return from(
+      this.user.reauthenticateWithCredential(credentials).then(async () => {
+        await this.user.updatePassword(newPassword);
+        return;
+      })
+    );
+  }
+
+  passwordForgotten(email: string, redirectUrl: string): Observable<void> {
+    return from(
+      this.authFirebase.sendPasswordResetEmail(email, { url: redirectUrl })
     );
   }
 }

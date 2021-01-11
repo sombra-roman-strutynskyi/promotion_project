@@ -26,20 +26,29 @@ const authReducer = createReducer(
   initialState,
   on(
     AuthActions.loginWithCredentials,
+    AuthActions.loginWithFacebook,
+    AuthActions.loginWithGoogle,
+
     // AuthActions.register,
-    // AuthActions.resetPassword,
+    AuthActions.changePassword,
+    AuthActions.resetPassword,
     (state) => ({
       ...state,
       errors: [],
       pending: true,
     })
   ),
-  on(AuthActions.loginWithCredentialsSuccess, (state, { result }) => ({
-    ...state,
-    errors: null,
-    pending: false,
-    // isAuthenticated: true,
-  })),
+  on(
+    AuthActions.loginWithCredentialsSuccess,
+    AuthActions.resetPasswordSuccess,
+    AuthActions.changePasswordSuccess,
+    (state) => ({
+      ...state,
+      errors: null,
+      pending: false,
+      // isAuthenticated: true,
+    })
+  ),
 
   on(
     AuthActions.loginWithCredentialsFailure,

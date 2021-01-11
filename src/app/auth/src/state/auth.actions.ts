@@ -16,20 +16,6 @@ export const loginWithCredentialsFailure = createAction(
   props<{ errors: string[] }>()
 );
 
-export const resetPassword = createAction(
-  '[Auth] Reset Password',
-  props<{ email: string }>()
-);
-
-export const resetPasswordSuccess = createAction(
-  '[Auth] Reset Password Success',
-  props<{ result: any }>()
-);
-
-export const resetPasswordFailure = createAction(
-  '[Auth] Reset Password Failure',
-  props<{ errors: string[] }>()
-);
 export const register = createAction(
   '[Auth] Register',
   props<{ user: RegisterUser }>()
@@ -71,8 +57,7 @@ export const setErrors = createAction(
 export const loginWithGoogle = createAction('[Auth] Login With Google');
 
 export const loginWithGoogleSuccess = createAction(
-  '[Auth] Login With Google Success',
-  props<{ payload2Type }>()
+  '[Auth] Login With Google Success'
 );
 
 export const loginWithGoogleFailure = createAction(
@@ -82,8 +67,7 @@ export const loginWithGoogleFailure = createAction(
 export const loginWithFacebook = createAction('[Auth] Login With Facebook');
 
 export const loginWithFacebookSuccess = createAction(
-  '[Auth] Login With Facebook Success',
-  props<{ payload2Type }>()
+  '[Auth] Login With Facebook Success'
 );
 
 export const loginWithFacebookFailure = createAction(
@@ -91,6 +75,32 @@ export const loginWithFacebookFailure = createAction(
   props<{ errors: string[] }>()
 );
 
+export const resetPassword = createAction(
+  '[Auth] Reset Password',
+  props<{ email: string; redirectUrl: string }>()
+);
+
+export const resetPasswordSuccess = createAction(
+  '[Auth] Reset Password Success'
+);
+
+export const resetPasswordFailure = createAction(
+  '[Auth] Reset Password Failure',
+  props<{ errors: string[] }>()
+);
+export const changePassword = createAction(
+  '[Auth] Change Password',
+  props<{ oldPassword: string; newPassword: string }>()
+);
+
+export const changePasswordSuccess = createAction(
+  '[Auth] Change Password Success'
+);
+
+export const changePasswordFailure = createAction(
+  '[Auth] Change Password Failure',
+  props<{ errors: string[] }>()
+);
 export const AuthActions = {
   loginWithCredentials,
   loginWithCredentialsSuccess,
@@ -102,9 +112,6 @@ export const AuthActions = {
   loginWithFacebookSuccess,
   loginWithFacebookFailure,
   loginRedirect,
-  resetPassword,
-  resetPasswordSuccess,
-  resetPasswordFailure,
   register,
   registerSuccess,
   registerFailure,
@@ -115,4 +122,10 @@ export const AuthActions = {
   loadUserProfileSuccess,
   loadUserProfileFailure,
   setErrors,
+  resetPassword,
+  resetPasswordSuccess,
+  resetPasswordFailure,
+  changePassword,
+  changePasswordSuccess,
+  changePasswordFailure,
 };
