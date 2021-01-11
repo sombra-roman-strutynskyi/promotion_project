@@ -1,4 +1,7 @@
-
-<app-layout>
-    <router-outlet name="primary"></router-outlet>
+<app-layout
+  [currentUser]="currentUser$ | async"
+  (logouted)="logout()"
+  (editedUser)="goToEditUser()"
+>
+  <router-outlet></router-outlet>
 </app-layout>

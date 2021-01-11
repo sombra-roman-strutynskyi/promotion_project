@@ -73,15 +73,14 @@ const authReducer = createReducer(
     ...state,
     pending: true,
   })),
-
-  // on(AuthActions.loadUserProfileSuccess, (state, { currentUser }) => ({
-  //   ...state,
-  //   user: { ...currentUser },
-  //   pending: false,
-  //   errors: [],
-  //   errorFields: [],
-  //   userLoaded: true,
-  // })),
+  on(AuthActions.logoutConfirmation, () => initialState), // instead of logoutSuccess
+  on(AuthActions.loadUserProfileSuccess, (state, { currentUser }) => ({
+    ...state,
+    user: { ...currentUser },
+    pending: false,
+    errors: null,
+    userLoaded: true,
+  })),
   on(AuthActions.registerFailure, (state, { error }) => ({
     ...state,
     pending: false,

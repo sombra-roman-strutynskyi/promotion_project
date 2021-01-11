@@ -11,18 +11,12 @@ export class AuthEffects {
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithGoogle),
-      exhaustMap(() => {
-        console.log('call');
-
-        return this.authService.googleLogin().pipe(
-          map((data) => {
-            console.log(data);
-
-            return AuthActions.loadUserProfile();
-          }),
+      exhaustMap(() =>
+        this.authService.googleLogin().pipe(
+          map((data) => AuthActions.loadUserProfile()),
           catchError((errors) => of(AuthActions.loginWithGoogleFailure(errors)))
-        );
-      })
+        )
+      )
     )
   );
 
@@ -31,9 +25,7 @@ export class AuthEffects {
       ofType(AuthActions.loginWithFacebook),
       exhaustMap(() =>
         this.authService.facebookLogin().pipe(
-          map(() => {
-            return AuthActions.loadUserProfile();
-          }),
+          map(() => AuthActions.loadUserProfile()),
           catchError((errors) =>
             of(AuthActions.loginWithFacebookFailure(errors))
           )
@@ -85,19 +77,13 @@ export class AuthEffects {
   loadUserProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loadUserProfile),
-      exhaustMap(
-        () =>
-          this.authService.getCurrentUser().pipe(
-            map((currentUser: IUser) => {
-              console.log(currentUser);
-
-              return AuthActions.loadUserProfileSuccess({ currentUser });
-            }),
-            catchError((errors) =>
-              of(AuthActions.loadUserProfileFailure(errors))
-            )
-          )
-        // }
+      exhaustMap(() =>
+        this.authService.getCurrentUser().pipe(
+          map((currentUser: IUser) =>
+            AuthActions.loadUserProfileSuccess({ currentUser })
+          ),
+          catchError((errors) => of(AuthActions.loadUserProfileFailure(errors)))
+        )
       )
     )
   );

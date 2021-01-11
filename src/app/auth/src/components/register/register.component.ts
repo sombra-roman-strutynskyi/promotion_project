@@ -54,6 +54,5 @@ export class RegisterComponent {
 
   onSubmit(user: RegisterUser) {
     this.authFacade.register(user);
-    console.log(user);
   }
 }

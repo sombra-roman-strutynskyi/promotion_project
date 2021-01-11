@@ -23,7 +23,6 @@ export class ResetPasswordComponent {
   constructor(private authFacade: AuthFacade) {}
 
   onSubmit({ email }) {
-    this.authFacade.resetPassword(email);
-    console.log(email);
+    this.authFacade.resetPassword(email, '');
   }
 }

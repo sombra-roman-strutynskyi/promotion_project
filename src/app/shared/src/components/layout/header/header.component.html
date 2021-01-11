@@ -1,3 +1,28 @@
-<mat-toolbar color="primary">
-  <span>My Application</span>
+<mat-toolbar color="primary" class="container-fluid">
+  <div class="col-12 row justify-content-space-between align-items-center">
+    <span class="col-6">My Application</span>
+    <ng-container *ngIf="currentUser">
+      <div class="col row justify-content-end align-items-center">
+        <button class="header__user" (click)="goToEditUser()">
+          <img
+            src="{{
+              currentUser.photoURL || './assets/images/profile-user.svg'
+            }}"
+            alt="avatar"
+            class="header__avatar"
+          />
+          <div class="header__username">
+            {{ currentUser.firstName }} {{ currentUser.lastName }}
+          </div>
+        </button>
+      </div>
+      <button
+        mat-icon-button
+        class="col-auto header__button"
+        (click)="logout()"
+      >
+        <mat-icon class="login__icon" svgIcon="logout"></mat-icon>
+      </button>
+    </ng-container>
+  </div>
 </mat-toolbar>

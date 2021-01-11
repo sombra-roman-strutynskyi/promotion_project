@@ -22,7 +22,6 @@ export class RegisterUser {
 
 export interface IUser {
   uid?: string;
-  displayName?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -31,7 +30,6 @@ export interface IUser {
 
 export class User implements IUser {
   uid = '';
-  displayName = '';
   firstName = '';
   lastName = '';
   email = '';

@@ -34,8 +34,6 @@ export class CoreService {
         while (route.firstChild) {
           route = route.firstChild;
         }
-        console.log(route);
-
         return route;
       }),
 

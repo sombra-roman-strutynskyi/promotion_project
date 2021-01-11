@@ -4,7 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { pick, omit } from '@shared';
 import firebase from 'firebase/app';
 import { Observable, zip, of, from } from 'rxjs';
-import { take, switchMap, map } from 'rxjs/operators';
+import { take, switchMap, map, mergeMap } from 'rxjs/operators';
 import { Credentials, IUser, RegisterUser, User } from '../models';
 import { AuthActions } from '../state';
 import UserCredential = firebase.auth.UserCredential;
@@ -93,31 +93,33 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<IUser | null> {
-    return from(this.authFirebase.currentUser).pipe(
+    return this.authFirebase.authState.pipe(
       take(1),
-      map((userFireBase: UserFireBase) => {
+      mergeMap((userFireBase: UserFireBase) => {
         if (userFireBase) {
-          this.dbFirebase
+          return this.dbFirebase
             .object(`users/${userFireBase.uid}`)
             .valueChanges()
-            .pipe(take(1))
-            .subscribe((user: IUser) => {
-              const currentUser = new User({
-                ...pick(
-                  userFireBase,
-                  'uid',
-                  'displayNam',
-                  'firstNam',
-                  'lastNam',
-                  'email',
-                  'photoURL'
-                ),
-                ...user,
-              });
-              return currentUser;
-            });
+            .pipe(
+              take(1),
+              map(
+                (user: IUser) =>
+                  new User({
+                    ...pick(
+                      userFireBase,
+                      'uid',
+                      'displayNam',
+                      'firstNam',
+                      'lastNam',
+                      'email',
+                      'photoURL'
+                    ),
+                    ...user,
+                  })
+              )
+            );
         }
-        return null;
+        return of(null);
       })
     );
   }
@@ -135,10 +137,6 @@ export class AuthService {
             this.dbFirebase
               .object(`users/${user.uid}`)
               .set(omit(registerUser, 'password'));
-
-            user.updateProfile({
-              displayName: `${registerUser.firstName} ${registerUser.lastName}`,
-            });
           }
           return userCredential;
         })

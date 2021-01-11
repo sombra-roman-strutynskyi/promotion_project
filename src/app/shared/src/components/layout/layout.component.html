@@ -1,5 +1,9 @@
 <main>
-  <app-header></app-header>
+  <app-header
+    [currentUser]="currentUser"
+    (logouted)="logout()"
+    (editedUser)="goToEditUser()"
+  ></app-header>
   <div class="container">
     <ng-content></ng-content>
   </div>

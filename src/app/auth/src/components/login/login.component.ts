@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
   onSubmit(data) {
     this.authFacade.loginWithCredentials(data);
-    console.log(data);
   }
   onLoginWithGoogle() {
     this.authFacade.loginWithGoogle();
