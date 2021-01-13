@@ -3,10 +3,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { pick, omit } from '@shared';
 import firebase from 'firebase/app';
-import { Observable, zip, of, from } from 'rxjs';
-import { take, switchMap, map, mergeMap } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { take, map, mergeMap } from 'rxjs/operators';
 import { Credentials, IUser, RegisterUser, User } from '../models';
-import { AuthActions } from '../state';
 import UserCredential = firebase.auth.UserCredential;
 import UserFireBase = firebase.User;
 

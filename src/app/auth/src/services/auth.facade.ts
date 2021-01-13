@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Credentials, RegisterUser } from '../models';
-import { AuthActions, loginWithCredentials } from '../state/auth.actions';
+import * as AuthActions from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuthFacade {
   pending$ = this.store.pipe(select(authQuery.getPending));
   userLoaded$ = this.store.pipe(select(authQuery.getUserLoaded));
@@ -31,8 +29,8 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.logout());
   }
 
-  logoutConfirmation() {
-    this.store.dispatch(AuthActions.logoutConfirmation());
+  logoutSuccess() {
+    this.store.dispatch(AuthActions.logoutSuccess());
   }
 
   resetPassword(email: string, redirectUrl: string) {

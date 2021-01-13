@@ -7,6 +7,7 @@ import {
   RegisterComponent,
   ResetPasswordComponent,
 } from './components';
+import { UnauthorizedGuard } from './services';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,7 @@ export const routes: Routes = [
       {
         path: ROUTES_DATA.AUTH.children.SIGN_IN.path,
         component: LoginComponent,
+        canActivate: [UnauthorizedGuard],
         data: {
           title: ROUTES_DATA.AUTH.children.SIGN_IN.title,
         },

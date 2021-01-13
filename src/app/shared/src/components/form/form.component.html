@@ -1,12 +1,28 @@
-<form class="row" *ngIf="form" [formGroup]="form">
+<form class="row form" *ngIf="form" [formGroup]="form">
   <ng-container *ngFor="let field of fields">
-    <app-input
-      class="col-12"
-      [config]="field"
-      [control]="form.controls[field.key]"
-    ></app-input>
+    <ng-container [ngSwitch]="field.type">
+      <app-checkbox
+        *ngSwitchCase="'checkbox'"
+        class="col-12"
+        [config]="field"
+        [control]="form.controls[field.key]"
+      ></app-checkbox>
+
+      <app-input
+        *ngSwitchDefault
+        class="col-12"
+        [config]="field"
+        [control]="form.controls[field.key]"
+      ></app-input>
+    </ng-container>
   </ng-container>
-  <button [disabled]="form.invalid" (click)="submitForm()" mat-raised-button>
+  <button
+    class="form__submit"
+    [disabled]="form.invalid"
+    (click)="submitForm()"
+    mat-raised-button
+    color="accent"
+  >
     Submit
   </button>
 </form>

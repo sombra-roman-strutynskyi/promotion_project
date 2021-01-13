@@ -73,7 +73,7 @@ const authReducer = createReducer(
     ...state,
     pending: true,
   })),
-  on(AuthActions.logoutConfirmation, () => initialState), // instead of logoutSuccess
+  on(AuthActions.logoutSuccess, () => initialState),
   on(AuthActions.loadUserProfileSuccess, (state, { currentUser }) => ({
     ...state,
     user: { ...currentUser },

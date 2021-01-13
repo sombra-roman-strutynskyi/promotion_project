@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IFormField, REGEXPS } from '@shared';
+import { Credentials } from '../../models';
 import { AuthFacade } from '../../services/auth.facade';
 
 @Component({
@@ -25,7 +26,13 @@ export class LoginComponent implements OnInit {
       type: 'password',
       syncValidator: {
         required: true,
+        minLength: 6,
       },
+    },
+    {
+      key: 'remember',
+      label: 'Remember Me',
+      type: 'checkbox',
     },
   ];
   loginModal = {};
@@ -33,7 +40,9 @@ export class LoginComponent implements OnInit {
   constructor(private authFacade: AuthFacade) {}
 
   ngOnInit() {}
-  onSubmit(data) {
+  onSubmit(data: Credentials) {
+    console.log(data);
+
     this.authFacade.loginWithCredentials(data);
   }
   onLoginWithGoogle() {

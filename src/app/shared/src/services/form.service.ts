@@ -28,6 +28,14 @@ export class FormService {
         case 'pattern':
           rules.push(Validators.pattern(val as RegExp));
           break;
+        case 'min':
+        case 'max':
+        case 'minLength':
+        case 'maxLength':
+          if (val as number) {
+            rules.push(Validators[key]);
+          }
+          break;
         default:
           break;
       }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthFacade } from '@auth';
 import { CoreService } from '@core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',

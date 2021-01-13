@@ -1,19 +1,27 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ROUTES_DATA } from '@shared';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { IUser } from '../models';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
+
 @Injectable()
 export class AuthEffects {
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithGoogle),
       exhaustMap(() =>
         this.authService.googleLogin().pipe(
-          map((data) => AuthActions.loadUserProfile()),
+          map(() => AuthActions.loginWithGoogleSuccess()),
           catchError((errors) => of(AuthActions.loginWithGoogleFailure(errors)))
         )
       )
@@ -25,7 +33,7 @@ export class AuthEffects {
       ofType(AuthActions.loginWithFacebook),
       exhaustMap(() =>
         this.authService.facebookLogin().pipe(
-          map(() => AuthActions.loadUserProfile()),
+          map(() => AuthActions.loginWithFacebook()),
           catchError((errors) =>
             of(AuthActions.loginWithFacebookFailure(errors))
           )
@@ -43,7 +51,7 @@ export class AuthEffects {
       })),
       exhaustMap((credentials) =>
         this.authService.loginWithCredentials(credentials).pipe(
-          map(() => AuthActions.loadUserProfile()),
+          map(() => AuthActions.loginWithCredentialsSuccess()),
           catchError((errors) =>
             of(AuthActions.loginWithCredentialsFailure(errors))
           )
@@ -70,7 +78,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.logout),
       exhaustMap(() => this.authService.logout()),
-      map(() => AuthActions.logoutConfirmation())
+      map(() => AuthActions.logoutSuccess())
     )
   );
 
@@ -111,11 +119,29 @@ export class AuthEffects {
       )
     )
   );
-  //   /**
-  //    * @description
-  //    * Action to be dispatched after the effect is registered.
-  //    */
-  // ngrxOnInitEffects(): Action {
-  //   return { type: '[Auth] Start ' };
-  // }
+
+  loginRedirect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        AuthActions.loginWithGoogleSuccess,
+        AuthActions.loginWithFacebookSuccess,
+        AuthActions.loginWithCredentialsSuccess
+      ),
+      tap(() => {
+        this.router.navigateByUrl(ROUTES_DATA.DASHBOARD.url);
+      }),
+      map(() => AuthActions.loadUserProfile())
+    )
+  );
+
+  logoutSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logoutSuccess),
+        tap(() => {
+          this.router.navigateByUrl(ROUTES_DATA.AUTH.children.SIGN_IN.url);
+        })
+      ),
+    { dispatch: false }
+  );
 }

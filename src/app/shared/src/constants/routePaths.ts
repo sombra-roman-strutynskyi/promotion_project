@@ -1,7 +1,7 @@
 export const ROUTES_DATA = {
-  HOME: {
-    title: 'Home',
-    url: '',
+  DASHBOARD: {
+    title: 'Dashboard',
+    url: 'dashboard',
   },
   AUTH: {
     title: 'Auth',

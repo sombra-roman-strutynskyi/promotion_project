@@ -46,6 +46,7 @@ export class RegisterComponent {
       type: 'password',
       syncValidator: {
         required: true,
+        minLength: 6,
       },
     },
   ];

@@ -5,6 +5,10 @@ export interface ISelectOption {
 export interface IFormFieldSyncValidation {
   required?: boolean;
   pattern?: RegExp;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
 }
 
 export interface IFormField {
@@ -13,4 +17,5 @@ export interface IFormField {
   label?: string;
   options?: ISelectOption[];
   syncValidator?: IFormFieldSyncValidation;
+  validationMessages?: { [key: string]: string };
 }
