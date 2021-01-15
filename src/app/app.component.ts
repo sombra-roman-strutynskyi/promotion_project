@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFacade } from '@auth';
 import { CoreService } from '@core';
+import { ROUTES_DATA } from './shared/src/constants/routePaths';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
     this.authFacade.loadProfile();
   }
   goToEditUser() {
-    this.router.navigateByUrl('./');
+    this.router.navigateByUrl(ROUTES_DATA.EDIT_USER.url);
   }
   logout() {
     this.authFacade.logout();

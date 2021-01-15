@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { ROUTES_DATA } from '@shared';
 import {
   AuthComponent,
+  EditUserComponent,
   LoginComponent,
   RegisterComponent,
   ResetPasswordComponent,
 } from './components';
-import { UnauthorizedGuard } from './services';
+import { AuthGuard, UnauthorizedGuard } from './services';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,7 @@ export const routes: Routes = [
       {
         path: ROUTES_DATA.AUTH.children.SIGN_UP.path,
         component: RegisterComponent,
+        canActivate: [UnauthorizedGuard],
         data: {
           title: ROUTES_DATA.AUTH.children.SIGN_UP.title,
         },
@@ -42,6 +44,11 @@ export const routes: Routes = [
         },
       },
     ],
+  },
+  {
+    path: ROUTES_DATA.EDIT_USER.url,
+    component: EditUserComponent,
+    canActivate: [AuthGuard],
   },
 ];
 
