@@ -3,7 +3,7 @@ import { IFormField, REGEXPS } from '@shared';
 import { AuthFacade } from '../../services';
 
 @Component({
-  selector: 'app-reset-password',
+  selector: 'auth-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
 })

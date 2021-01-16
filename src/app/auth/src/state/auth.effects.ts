@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTES_DATA } from '@shared';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { catchError, switchMap, map, tap } from 'rxjs/operators';
 import { IUser } from '../models';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
@@ -19,7 +19,7 @@ export class AuthEffects {
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithGoogle),
-      exhaustMap(() =>
+      switchMap(() =>
         this.authService.googleLogin().pipe(
           map(() => AuthActions.loginWithGoogleSuccess()),
           catchError((errors) => of(AuthActions.loginWithGoogleFailure(errors)))
@@ -31,7 +31,7 @@ export class AuthEffects {
   facebookLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithFacebook),
-      exhaustMap(() =>
+      switchMap(() =>
         this.authService.facebookLogin().pipe(
           map(() => AuthActions.loginWithFacebook()),
           catchError((errors) =>
@@ -49,7 +49,7 @@ export class AuthEffects {
         ...credentials,
         remember: credentials?.remember || false,
       })),
-      exhaustMap((credentials) =>
+      switchMap((credentials) =>
         this.authService.loginWithCredentials(credentials).pipe(
           map(() => AuthActions.loginWithCredentialsSuccess()),
           catchError((errors) =>
@@ -63,7 +63,7 @@ export class AuthEffects {
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
-      exhaustMap(({ user }) =>
+      switchMap(({ user }) =>
         this.authService.register(user).pipe(
           map(() => AuthActions.loadUserProfile()),
           catchError((errors) =>
@@ -77,7 +77,7 @@ export class AuthEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      exhaustMap(() => this.authService.logout()),
+      switchMap(() => this.authService.logout()),
       map(() => AuthActions.logoutSuccess())
     )
   );
@@ -85,7 +85,7 @@ export class AuthEffects {
   loadUserProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loadUserProfile),
-      exhaustMap(() =>
+      switchMap(() =>
         this.authService.getCurrentUser().pipe(
           map((currentUser: IUser) =>
             AuthActions.loadUserProfileSuccess({ currentUser })
@@ -95,11 +95,27 @@ export class AuthEffects {
       )
     )
   );
+  
+  updateUserProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.updateUserProfile),
+      switchMap(({ user }) =>
+        this.authService.updateUser(user).pipe(
+          map((currentUser: IUser) =>
+            AuthActions.updateUserProfileSuccess({ currentUser })
+          ),
+          catchError((errors) =>
+            of(AuthActions.updateUserProfileFailure(errors))
+          )
+        )
+      )
+    )
+  );
 
   changePassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.changePassword),
-      exhaustMap(({ oldPassword, newPassword }) =>
+      switchMap(({ oldPassword, newPassword }) =>
         this.authService.changePassword(oldPassword, newPassword).pipe(
           map(() => AuthActions.changePasswordSuccess()),
           catchError((errors) => of(AuthActions.changePasswordFailure(errors)))
@@ -111,7 +127,7 @@ export class AuthEffects {
   resetPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.resetPassword),
-      exhaustMap(({ email, redirectUrl }) =>
+      switchMap(({ email, redirectUrl }) =>
         this.authService.passwordForgotten(email, redirectUrl).pipe(
           map(() => AuthActions.resetPasswordSuccess()),
           catchError((errors) => of(AuthActions.resetPasswordFailure(errors)))

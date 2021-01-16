@@ -5,7 +5,7 @@ import { Credentials } from '../../models';
 import { AuthFacade } from '../../services/auth.facade';
 
 @Component({
-  selector: 'app-login',
+  selector: 'auth-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       type: 'checkbox',
     },
   ];
-  loginModal = {};
+  loginModel = {};
 
   constructor(private authFacade: AuthFacade) {}
 

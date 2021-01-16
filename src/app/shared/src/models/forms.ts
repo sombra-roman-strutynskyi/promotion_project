@@ -14,6 +14,7 @@ export interface IFormFieldSyncValidation {
 export interface IFormField {
   key: string;
   type: string;
+  className?: string;
   label?: string;
   options?: ISelectOption[];
   syncValidator?: IFormFieldSyncValidation;

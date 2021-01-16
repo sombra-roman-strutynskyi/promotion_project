@@ -4,7 +4,7 @@ import { RegisterUser } from '../../models';
 import { AuthFacade } from '../../services';
 
 @Component({
-  selector: 'app-register',
+  selector: 'auth-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })

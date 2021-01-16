@@ -4,7 +4,7 @@ import { getDefaultValidationMessage } from '../../../constants';
 import { IFormField } from '../../../models/forms';
 
 @Component({
-  selector: 'app-input',
+  selector: 'field-input',
   template: `
     <mat-form-field class="field" appearance="standard">
       <mat-label>{{ config.label }} </mat-label>

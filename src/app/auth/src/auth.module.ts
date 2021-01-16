@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '@shared';
 import { AuthRoutingModule } from './auth-routing.module';
 import { COMPONENTS } from './components';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import {
   AuthService,
   AuthGuard,
@@ -23,6 +24,7 @@ import { AUTH_FEATURE_KEY, reducer } from './state/auth.reducer';
     SharedModule,
     CoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     StoreModule.forFeature(AUTH_FEATURE_KEY, reducer),
     EffectsModule.forFeature([AuthEffects]),
   ],

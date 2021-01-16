@@ -12,7 +12,7 @@ import { FormService } from '../../services';
 import { SubscriptionDisposer } from '../../utils';
 
 @Component({
-  selector: 'app-form',
+  selector: 'ui-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
@@ -21,6 +21,9 @@ export class FormComponent extends SubscriptionDisposer implements OnInit {
   @Input() form = new FormGroup({});
   @Input() fields: IFormField[] = [];
   @Input() set model(data: object) {
+    console.log(data);
+    console.log(this.fields);
+    
     this.form.setValue(data);
   }
   get model() {

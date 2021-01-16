@@ -25,6 +25,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
+  age: string;
   photoURL?: string;
 }
 
@@ -33,8 +34,11 @@ export class User implements IUser {
   firstName = '';
   lastName = '';
   email = '';
+  age = '';
   photoURL? = '';
   constructor(data: IUser) {
+    console.log(data, 'data');
+    
     Object.assign(this, deepMerge(this, deepRemoveEmptyObjProperty(data)));
   }
 }

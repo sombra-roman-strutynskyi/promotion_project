@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Credentials, RegisterUser } from '../models';
+import { Credentials, IUser, RegisterUser } from '../models';
 import * as AuthActions from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
+import { changePassword } from '../state/auth.actions';
 
 @Injectable()
 export class AuthFacade {
@@ -37,12 +38,22 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.resetPassword({ email, redirectUrl }));
   }
 
+  changePassword({ oldPassword, newPassword }) {
+    this.store.dispatch(
+      AuthActions.changePassword({ oldPassword, newPassword })
+    );
+  }
+
   register(user: RegisterUser) {
     this.store.dispatch(AuthActions.register({ user }));
   }
 
   loadProfile() {
     this.store.dispatch(AuthActions.loadUserProfile());
+  }
+
+  updateProfile(user: IUser) {
+    this.store.dispatch(AuthActions.updateUserProfile({ user }));
   }
 
   setErrors(errors = []) {

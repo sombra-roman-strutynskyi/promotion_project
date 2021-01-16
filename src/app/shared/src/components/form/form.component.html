@@ -1,19 +1,19 @@
 <form class="row form" *ngIf="form" [formGroup]="form">
   <ng-container *ngFor="let field of fields">
     <ng-container [ngSwitch]="field.type">
-      <app-checkbox
+      <field-checkbox
         *ngSwitchCase="'checkbox'"
-        class="col-12"
+        [ngClass]="field.className || 'col-12'"
         [config]="field"
         [control]="form.controls[field.key]"
-      ></app-checkbox>
+      ></field-checkbox>
 
-      <app-input
+      <field-input
         *ngSwitchDefault
-        class="col-12"
+        [ngClass]="field.className || 'col-12'"
         [config]="field"
         [control]="form.controls[field.key]"
-      ></app-input>
+      ></field-input>
     </ng-container>
   </ng-container>
   <button

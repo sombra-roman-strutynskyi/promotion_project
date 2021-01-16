@@ -1,6 +1,7 @@
 import { FormComponent } from './form.component';
-import { InputComponent } from './types';
+import { InputComponent } from './fields';
+import { CheckboxComponent } from './fields';
 
-export const FORM_COMPONENTS = [InputComponent, FormComponent];
-export * from './types/input.component';
+export const FORM_COMPONENTS = [InputComponent, CheckboxComponent, FormComponent];
+export * from './fields/input.component';
 export * from './form.component';

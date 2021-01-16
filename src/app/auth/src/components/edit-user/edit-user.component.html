@@ -1,1 +1,19 @@
-<p>edit-user works!</p>
+<div class="container row">
+  <ui-accordion class="col-6" [title]="'Edit User Information'" [open]="true">
+    <ui-form
+      [fields]="userFields"
+      [model]="userModel"
+      (submitted)="updateProfile($event)"
+    >
+    </ui-form>
+  </ui-accordion>
+  <ui-accordion class="col-6" [title]="'Change Password'" [open]="true">
+    <ui-form
+      [fields]="passwordFields"
+      [model]="passwordModel"
+      (submitted)="updatePassword($event)"
+    >
+    </ui-form>
+  </ui-accordion>
+  <ui-accordion class="col-12" [title]="'Change User Avatar'"> </ui-accordion>
+</div>

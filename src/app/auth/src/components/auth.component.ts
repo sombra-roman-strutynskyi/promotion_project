@@ -5,7 +5,7 @@ import { ROUTES_DATA, SubscriptionDisposer } from '@shared';
 import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-auth',
+  selector: 'auth-layout',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })

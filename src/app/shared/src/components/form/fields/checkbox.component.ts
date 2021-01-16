@@ -3,11 +3,11 @@ import { AbstractControl } from '@angular/forms';
 import { IFormField } from '@shared';
 
 @Component({
-  selector: 'app-checkbox',
+  selector: 'field-checkbox',
   template: `
-    <!-- <mat-checkbox color="primary" [formControl]="control">{{
-    config.label
-  }}</mat-checkbox> -->
+    <mat-checkbox color="primary" [formControl]="control">{{
+      config.label
+    }}</mat-checkbox>
   `,
 })
 export class CheckboxComponent {

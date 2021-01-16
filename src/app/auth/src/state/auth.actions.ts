@@ -66,6 +66,21 @@ export const loadUserProfileFailure = createAction(
   props<{ errors: any }>()
 );
 
+export const updateUserProfile = createAction(
+  '[Auth] Update User Profile',
+  props<{ user: IUser }>()
+);
+
+export const updateUserProfileSuccess = createAction(
+  '[Auth] Update User Profile Success',
+  props<{ currentUser: IUser }>()
+);
+
+export const updateUserProfileFailure = createAction(
+  '[Auth] Update User Profile Failure',
+  props<{ errors: any }>()
+);
+
 export const setErrors = createAction(
   '[Auth] Set Errors',
   props<{ errors?: string[] }>()
