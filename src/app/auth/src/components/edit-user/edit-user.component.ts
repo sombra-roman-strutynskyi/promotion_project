@@ -11,11 +11,12 @@ import { changePassword } from '../../state/auth.actions';
   styleUrls: ['./edit-user.component.scss'],
 })
 export class EditUserComponent extends SubscriptionDisposer implements OnInit {
+  currentUser$ = this.authFacade.currentUser$;
   userFields: IFormField[] = [
     {
       key: 'firstName',
       label: 'First Name',
-   
+
       type: 'text',
       syncValidator: {
         required: true,
@@ -24,7 +25,7 @@ export class EditUserComponent extends SubscriptionDisposer implements OnInit {
     {
       key: 'lastName',
       label: 'Last Name',
-   
+
       type: 'text',
       syncValidator: {
         required: true,
@@ -34,7 +35,6 @@ export class EditUserComponent extends SubscriptionDisposer implements OnInit {
       key: 'age',
       label: 'Age',
       type: 'number',
-   
     },
   ];
 
@@ -74,7 +74,7 @@ export class EditUserComponent extends SubscriptionDisposer implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authFacade.currentUser$
+    this.currentUser$
       .pipe(
         takeUntil(this.ngSubject),
         filter((data) => !!data)
@@ -86,9 +86,15 @@ export class EditUserComponent extends SubscriptionDisposer implements OnInit {
       });
   }
   updateProfile(user: IUser) {
-    this.authFacade.updateProfile(user)
+    this.authFacade.updateProfile(user);
   }
   updatePassword(data) {
-    this.authFacade.changePassword(data)
+    this.authFacade.changePassword(data);
+  }
+  onFileSelected(ev) {
+    const file = ev.target.files[0];
+    console.log(file);
+    
+    this.authFacade.uploadUserAvatar(file)
   }
 }

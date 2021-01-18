@@ -32,6 +32,8 @@ const authReducer = createReducer(
     // AuthActions.register,
     AuthActions.changePassword,
     AuthActions.resetPassword,
+    AuthActions.uploadUserAvatar,
+    AuthActions.updateUserProfile,
     (state) => ({
       ...state,
       errors: [],
@@ -54,6 +56,8 @@ const authReducer = createReducer(
     AuthActions.loginWithCredentialsFailure,
     AuthActions.resetPasswordFailure,
     AuthActions.loadUserProfileFailure,
+    AuthActions.updateUserProfileFailure,
+    AuthActions.uploadUserAvatarFailure,
     (state, { errors }) => ({
       ...state,
       errors,
@@ -74,15 +78,18 @@ const authReducer = createReducer(
     pending: true,
   })),
   on(AuthActions.logoutSuccess, () => initialState),
-  on(AuthActions.loadUserProfileSuccess,
+  on(
+    AuthActions.loadUserProfileSuccess,
     AuthActions.updateUserProfileSuccess,
+    AuthActions.uploadUserAvatarSuccess,
     (state, { currentUser }) => ({
-    ...state,
-    user: { ...currentUser },
-    pending: false,
-    errors: null,
-    userLoaded: true,
-  })),
+      ...state,
+      user: { ...currentUser },
+      pending: false,
+      errors: null,
+      userLoaded: true,
+    })
+  ),
   on(AuthActions.registerFailure, (state, { error }) => ({
     ...state,
     pending: false,

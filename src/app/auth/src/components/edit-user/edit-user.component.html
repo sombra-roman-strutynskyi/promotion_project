@@ -15,5 +15,23 @@
     >
     </ui-form>
   </ui-accordion>
-  <ui-accordion class="col-12" [title]="'Change User Avatar'"> </ui-accordion>
+  <ui-accordion class="col-12" [title]="'Change User Avatar'">
+    <div>
+      <img
+        [src]="(currentUser$ | async).photoURL"
+        alt=""
+        height="200"
+        width="200"
+      />
+
+      <input
+        type="file"
+        id="file"
+        #userPhoto
+        (change)="onFileSelected($event)"
+        name="image"
+        autocomplete="off"
+      />
+    </div>
+  </ui-accordion>
 </div>

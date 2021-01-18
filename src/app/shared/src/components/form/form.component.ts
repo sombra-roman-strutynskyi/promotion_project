@@ -21,9 +21,6 @@ export class FormComponent extends SubscriptionDisposer implements OnInit {
   @Input() form = new FormGroup({});
   @Input() fields: IFormField[] = [];
   @Input() set model(data: object) {
-    console.log(data);
-    console.log(this.fields);
-    
     this.form.setValue(data);
   }
   get model() {
@@ -37,6 +34,7 @@ export class FormComponent extends SubscriptionDisposer implements OnInit {
 
   ngOnInit() {
     this.configForm();
+    
     this.form.valueChanges
       .pipe(takeUntil(this.ngSubject))
       .subscribe((model) => {

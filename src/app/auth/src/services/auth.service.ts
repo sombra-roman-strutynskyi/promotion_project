@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireStorage } from '@angular/fire/storage';
+import {
+  AngularFireStorage,
+  AngularFireUploadTask,
+} from '@angular/fire/storage';
 import { pick, omit } from '@shared';
 import firebase from 'firebase/app';
 import { Observable, of, from } from 'rxjs';
-import { take, map, mergeMap, finalize } from 'rxjs/operators';
+import { take, map, mergeMap, finalize, switchMap } from 'rxjs/operators';
 import { Credentials, IUser, RegisterUser, User } from '../models';
 import { AuthFacade } from './auth.facade';
 import UserCredential = firebase.auth.UserCredential;
@@ -186,27 +189,32 @@ export class AuthService {
     return this.user$.pipe(
       take(1),
       mergeMap((currentUser) => {
-        const filePath = `usersImages/${currentUser.uid}`;
-        const fileRef = this.storageFirebase.ref(filePath);
-        return this.storageFirebase
-          .upload(filePath, file)
-          .snapshotChanges()
-          .pipe(
-            take(1),
-            map((photoURL) => {
-              console.log(photoURL);
-              
-              // const updateUser = new User({
-              //   ...currentUser,
-              //   photoURL: (photoURL as string) || '',
-              // });
-              // this.dbFirebase
-              //   .object(`users/${currentUser.uid}`)
-              //   .update(omit(updateUser, 'uid'));
-              return currentUser;
-            })
-          );
+        const filePath = `userImages/${currentUser.uid}`;
+        return this.getUrlToFileFromStorage$(
+          this.storageFirebase.upload(filePath, file),
+          filePath
+        ).pipe(
+          map((photoURL) => {
+            const updateUser = new User({
+              ...currentUser,
+              photoURL: photoURL || '',
+            });
+            this.dbFirebase
+              .object(`users/${currentUser.uid}`)
+              .update(omit(updateUser, 'uid'));
+            return updateUser;
+          })
+        );
       })
+    );
+  }
+
+  private getUrlToFileFromStorage$(
+    uploadTask: AngularFireUploadTask,
+    path: string
+  ): Observable<string> {
+    return from(uploadTask).pipe(
+      switchMap(() => this.storageFirebase.ref(path).getDownloadURL())
     );
   }
 }

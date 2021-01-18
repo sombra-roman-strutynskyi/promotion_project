@@ -65,7 +65,7 @@ export class AuthEffects {
       ofType(AuthActions.register),
       switchMap(({ user }) =>
         this.authService.register(user).pipe(
-          map(() => AuthActions.loadUserProfile()),
+          map(() => AuthActions.registerSuccess()),
           catchError((errors) =>
             of(AuthActions.loginWithCredentialsFailure(errors))
           )
@@ -112,6 +112,24 @@ export class AuthEffects {
     )
   );
 
+  uploadUserAvatar$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.uploadUserAvatar),
+      switchMap(({ file }) => {
+        console.log(file);
+        
+       return this.authService.uploadUserAvatar(file).pipe(
+          map((currentUser: IUser) =>
+            AuthActions.uploadUserAvatarSuccess({ currentUser })
+          ),
+          catchError((errors) =>
+            of(AuthActions.uploadUserAvatarFailure(errors))
+          )
+        )}
+      )
+    )
+  );
+
   changePassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.changePassword),
@@ -141,7 +159,8 @@ export class AuthEffects {
       ofType(
         AuthActions.loginWithGoogleSuccess,
         AuthActions.loginWithFacebookSuccess,
-        AuthActions.loginWithCredentialsSuccess
+        AuthActions.loginWithCredentialsSuccess,
+        AuthActions.registerSuccess
       ),
       tap(() => {
         this.router.navigateByUrl(ROUTES_DATA.DASHBOARD.url);

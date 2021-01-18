@@ -42,8 +42,7 @@ export const register = createAction(
 );
 
 export const registerSuccess = createAction(
-  '[Auth] Register Success',
-  props<{ result: any }>()
+  '[Auth] Register Success'
 );
 
 export const registerFailure = createAction(
@@ -78,6 +77,21 @@ export const updateUserProfileSuccess = createAction(
 
 export const updateUserProfileFailure = createAction(
   '[Auth] Update User Profile Failure',
+  props<{ errors: any }>()
+);
+
+export const uploadUserAvatar = createAction(
+  '[Auth] Upload User Avatar',
+  props<{ file: File }>()
+);
+
+export const uploadUserAvatarSuccess = createAction(
+  '[Auth] Upload User Avatar Success',
+  props<{ currentUser: IUser }>()
+);
+
+export const uploadUserAvatarFailure = createAction(
+  '[Auth] Upload User Avatar Failure',
   props<{ errors: any }>()
 );
 

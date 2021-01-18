@@ -4,7 +4,7 @@ import { Credentials, IUser, RegisterUser } from '../models';
 import * as AuthActions from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
-import { changePassword } from '../state/auth.actions';
+import { changePassword, uploadUserAvatar } from '../state/auth.actions';
 
 @Injectable()
 export class AuthFacade {
@@ -54,6 +54,11 @@ export class AuthFacade {
 
   updateProfile(user: IUser) {
     this.store.dispatch(AuthActions.updateUserProfile({ user }));
+  }
+  uploadUserAvatar(file: File) {
+    console.log(file);
+    
+    this.store.dispatch(AuthActions.uploadUserAvatar({ file }));
   }
 
   setErrors(errors = []) {
