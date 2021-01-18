@@ -1,6 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 import { Credentials, IUser, RegisterUser } from '../models';
 
+interface IError {
+  code: string;
+  message: string;
+  type: string;
+}
+
 export const loginWithCredentials = createAction(
   '[Auth] Login With Credentials',
   props<{ credentials: Credentials }>()
@@ -12,7 +18,7 @@ export const loginWithCredentialsSuccess = createAction(
 
 export const loginWithCredentialsFailure = createAction(
   '[Auth] Login With Credentials Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IError }>()
 );
 
 export const loginWithGoogle = createAction('[Auth] Login With Google');
@@ -23,7 +29,7 @@ export const loginWithGoogleSuccess = createAction(
 
 export const loginWithGoogleFailure = createAction(
   '[Auth] Login With Google Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IError }>()
 );
 export const loginWithFacebook = createAction('[Auth] Login With Facebook');
 
@@ -33,7 +39,7 @@ export const loginWithFacebookSuccess = createAction(
 
 export const loginWithFacebookFailure = createAction(
   '[Auth] Login With Facebook Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IError }>()
 );
 
 export const register = createAction(
@@ -41,13 +47,11 @@ export const register = createAction(
   props<{ user: RegisterUser }>()
 );
 
-export const registerSuccess = createAction(
-  '[Auth] Register Success'
-);
+export const registerSuccess = createAction('[Auth] Register Success');
 
 export const registerFailure = createAction(
   '[Auth] Register Failure',
-  props<{ error: any }>()
+  props<{ error: IError }>()
 );
 
 export const logout = createAction('[Auth] Logout');
@@ -62,7 +66,7 @@ export const loadUserProfileSuccess = createAction(
 
 export const loadUserProfileFailure = createAction(
   '[Auth] Load User Profile Failure',
-  props<{ errors: any }>()
+  props<{ error: IError }>()
 );
 
 export const updateUserProfile = createAction(
@@ -77,7 +81,7 @@ export const updateUserProfileSuccess = createAction(
 
 export const updateUserProfileFailure = createAction(
   '[Auth] Update User Profile Failure',
-  props<{ errors: any }>()
+  props<{ error: IError }>()
 );
 
 export const uploadUserAvatar = createAction(
@@ -92,12 +96,7 @@ export const uploadUserAvatarSuccess = createAction(
 
 export const uploadUserAvatarFailure = createAction(
   '[Auth] Upload User Avatar Failure',
-  props<{ errors: any }>()
-);
-
-export const setErrors = createAction(
-  '[Auth] Set Errors',
-  props<{ errors?: string[] }>()
+  props<{ error: IError }>()
 );
 
 export const resetPassword = createAction(
@@ -111,7 +110,7 @@ export const resetPasswordSuccess = createAction(
 
 export const resetPasswordFailure = createAction(
   '[Auth] Reset Password Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IError }>()
 );
 
 export const changePassword = createAction(
@@ -125,5 +124,5 @@ export const changePasswordSuccess = createAction(
 
 export const changePasswordFailure = createAction(
   '[Auth] Change Password Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IError }>()
 );

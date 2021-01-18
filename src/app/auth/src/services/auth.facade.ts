@@ -4,7 +4,6 @@ import { Credentials, IUser, RegisterUser } from '../models';
 import * as AuthActions from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
-import { changePassword, uploadUserAvatar } from '../state/auth.actions';
 
 @Injectable()
 export class AuthFacade {
@@ -12,7 +11,7 @@ export class AuthFacade {
   userLoaded$ = this.store.pipe(select(authQuery.getUserLoaded));
   isAuthenticated$ = this.store.pipe(select(authQuery.getIsAuthenticated));
   currentUser$ = this.store.pipe(select(authQuery.getUser));
-  errors$ = this.store.pipe(select(authQuery.getErrors));
+  errors$ = this.store.pipe(select(authQuery.getError));
 
   constructor(private store: Store<AuthState>) {}
 
@@ -57,11 +56,7 @@ export class AuthFacade {
   }
   uploadUserAvatar(file: File) {
     console.log(file);
-    
-    this.store.dispatch(AuthActions.uploadUserAvatar({ file }));
-  }
 
-  setErrors(errors = []) {
-    this.store.dispatch(AuthActions.setErrors({ errors }));
+    this.store.dispatch(AuthActions.uploadUserAvatar({ file }));
   }
 }

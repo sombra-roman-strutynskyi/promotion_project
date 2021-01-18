@@ -24,9 +24,9 @@ const getUserLoaded = createSelector(
   (state: AuthState) => state.userLoaded
 );
 
-const getErrors = createSelector(
+const getError = createSelector(
   getAuthState,
-  (state: AuthState) => state.errors
+  (state: AuthState) => state.error
 );
 
 const getRequestPasswordReset = createSelector(
@@ -39,6 +39,6 @@ export const authQuery = {
   getIsAuthenticated,
   getUser,
   getUserLoaded,
-  getErrors,
+  getError,
   getRequestPasswordReset,
 };

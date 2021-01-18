@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { SHARED_COMPONENTS } from './components';
 import { SHARED_PIPES } from './pipes';
@@ -29,6 +30,7 @@ const MATERIAL_MODULES = [
   MatTabsModule,
   MatCheckboxModule,
   MatExpansionModule,
+  MatSnackBarModule,
 ];
 
 export const SHARED_MODULES = [

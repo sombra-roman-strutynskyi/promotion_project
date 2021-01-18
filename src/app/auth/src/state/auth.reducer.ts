@@ -10,7 +10,7 @@ export interface AuthState {
   userLoaded: boolean;
   requestPasswordReset: boolean;
   pending: boolean;
-  errors: string[];
+  error: string;
 }
 
 export const initialState: AuthState = {
@@ -19,7 +19,7 @@ export const initialState: AuthState = {
   userLoaded: false,
   requestPasswordReset: false,
   pending: false,
-  errors: [],
+  error:null,
 };
 
 const authReducer = createReducer(
@@ -36,7 +36,7 @@ const authReducer = createReducer(
     AuthActions.updateUserProfile,
     (state) => ({
       ...state,
-      errors: [],
+      errors: null,
       pending: true,
     })
   ),
@@ -46,23 +46,25 @@ const authReducer = createReducer(
     AuthActions.changePasswordSuccess,
     (state) => ({
       ...state,
-      errors: null,
+      error: null,
       pending: false,
-      // isAuthenticated: true,
     })
   ),
 
   on(
     AuthActions.loginWithCredentialsFailure,
+    AuthActions.loginWithGoogleFailure,
+    AuthActions.loginWithFacebookFailure,
     AuthActions.resetPasswordFailure,
     AuthActions.loadUserProfileFailure,
     AuthActions.updateUserProfileFailure,
     AuthActions.uploadUserAvatarFailure,
-    (state, { errors }) => ({
+    AuthActions.registerFailure,
+    AuthActions.changePasswordFailure,
+    (state, { error }) => ({
       ...state,
-      errors,
+      error:error?.message || null,
       pending: false,
-      isAuthenticated: false,
     })
   ),
   on(
@@ -86,16 +88,10 @@ const authReducer = createReducer(
       ...state,
       user: { ...currentUser },
       pending: false,
-      errors: null,
+      error: null,
       userLoaded: true,
     })
   ),
-  on(AuthActions.registerFailure, (state, { error }) => ({
-    ...state,
-    pending: false,
-    isAuthenticated: false,
-    requestPasswordReset: false,
-  }))
 );
 
 export function reducer(state: AuthState | undefined, action: Action) {

@@ -5,3 +5,4 @@ export * from './src/pipes';
 export * from './src/utils';
 export * from './src/components';
 export * from './src/models';
+export * from './src/services';

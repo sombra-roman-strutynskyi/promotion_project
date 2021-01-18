@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ROUTES_DATA } from '@shared';
+import { ROUTES_DATA, SnackbarService } from '@shared';
 import { of } from 'rxjs';
 import { catchError, switchMap, map, tap } from 'rxjs/operators';
 import { IUser } from '../models';
@@ -13,8 +13,9 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private snackBar: SnackbarService
+  ) { }
 
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
@@ -22,7 +23,7 @@ export class AuthEffects {
       switchMap(() =>
         this.authService.googleLogin().pipe(
           map(() => AuthActions.loginWithGoogleSuccess()),
-          catchError((errors) => of(AuthActions.loginWithGoogleFailure(errors)))
+          catchError((error) => of(AuthActions.loginWithGoogleFailure(error)))
         )
       )
     )
@@ -34,8 +35,8 @@ export class AuthEffects {
       switchMap(() =>
         this.authService.facebookLogin().pipe(
           map(() => AuthActions.loginWithFacebook()),
-          catchError((errors) =>
-            of(AuthActions.loginWithFacebookFailure(errors))
+          catchError((error) =>
+            of(AuthActions.loginWithFacebookFailure(error))
           )
         )
       )
@@ -52,8 +53,8 @@ export class AuthEffects {
       switchMap((credentials) =>
         this.authService.loginWithCredentials(credentials).pipe(
           map(() => AuthActions.loginWithCredentialsSuccess()),
-          catchError((errors) =>
-            of(AuthActions.loginWithCredentialsFailure(errors))
+          catchError((error) =>
+            of(AuthActions.loginWithCredentialsFailure(error))
           )
         )
       )
@@ -66,8 +67,8 @@ export class AuthEffects {
       switchMap(({ user }) =>
         this.authService.register(user).pipe(
           map(() => AuthActions.registerSuccess()),
-          catchError((errors) =>
-            of(AuthActions.loginWithCredentialsFailure(errors))
+          catchError((error) =>
+            of(AuthActions.loginWithCredentialsFailure(error))
           )
         )
       )
@@ -90,12 +91,12 @@ export class AuthEffects {
           map((currentUser: IUser) =>
             AuthActions.loadUserProfileSuccess({ currentUser })
           ),
-          catchError((errors) => of(AuthActions.loadUserProfileFailure(errors)))
+          catchError((error) => of(AuthActions.loadUserProfileFailure(error)))
         )
       )
     )
   );
-  
+
   updateUserProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.updateUserProfile),
@@ -104,8 +105,8 @@ export class AuthEffects {
           map((currentUser: IUser) =>
             AuthActions.updateUserProfileSuccess({ currentUser })
           ),
-          catchError((errors) =>
-            of(AuthActions.updateUserProfileFailure(errors))
+          catchError((error) =>
+            of(AuthActions.updateUserProfileFailure(error))
           )
         )
       )
@@ -117,16 +118,16 @@ export class AuthEffects {
       ofType(AuthActions.uploadUserAvatar),
       switchMap(({ file }) => {
         console.log(file);
-        
-       return this.authService.uploadUserAvatar(file).pipe(
+
+        return this.authService.uploadUserAvatar(file).pipe(
           map((currentUser: IUser) =>
             AuthActions.uploadUserAvatarSuccess({ currentUser })
           ),
-          catchError((errors) =>
-            of(AuthActions.uploadUserAvatarFailure(errors))
+          catchError((error) =>
+            of(AuthActions.uploadUserAvatarFailure(error))
           )
-        )}
-      )
+        );
+      })
     )
   );
 
@@ -136,7 +137,7 @@ export class AuthEffects {
       switchMap(({ oldPassword, newPassword }) =>
         this.authService.changePassword(oldPassword, newPassword).pipe(
           map(() => AuthActions.changePasswordSuccess()),
-          catchError((errors) => of(AuthActions.changePasswordFailure(errors)))
+          catchError((error) => of(AuthActions.changePasswordFailure(error)))
         )
       )
     )
@@ -148,7 +149,7 @@ export class AuthEffects {
       switchMap(({ email, redirectUrl }) =>
         this.authService.passwordForgotten(email, redirectUrl).pipe(
           map(() => AuthActions.resetPasswordSuccess()),
-          catchError((errors) => of(AuthActions.resetPasswordFailure(errors)))
+          catchError((error) => of(AuthActions.resetPasswordFailure(error)))
         )
       )
     )
@@ -179,4 +180,24 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+  
+  handleError$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(...this.getFailureActions()),
+        tap((error) => {         
+          this.snackBar.open(error.message)
+        })
+      ),
+    { dispatch: false }
+  );
+
+  private getFailureActions() {
+    return Object.keys(AuthActions).reduce((actions, action) => {
+      if (action.toLowerCase().endsWith('failure')) {
+        actions.push(AuthActions[action]);
+      }
+      return actions;
+    }, [])
+  }
 }
