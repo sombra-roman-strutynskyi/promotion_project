@@ -8,15 +8,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-import { SHARED_COMPONENTS } from './components';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { FORMLY_CONFIG, SHARED_COMPONENTS } from './components';
 import { SHARED_PIPES } from './pipes';
 import { IconService, SHARED_SERVICES } from './services';
 
@@ -41,7 +42,11 @@ export const SHARED_MODULES = [
 
 @NgModule({
   declarations: [...SHARED_COMPONENTS, ...SHARED_PIPES],
-  imports: [...SHARED_MODULES],
+  imports: [
+    ...SHARED_MODULES,
+    FormlyMaterialModule,
+    FormlyModule.forRoot(FORMLY_CONFIG),
+  ],
   exports: [...SHARED_COMPONENTS, ...SHARED_PIPES, ...SHARED_MODULES],
   providers: [SHARED_SERVICES],
 })

@@ -1,0 +1,14 @@
+<ui-accordion [title]="'Change User Avatar'" [open]="true">
+  <div class="change-avatar">
+    <img [src]="photoURL" alt="user avatar" class="change-avatar__img" />
+    <button class="change-avatar__button" mat-raised-button color="accent">
+      <label for="file"> Upload File </label>
+    </button>
+    <input
+      type="file"
+      id="file"
+      class="change-avatar__input"
+      (change)="updateUserAvatar($event)"
+    />
+  </div>
+</ui-accordion>

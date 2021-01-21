@@ -1,37 +1,18 @@
-<div class="container row">
-  <ui-accordion class="col-6" [title]="'Edit User Information'" [open]="true">
-    <ui-form
-      [fields]="userFields"
-      [model]="userModel"
-      (submitted)="updateProfile($event)"
-    >
-    </ui-form>
-  </ui-accordion>
-  <ui-accordion class="col-6" [title]="'Change Password'" [open]="true">
-    <ui-form
-      [fields]="passwordFields"
-      [model]="passwordModel"
-      (submitted)="updatePassword($event)"
-    >
-    </ui-form>
-  </ui-accordion>
-  <ui-accordion class="col-12" [title]="'Change User Avatar'">
-    <div>
-      <img
-        [src]="(currentUser$ | async).photoURL"
-        alt=""
-        height="200"
-        width="200"
-      />
-
-      <input
-        type="file"
-        id="file"
-        #userPhoto
-        (change)="onFileSelected($event)"
-        name="image"
-        autocomplete="off"
-      />
-    </div>
-  </ui-accordion>
-</div>
+<ui-accordion
+  [title]="'User Information'"
+  [open]="true"
+  [buttonDisabled]="!formOptions?.formState?.disabled"
+  [buttonLabel]="'Edit'"
+  (buttonClicked)="toggleFormStateDisabled(false)"
+  
+>
+  <ui-base-form
+    [fields]="fields"
+    [model]="model"
+    [formOptions]="formOptions"
+    [formButtons]="formOptions?.formState?.disabled ? [] : formButtons"
+    (submitted)="updateProfile($event)"
+    (canceled)="onCancel()"
+  >
+  </ui-base-form>
+</ui-accordion>

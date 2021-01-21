@@ -49,6 +49,17 @@ export function removeEmptyObjProperty(myObj: object) {
 }
 
 /**
+ * @description get nested property
+ * @param p
+ * @param o
+ * @tutorial https://glebbahmutov.com/blog/call-me-maybe/
+ */
+export function get(keys: string | string[], o: object) {
+  keys = isArray(keys) ? keys : keys.split('.');
+  return keys.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o);
+}
+
+/**
  * @tutorial https://stackoverflow.com/a/25835337/4115894
  * @description Creates an object composed of the picked object properties.
  * @param o Object

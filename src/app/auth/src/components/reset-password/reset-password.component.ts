@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IFormField, REGEXPS } from '@shared';
 import { AuthFacade } from '../../services';
 
 @Component({
@@ -8,17 +7,7 @@ import { AuthFacade } from '../../services';
   styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent {
-  fields: IFormField[] = [
-    {
-      key: 'email',
-      label: 'Email',
-      type: 'text',
-      syncValidator: {
-        required: true,
-        pattern: REGEXPS.email,
-      },
-    },
-  ];
+
   resetPasswordModal = {};
   constructor(private authFacade: AuthFacade) {}
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IFormField, REGEXPS } from '@shared';
-import { RegisterUser } from '../../models';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import {  UiFormButton } from '@shared';
+import { IRegisterUser } from '../../models';
 import { AuthFacade } from '../../services';
 
 @Component({
@@ -9,51 +10,89 @@ import { AuthFacade } from '../../services';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  fields: IFormField[] = [
+  fields: FormlyFieldConfig[] = [
     {
-      key: 'firstName',
-      label: 'First Name',
-      type: 'text',
-      syncValidator: {
-        required: true,
-      },
-    },
-    {
-      key: 'lastName',
-      label: 'Last Name',
-      type: 'text',
-      syncValidator: {
-        required: true,
-      },
-    },
-    {
-      key: 'age',
-      label: 'Age',
-      type: 'number',
-    },
-    {
-      key: 'email',
-      label: 'Email',
-      type: 'text',
-      syncValidator: {
-        required: true,
-        pattern: REGEXPS.email,
-      },
-    },
-    {
-      key: 'password',
-      label: 'Password',
-      type: 'password',
-      syncValidator: {
-        required: true,
-        minLength: 6,
-      },
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          className: 'col-12',
+          key: 'firstName',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'First Name',
+            required: true,
+          },
+        },
+        {
+          className: 'col-12',
+          key: 'lastName',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'Last Name',
+            required: true,
+          },
+        },
+        {
+          className: 'col-12',
+          key: 'age',
+          type: 'input',
+          templateOptions: {
+            type: 'number',
+            label: 'Age',
+          },
+        },
+        {
+          className: 'col-12',
+          key: 'email',
+          type: 'input',
+          templateOptions: {
+            type: 'email',
+            label: 'Email',
+            required: true,
+          },
+          validators: {
+            validation: ['email'],
+          },
+        },
+        {
+          className: 'col-12',
+          key: 'password',
+          type: 'input',
+          templateOptions: {
+            type: 'password',
+            label: 'Password',
+            required: true,
+            minLength: 6,
+          },
+        },
+      ],
     },
   ];
-  registerModal = {};
+  formOptions: FormlyFormOptions = {
+    formState: {
+      showErrorState: false,
+      disabled: false,
+    },
+  };
+  formButtons: UiFormButton[] = [
+    {
+      label: 'Sign Up',
+      type: 'submit',
+      classNames: 'col-12',
+      action: { type: 'submit' },
+      style: {
+        color: 'accent',
+        type:'raised'
+      }
+    },
+  ];
+  model = {} as IRegisterUser;
+  
   constructor(private authFacade: AuthFacade) {}
-
-  onSubmit(user: RegisterUser) {
+  
+  onSubmit(user: IRegisterUser) {
     this.authFacade.register(user);
   }
 }

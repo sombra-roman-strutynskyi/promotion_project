@@ -1,0 +1,16 @@
+<div class="row" *ngIf="currentUser$ | async">
+  <user-edit-user
+    class="col-12"
+    [currentUser]="currentUser$ | async"
+    (submitted)="updateUserProfile($event)"
+  ></user-edit-user>
+  <user-change-password
+    class="col-12"
+    (submitted)="updateUserPassword($event)"
+  ></user-change-password>
+  <user-change-avatar
+    class="col-12"
+    [photoURL]="(currentUser$ | async).photoURL"
+    (submitted)="updateUserAvatar($event)"
+  ></user-change-avatar>
+</div>

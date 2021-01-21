@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IFormField, REGEXPS } from '@shared';
-import { Credentials } from '../../models';
-import { AuthFacade } from '../../services/auth.facade';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { UiFormButton } from '@shared';
+import { ICredentials } from '../../models';
+import { AuthFacade } from '../../services';
 
 @Component({
   selector: 'auth-login',
@@ -10,40 +10,70 @@ import { AuthFacade } from '../../services/auth.facade';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  fields: IFormField[] = [
+  fields: FormlyFieldConfig[] = [
     {
-      key: 'email',
-      label: 'Email',
-      type: 'text',
-      syncValidator: {
-        required: true,
-        pattern: REGEXPS.email,
-      },
-    },
-    {
-      key: 'password',
-      label: 'Password',
-      type: 'password',
-      syncValidator: {
-        required: true,
-        minLength: 6,
-      },
-    },
-    {
-      key: 'remember',
-      label: 'Remember Me',
-      type: 'checkbox',
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          className: 'col-12',
+          key: 'email',
+          type: 'input',
+          templateOptions: {
+            type: 'email',
+            label: 'Email',
+            required: true,
+          },
+          validators: {
+            validation: ['email'],
+          },
+        },
+        {
+          className: 'col-12',
+          key: 'password',
+          type: 'input',
+          templateOptions: {
+            type: 'password',
+            label: 'Password',
+            required: true,
+            minLength: 6,
+          },
+        },
+        {
+          className: 'col-12',
+          key: 'remember',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Remember Me',
+          },
+        },
+      ],
     },
   ];
-  loginModel = {};
+  formOptions: FormlyFormOptions = {
+    formState: {
+      showErrorState: false,
+      disabled: false,
+    },
+  };
+  model = { remember: false } as ICredentials;
+  formButtons: UiFormButton[] = [
+    {
+      label: 'Sing In',
+      type: 'submit',
+      classNames: 'col-12',
+      action: { type: 'submit' },
+      style: {
+        color: 'accent',
+        type: 'raised',
+      },
+    },
+  ];
 
   constructor(private authFacade: AuthFacade) {}
 
   ngOnInit() {}
-  onSubmit(data: Credentials) {
-    console.log(data);
-
-    this.authFacade.loginWithCredentials(data);
+  onSubmit(credentials: ICredentials) {
+    this.authFacade.loginWithCredentials(credentials);
   }
   onLoginWithGoogle() {
     this.authFacade.loginWithGoogle();

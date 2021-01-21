@@ -1,0 +1,27 @@
+<form
+  class="form"
+  [formGroup]="form"
+  (ngSubmit)="submitForm()"
+  novalidate
+  autocomplete="off"
+>
+  <div class="ui-base-form {{ formClasses }}">
+    <formly-form
+      [form]="form"
+      [model]="model"
+      [fields]="fields"
+      [options]="formOptions"
+    >
+    </formly-form>
+  </div>
+  <ui-form-buttons
+    class="form-buttons"
+    *ngIf="formButtons && formButtons.length && showBtns"
+    [buttons]="formButtons"
+    [form]="form"
+    [model]="model"
+    [classNames]="classButtonNames"
+    (action)="handleAction($event)"
+  >
+  </ui-form-buttons>
+</form>

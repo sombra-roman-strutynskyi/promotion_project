@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { User } from '../models';
+import { IUser } from '../models';
 import { AUTH_FEATURE_KEY, AuthState } from './auth.reducer';
 
 // Lookup the 'Auth' feature state managed by NgRx
@@ -16,7 +16,7 @@ const getPending = createSelector(
 );
 
 const getUser = createSelector(getAuthState, (state: AuthState) =>
-  state.userLoaded ? state.user : ({} as User)
+  state.userLoaded ? state.user : ({} as IUser)
 );
 
 const getUserLoaded = createSelector(

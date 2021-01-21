@@ -1,22 +1,16 @@
-export interface ISelectOption {
-  label: string;
-  value: string;
-}
-export interface IFormFieldSyncValidation {
-  required?: boolean;
-  pattern?: RegExp;
-  minLength?: number;
-  maxLength?: number;
-  min?: number;
-  max?: number;
-}
 
-export interface IFormField {
-  key: string;
-  type: string;
-  className?: string;
+export interface UiFormButton {
   label?: string;
-  options?: ISelectOption[];
-  syncValidator?: IFormFieldSyncValidation;
-  validationMessages?: { [key: string]: string };
+  type?: string;
+  classNames?: string;
+  classWrapper?: string;
+  action?: {
+    type?: string;
+    payload?: any;
+    handler?: () => void;
+  };
+  style?: {
+    type?: string;
+    color?: string;
+  };
 }

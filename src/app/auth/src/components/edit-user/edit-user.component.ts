@@ -1,100 +1,104 @@
-import { Component, OnInit } from '@angular/core';
-import { IUser, User } from '../../models';
-import { AuthFacade } from '../../services';
-import { SubscriptionDisposer, REGEXPS, IFormField, pick } from '@shared';
-import { takeUntil, filter } from 'rxjs/operators';
-import { changePassword } from '../../state/auth.actions';
-
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { UiFormButton, isNullOrUndefined } from '@shared';
+import { IUpdateUser, UpdateUser, IUser } from '../../models';
 @Component({
-  selector: 'auth-edit-user',
+  selector: 'user-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditUserComponent extends SubscriptionDisposer implements OnInit {
-  currentUser$ = this.authFacade.currentUser$;
-  userFields: IFormField[] = [
-    {
-      key: 'firstName',
-      label: 'First Name',
+export class EditUserComponent {
+  @Input() set currentUser(user: IUser) {
+    if (!isNullOrUndefined(user)) {
+      this.model = new UpdateUser(user);
+    }
+  }
+  @Output() submitted = new EventEmitter<IUpdateUser>();
 
-      type: 'text',
-      syncValidator: {
-        required: true,
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          className: 'col-4',
+          key: 'firstName',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'First Name',
+            required: true,
+          },
+        },
+        {
+          className: 'col-4',
+          key: 'lastName',
+          type: 'input',
+          templateOptions: {
+            type: 'text',
+            label: 'Last Name',
+            required: true,
+          },
+        },
+        {
+          className: 'col-4',
+          key: 'age',
+          type: 'input',
+          templateOptions: {
+            type: 'number',
+            label: 'Age',
+          },
+        },
+      ],
+    },
+  ];
+  formOptions: FormlyFormOptions = {
+    formState: {
+      showErrorState: false,
+      disabled: true,
+    },
+  };
+  formButtons: UiFormButton[] = [
+    {
+      label: 'Update Profile',
+      type: 'submit',
+      action: { type: 'submit' },
+      style: {
+        color: 'accent',
+        type: 'raised',
       },
     },
     {
-      key: 'lastName',
-      label: 'Last Name',
+      label: 'Cancel',
+      type: 'button',
+      classWrapper:'col-1',
 
-      type: 'text',
-      syncValidator: {
-        required: true,
+      action: { type: 'cancel' },
+      style: {
+        color: 'primary',
       },
-    },
-    {
-      key: 'age',
-      label: 'Age',
-      type: 'number',
     },
   ];
 
-  passwordFields = [
-    {
-      key: 'oldPassword',
-      label: 'Old Password',
-      type: 'password',
-      syncValidator: {
-        required: true,
-        minLength: 6,
-      },
-    },
-    {
-      key: 'newPassword',
-      label: 'New Password',
-      type: 'password',
-      syncValidator: {
-        required: true,
-        minLength: 6,
-      },
-    },
-    {
-      key: 'confirmPassword',
-      label: 'Confirm Password',
-      type: 'password',
-      syncValidator: {
-        required: true,
-        minLength: 6,
-      },
-    },
-  ];
-  userModel = {} as IUser;
-  passwordModel = {};
-  constructor(private authFacade: AuthFacade) {
-    super();
+  model = {} as IUpdateUser;
+
+  updateProfile(user: IUpdateUser) {
+    this.toggleFormStateDisabled(true);
+    this.submitted.emit(user);
+  }
+  
+  onCancel() {
+    this.formOptions.resetModel();
+    this.toggleFormStateDisabled(true);
   }
 
-  ngOnInit(): void {
-    this.currentUser$
-      .pipe(
-        takeUntil(this.ngSubject),
-        filter((data) => !!data)
-      )
-      .subscribe((user: IUser) => {
-        const userFieldKeys: string[] = this.userFields.map(({ key }) => key);
-        this.userModel = pick(user, ...userFieldKeys);
-        console.log(this.userModel);
-      });
-  }
-  updateProfile(user: IUser) {
-    this.authFacade.updateProfile(user);
-  }
-  updatePassword(data) {
-    this.authFacade.changePassword(data);
-  }
-  onFileSelected(ev) {
-    const file = ev.target.files[0];
-    console.log(file);
-    
-    this.authFacade.uploadUserAvatar(file)
+  toggleFormStateDisabled(disabled: boolean) {
+    this.formOptions.formState.disabled = disabled;
   }
 }

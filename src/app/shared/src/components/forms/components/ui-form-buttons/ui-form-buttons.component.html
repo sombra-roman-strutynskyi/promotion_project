@@ -1,0 +1,62 @@
+<ng-container *ngFor="let button of buttons">
+  <div *ngIf="button.classWrapper" [class]="button.classWrapper">
+    <ng-container
+      *ngTemplateOutlet="buttonTmpl; context: { $implicit: button }"
+    >
+    </ng-container>
+  </div>
+  <ng-container *ngIf="!button.classWrapper">
+    <ng-container
+      *ngTemplateOutlet="buttonTmpl; context: { $implicit: button }"
+    >
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #buttonTmpl let-button>
+  <ng-container [ngSwitch]="button.style?.type">
+    <button
+      *ngSwitchDefault
+      mat-button
+      [ngClass]="[button?.classNames || '', classNames]"
+      [disabled]="form.invalid"
+      (click)="
+        click(button.action.type, button.action.payload, button.action.handler)
+      "
+      [type]="button.type || 'button'"
+      [disabled]="button.action?.type !== 'cancel' ? form.invalid : false"
+      [color]="button.style?.color || ''"
+    >
+      {{ button.label || '' }}
+    </button>
+
+    <button
+      *ngSwitchCase="'raised'"
+      mat-raised-button
+      [ngClass]="[button?.classNames || '', classNames]"
+      [disabled]="form.invalid"
+      (click)="
+        click(button.action.type, button.action.payload, button.action.handler)
+      "
+      [type]="button.type || 'button'"
+      [disabled]="button.action.type !== 'cancel' ? form.invalid : false"
+      [color]="button.style?.color || ''"
+    >
+      {{ button.label || '' }}
+    </button>
+    <button
+      *ngSwitchCase="'stroked'"
+      mat-stroked-button
+      [ngClass]="[button?.classNames || '', classNames]"
+      [disabled]="form.invalid"
+      (click)="
+        click(button.action.type, button.action.payload, button.action.handler)
+      "
+      [type]="button.type || 'button'"
+      [disabled]="button.action.type !== 'cancel' ? form.invalid : false"
+      [color]="button.style?.color || ''"
+    >
+      {{ button.label || '' }}
+    </button>
+  </ng-container>
+</ng-template>

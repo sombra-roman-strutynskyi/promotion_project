@@ -1,4 +1,4 @@
-@import 'vars';
+@import "vars";
 .header {
   &__user {
     display: flex;
@@ -32,7 +32,8 @@
   &__avatar {
     height: 40px;
     width: 40px;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: top center;
     border-radius: 100%;
   }
 }

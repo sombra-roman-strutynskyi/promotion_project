@@ -1,4 +1,5 @@
-import { AuthComponent } from './auth.component';
+import { ChangeAvatarComponent } from './change-avatar/change-avatar.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -6,14 +7,16 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 export const COMPONENTS = [
   LoginComponent,
-  AuthComponent,
   RegisterComponent,
   ResetPasswordComponent,
   EditUserComponent,
+  ChangeAvatarComponent,
+  ChangePasswordComponent,
 ];
 
 export * from './login/login.component';
-export * from './auth.component';
 export * from './register/register.component';
 export * from './reset-password/reset-password.component';
 export * from './edit-user/edit-user.component';
+export * from './change-avatar/change-avatar.component';
+export * from './change-password/change-password.component';

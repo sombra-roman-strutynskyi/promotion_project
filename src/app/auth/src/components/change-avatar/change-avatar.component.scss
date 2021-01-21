@@ -1,0 +1,23 @@
+.change-avatar {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    &__img {
+        height: 150px;
+        width: 150px;
+        object-fit: contain;
+        margin-right: 25px;
+    }
+    &__button {
+        padding: 0;
+        label {
+            cursor: pointer;
+            padding: 16px;
+        }
+    }
+    &__input {
+        opacity: 1;
+        height: 0;
+        visibility: hidden;
+    }
+}

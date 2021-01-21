@@ -1,18 +1,23 @@
 import { deepMerge, deepRemoveEmptyObjProperty } from '@shared';
 
-export interface Credentials {
+export interface ICredentials {
   email: string;
   password: string;
   remember: boolean;
 }
 
-export interface ResetPasswordCredentials {
+export interface IResetPasswordCredentials {
   password: string;
   confirmPassword: string;
   token?: string;
 }
+export interface IChangePassword{
+  newPassword: string;
+  oldPassword: string;
+  confirmPassword?: string;
+}
 
-export class RegisterUser {
+export class IRegisterUser {
   email: string;
   password?: string;
   firstName: string;
@@ -28,6 +33,11 @@ export interface IUser {
   age: string;
   photoURL?: string;
 }
+export interface IUpdateUser {
+  firstName: string;
+  lastName: string;
+  age: string;
+}
 
 export class User implements IUser {
   uid = '';
@@ -37,8 +47,15 @@ export class User implements IUser {
   age = '';
   photoURL? = '';
   constructor(data: IUser) {
-    console.log(data, 'data');
-    
+    Object.assign(this, deepMerge(this, deepRemoveEmptyObjProperty(data)));
+  }
+}
+
+export class UpdateUser implements IUpdateUser {
+  firstName = '';
+  lastName = '';
+  age = '';
+  constructor(data: IUser) {
     Object.assign(this, deepMerge(this, deepRemoveEmptyObjProperty(data)));
   }
 }

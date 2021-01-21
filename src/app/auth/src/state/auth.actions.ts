@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Credentials, IUser, RegisterUser } from '../models';
+import { ICredentials, IUpdateUser, IUser, IRegisterUser } from '../models';
 
 interface IError {
   code: string;
@@ -9,7 +9,7 @@ interface IError {
 
 export const loginWithCredentials = createAction(
   '[Auth] Login With Credentials',
-  props<{ credentials: Credentials }>()
+  props<{ credentials: ICredentials }>()
 );
 
 export const loginWithCredentialsSuccess = createAction(
@@ -44,7 +44,7 @@ export const loginWithFacebookFailure = createAction(
 
 export const register = createAction(
   '[Auth] Register',
-  props<{ user: RegisterUser }>()
+  props<{ user: IRegisterUser }>()
 );
 
 export const registerSuccess = createAction('[Auth] Register Success');
@@ -71,7 +71,7 @@ export const loadUserProfileFailure = createAction(
 
 export const updateUserProfile = createAction(
   '[Auth] Update User Profile',
-  props<{ user: IUser }>()
+  props<{ user: IUpdateUser }>()
 );
 
 export const updateUserProfileSuccess = createAction(

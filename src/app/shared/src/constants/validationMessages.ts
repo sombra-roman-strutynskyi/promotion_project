@@ -21,21 +21,21 @@ export function getDefaultValidationMessage(
   }
 }
 
-export function requiredValidationMessage(label) {
+function requiredValidationMessage(label) {
   return `Please enter ${label}`;
 }
-export function patternValidationMessage(label) {
+function patternValidationMessage(label) {
   return `Please enter a valid ${label}`;
 }
-export function minLengthValidationMessage(minLength) {
+function minLengthValidationMessage(minLength) {
   return `Should have ${minLength} characters`;
 }
-export function maxLengthValidationMessage(maxLength) {
+function maxLengthValidationMessage(maxLength) {
   return `Should have less ${maxLength} characters`;
 }
-export function minValueValidationMessage(min) {
+function minValueValidationMessage(min) {
   return `Should be more then ${min}`;
 }
-export function maxValueValidationMessage(max) {
+function maxValueValidationMessage(max) {
   return `Should be less then ${max}`;
 }

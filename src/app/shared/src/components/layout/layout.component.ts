@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { IUser } from '@auth';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -12,7 +13,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
-  @Input() currentUser;
+  @Input() currentUser:IUser;
   @Output() logouted = new EventEmitter<void>();
   @Output() editedUser = new EventEmitter<void>();
 

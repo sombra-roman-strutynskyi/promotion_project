@@ -4,8 +4,8 @@ export const ROUTES_DATA = {
     url: '/',
   },
   EDIT_USER: {
-    title: 'Edit user',
-    url: 'edit-user',
+    title: 'User Info',
+    url: 'user',
   },
   AUTH: {
     title: 'Auth',

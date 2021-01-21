@@ -21,11 +21,13 @@
   </div>
   <div class="col-12 login__or">OR</div>
   <div class="form-container col-12">
-    <ui-form
+    <ui-base-form
       [fields]="fields"
-      [model]="loginModel"
+      [model]="model"
+      [formOptions]="formOptions"
+      [formButtons]="formButtons"
       (submitted)="onSubmit($event)"
     >
-    </ui-form>
+    </ui-base-form>
   </div>
 </div>

@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ROUTES_DATA } from '@shared';
 import {
-  AuthComponent,
   EditUserComponent,
   LoginComponent,
   RegisterComponent,
   ResetPasswordComponent,
 } from './components';
+import { AuthComponent } from './containers';
 import { AuthGuard, UnauthorizedGuard } from './services';
+import { InfoUserComponent } from './containers/info-user/info-user.component';
 
 export const routes: Routes = [
   {
@@ -47,7 +48,7 @@ export const routes: Routes = [
   },
   {
     path: ROUTES_DATA.EDIT_USER.url,
-    component: EditUserComponent,
+    component: InfoUserComponent,
     canActivate: [AuthGuard],
   },
 ];

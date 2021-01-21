@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Credentials, IUser, RegisterUser } from '../models';
+import { ICredentials, IRegisterUser, IUpdateUser } from '../models';
 import * as AuthActions from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
@@ -15,7 +15,7 @@ export class AuthFacade {
 
   constructor(private store: Store<AuthState>) {}
 
-  loginWithCredentials(credentials: Credentials) {
+  loginWithCredentials(credentials: ICredentials) {
     this.store.dispatch(AuthActions.loginWithCredentials({ credentials }));
   }
   loginWithGoogle() {
@@ -43,7 +43,7 @@ export class AuthFacade {
     );
   }
 
-  register(user: RegisterUser) {
+  register(user: IRegisterUser) {
     this.store.dispatch(AuthActions.register({ user }));
   }
 
@@ -51,7 +51,7 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.loadUserProfile());
   }
 
-  updateProfile(user: IUser) {
+  updateProfile(user: IUpdateUser) {
     this.store.dispatch(AuthActions.updateUserProfile({ user }));
   }
   uploadUserAvatar(file: File) {

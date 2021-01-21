@@ -8,8 +8,8 @@ import {
 import { pick, omit } from '@shared';
 import firebase from 'firebase/app';
 import { Observable, of, from } from 'rxjs';
-import { take, map, mergeMap, finalize, switchMap } from 'rxjs/operators';
-import { Credentials, IUser, RegisterUser, User } from '../models';
+import { take, map, mergeMap, switchMap } from 'rxjs/operators';
+import { ICredentials, IUser, IRegisterUser, User, IUpdateUser} from '../models';
 import { AuthFacade } from './auth.facade';
 import UserCredential = firebase.auth.UserCredential;
 import UserFirebase = firebase.User;
@@ -79,7 +79,7 @@ export class AuthService {
     );
   }
 
-  loginWithCredentials(credentials: Credentials): Observable<UserCredential> {
+  loginWithCredentials(credentials: ICredentials): Observable<UserCredential> {
     return from(
       this.authFirebase
         .setPersistence(
@@ -132,7 +132,7 @@ export class AuthService {
     );
   }
 
-  register(registerUser: RegisterUser): Observable<UserCredential> {
+  register(registerUser: IRegisterUser): Observable<UserCredential> {
     return from(
       this.authFirebase
         .createUserWithEmailAndPassword(
@@ -172,7 +172,7 @@ export class AuthService {
     );
   }
 
-  updateUser(user: IUser): Observable<IUser> {
+  updateUser(user: IUpdateUser): Observable<IUser> {
     return this.user$.pipe(
       take(1),
       map((currentUser) => {
