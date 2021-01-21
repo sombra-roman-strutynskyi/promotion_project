@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
       disabled: false,
     },
   };
-  model = { remember: false } as ICredentials;
   formButtons: UiFormButton[] = [
     {
       label: 'Sing In',
@@ -68,6 +67,7 @@ export class LoginComponent implements OnInit {
       },
     },
   ];
+  model = { remember: false } as ICredentials;
 
   constructor(private authFacade: AuthFacade) {}
 

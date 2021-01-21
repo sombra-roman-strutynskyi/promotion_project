@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTES_DATA, SnackbarService } from '@shared';
 import { of } from 'rxjs';
-import { catchError, switchMap, map, tap } from 'rxjs/operators';
+import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
 import { IUser } from '../models';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
@@ -20,7 +20,7 @@ export class AuthEffects {
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithGoogle),
-      switchMap(() =>
+      exhaustMap(() =>
         this.authService.googleLogin().pipe(
           map(() => AuthActions.loginWithGoogleSuccess()),
           catchError((error) => of(AuthActions.loginWithGoogleFailure(error)))
@@ -32,7 +32,7 @@ export class AuthEffects {
   facebookLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginWithFacebook),
-      switchMap(() =>
+      exhaustMap(() =>
         this.authService.facebookLogin().pipe(
           map(() => AuthActions.loginWithFacebook()),
           catchError((error) =>
@@ -50,7 +50,7 @@ export class AuthEffects {
         ...credentials,
         remember: credentials?.remember || false,
       })),
-      switchMap((credentials) =>
+      exhaustMap((credentials) =>
         this.authService.loginWithCredentials(credentials).pipe(
           map(() => AuthActions.loginWithCredentialsSuccess()),
           catchError((error) =>
@@ -64,7 +64,7 @@ export class AuthEffects {
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.register),
-      switchMap(({ user }) =>
+      exhaustMap(({ user }) =>
         this.authService.register(user).pipe(
           map(() => AuthActions.registerSuccess()),
           catchError((error) =>
@@ -78,7 +78,7 @@ export class AuthEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      switchMap(() => this.authService.logout()),
+      exhaustMap(() => this.authService.logout()),
       map(() => AuthActions.logoutSuccess())
     )
   );
@@ -100,7 +100,7 @@ export class AuthEffects {
   updateUserProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.updateUserProfile),
-      switchMap(({ user }) =>
+      exhaustMap(({ user }) =>
         this.authService.updateUser(user).pipe(
           map((currentUser: IUser) =>
             AuthActions.updateUserProfileSuccess({ currentUser })
@@ -116,25 +116,23 @@ export class AuthEffects {
   uploadUserAvatar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.uploadUserAvatar),
-      switchMap(({ file }) => {
-        console.log(file);
-
-        return this.authService.uploadUserAvatar(file).pipe(
+      exhaustMap(({ file }) => 
+         this.authService.uploadUserAvatar(file).pipe(
           map((currentUser: IUser) =>
             AuthActions.uploadUserAvatarSuccess({ currentUser })
           ),
           catchError((error) =>
             of(AuthActions.uploadUserAvatarFailure(error))
           )
-        );
-      })
+        )
+      )
     )
   );
 
   changePassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.changePassword),
-      switchMap(({ oldPassword, newPassword }) =>
+      exhaustMap(({ oldPassword, newPassword }) =>
         this.authService.changePassword(oldPassword, newPassword).pipe(
           map(() => AuthActions.changePasswordSuccess()),
           catchError((error) => of(AuthActions.changePasswordFailure(error)))
@@ -146,7 +144,7 @@ export class AuthEffects {
   resetPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.resetPassword),
-      switchMap(({ email, redirectUrl }) =>
+      exhaustMap(({ email, redirectUrl }) =>
         this.authService.passwordForgotten(email, redirectUrl).pipe(
           map(() => AuthActions.resetPasswordSuccess()),
           catchError((error) => of(AuthActions.resetPasswordFailure(error)))

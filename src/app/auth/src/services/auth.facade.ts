@@ -55,8 +55,6 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.updateUserProfile({ user }));
   }
   uploadUserAvatar(file: File) {
-    console.log(file);
-
     this.store.dispatch(AuthActions.uploadUserAvatar({ file }));
   }
 }

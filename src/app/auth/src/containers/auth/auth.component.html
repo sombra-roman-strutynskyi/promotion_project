@@ -1,4 +1,7 @@
-<div class="auth row justify-content-center">
+<div
+  [loadingOverlay]="pending$ | async"
+  class="auth row justify-content-center"
+>
   <mat-card class="col-4">
     <mat-card-header>
       <!-- <mat-card-title>{{ header.title }}</mat-card-title> -->

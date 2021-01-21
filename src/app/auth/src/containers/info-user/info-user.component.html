@@ -1,4 +1,8 @@
-<div class="row" *ngIf="currentUser$ | async">
+<div
+  class="row"
+  [loadingOverlay]="pending$ | async"
+  *ngIf="currentUser$ | async"
+>
   <user-edit-user
     class="col-12"
     [currentUser]="currentUser$ | async"

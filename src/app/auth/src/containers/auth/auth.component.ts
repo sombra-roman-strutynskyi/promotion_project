@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { CoreService } from '@core';
 import { ROUTES_DATA, SubscriptionDisposer } from '@shared';
 import { filter, takeUntil } from 'rxjs/operators';
+import { AuthFacade } from '../../services';
 
 @Component({
   selector: 'auth-layout',
@@ -10,6 +11,8 @@ import { filter, takeUntil } from 'rxjs/operators';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent extends SubscriptionDisposer implements OnInit {
+  pending$ = this.authFacade.pending$;
+
   header;
   activeTab = 0;
   tabs = [
@@ -22,7 +25,10 @@ export class AuthComponent extends SubscriptionDisposer implements OnInit {
       url: ROUTES_DATA.AUTH.children.SIGN_UP.path,
     },
   ];
-  constructor(private coreService: CoreService, private router: Router) {
+  constructor(
+    private coreService: CoreService,
+    private authFacade: AuthFacade,
+    private router: Router) {
     super();
   }
 

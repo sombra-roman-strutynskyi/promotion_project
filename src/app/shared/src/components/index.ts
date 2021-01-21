@@ -1,6 +1,7 @@
 import { UiBaseFormComponent, UiFormButtonsComponent } from './forms';
 import { HeaderComponent } from './layout/header/header.component';
 import { LayoutComponent } from './layout/layout.component';
+import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
 import { UI_COMPONENTS } from './ui';
 
 export const SHARED_COMPONENTS = [
@@ -8,9 +9,11 @@ export const SHARED_COMPONENTS = [
   HeaderComponent,
   UiBaseFormComponent,
   UiFormButtonsComponent,
+  LoadingOverlayComponent,
   ...UI_COMPONENTS,
 ];
 
 export * from './layout/layout.component';
 export * from './forms/index';
 export * from './layout/header/header.component';
+export * from './loading-overlay/loading-overlay.component';

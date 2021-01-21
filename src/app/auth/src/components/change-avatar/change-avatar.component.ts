@@ -19,8 +19,6 @@ export class ChangeAvatarComponent {
     this._photoURL = !!url ? url : './assets/images/user.svg';
   }
   get photoURL(): string {
-    console.log(this._photoURL);
-
     return this._photoURL;
   }
   @Output() submitted = new EventEmitter<File>();
