@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ROUTES_DATA } from '@shared';
 import {
-  EditUserComponent,
+  ForgotPasswordComponent,
   LoginComponent,
   RegisterComponent,
   ResetPasswordComponent,
 } from './components';
-import { AuthComponent } from './containers';
+import { AuthComponent, InfoUserComponent} from './containers';
 import { AuthGuard, UnauthorizedGuard } from './services';
-import { InfoUserComponent } from './containers/info-user/info-user.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +41,14 @@ export const routes: Routes = [
         component: ResetPasswordComponent,
         data: {
           title: ROUTES_DATA.AUTH.children.RESET_PASSWORD.title,
+        },
+      },
+      {
+        path: ROUTES_DATA.AUTH.children.FORGOT_PASSWORD.path,
+        component: ForgotPasswordComponent,
+        canActivate: [UnauthorizedGuard],
+        data: {
+          title: ROUTES_DATA.AUTH.children.FORGOT_PASSWORD.title,
         },
       },
     ],

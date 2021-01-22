@@ -1,4 +1,7 @@
 @import "vars";
+:host {
+  height: $hHeader;
+}
 .header {
   &__user {
     display: flex;

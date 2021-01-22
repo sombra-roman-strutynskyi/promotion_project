@@ -99,17 +99,17 @@ export const uploadUserAvatarFailure = createAction(
   props<{ error: IError }>()
 );
 
-export const resetPassword = createAction(
-  '[Auth] Reset Password',
-  props<{ email: string; redirectUrl: string }>()
+export const forgotPassword = createAction(
+  '[Auth] Forgot Password',
+  props<{ email: string }>()
 );
 
-export const resetPasswordSuccess = createAction(
-  '[Auth] Reset Password Success'
+export const forgotPasswordSuccess = createAction(
+  '[Auth] Forgot Password Success'
 );
 
-export const resetPasswordFailure = createAction(
-  '[Auth] Reset Password Failure',
+export const forgotPasswordFailure = createAction(
+  '[Auth] Forgot Password Failure',
   props<{ error: IError }>()
 );
 
@@ -124,5 +124,19 @@ export const changePasswordSuccess = createAction(
 
 export const changePasswordFailure = createAction(
   '[Auth] Change Password Failure',
+  props<{ error: IError }>()
+);
+
+export const resetPassword = createAction(
+  '[Auth] Reset Password',
+  props<{ actionCode: string; newPassword: string; email: string }>()
+);
+
+export const resetPasswordSuccess = createAction(
+  '[Auth] Reset Password Success'
+);
+
+export const resetPasswordFailure = createAction(
+  '[Auth] Reset Password Failure',
   props<{ error: IError }>()
 );

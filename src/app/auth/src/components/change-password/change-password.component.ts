@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnInit,
   Output,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { CustomValidators, UiFormButton } from '@shared';
 import { IChangePassword } from '../../models/user';
@@ -17,16 +17,10 @@ import { IChangePassword } from '../../models/user';
 })
 export class ChangePasswordComponent {
   @Output() submitted = new EventEmitter<IChangePassword>();
+  form = new FormGroup({});
 
   fields: FormlyFieldConfig[] = [
     {
-      validators: [
-        CustomValidators.controlsEqual(
-          'confirmPassword',
-          'newPassword',
-          'equalPass'
-        ),
-      ],
       fieldGroupClassName: 'row',
       fieldGroup: [
         {
@@ -64,6 +58,16 @@ export class ChangePasswordComponent {
             required: true,
             minLength: 6,
           },
+          validators: {
+            fieldMatch: {
+              expression: (control) => control.value === this.model.newPassword,
+              message: 'Password Not Matching',
+            },
+          },
+          expressionProperties: {
+            'templateOptions.disabled': () =>
+              !this.form.get('newPassword').valid,
+          },
         },
       ],
     },
@@ -82,7 +86,7 @@ export class ChangePasswordComponent {
     {
       label: 'Cancel',
       type: 'button',
-      classWrapper:'col-1',
+      classWrapper: 'col-1',
       action: { type: 'cancel' },
       style: {
         color: 'primary',

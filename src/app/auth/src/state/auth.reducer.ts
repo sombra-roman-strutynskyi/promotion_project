@@ -19,7 +19,7 @@ export const initialState: AuthState = {
   userLoaded: false,
   requestPasswordReset: false,
   pending: false,
-  error:null,
+  error: null,
 };
 
 const authReducer = createReducer(
@@ -31,7 +31,7 @@ const authReducer = createReducer(
 
     // AuthActions.register,
     AuthActions.changePassword,
-    AuthActions.resetPassword,
+    AuthActions.forgotPassword,
     AuthActions.uploadUserAvatar,
     AuthActions.updateUserProfile,
     (state) => ({
@@ -42,8 +42,9 @@ const authReducer = createReducer(
   ),
   on(
     AuthActions.loginWithCredentialsSuccess,
-    AuthActions.resetPasswordSuccess,
+    AuthActions.forgotPasswordSuccess,
     AuthActions.changePasswordSuccess,
+    AuthActions.registerSuccess,
     (state) => ({
       ...state,
       error: null,
@@ -55,7 +56,7 @@ const authReducer = createReducer(
     AuthActions.loginWithCredentialsFailure,
     AuthActions.loginWithGoogleFailure,
     AuthActions.loginWithFacebookFailure,
-    AuthActions.resetPasswordFailure,
+    AuthActions.forgotPasswordFailure,
     AuthActions.loadUserProfileFailure,
     AuthActions.updateUserProfileFailure,
     AuthActions.uploadUserAvatarFailure,
@@ -63,15 +64,7 @@ const authReducer = createReducer(
     AuthActions.changePasswordFailure,
     (state, { error }) => ({
       ...state,
-      error:error?.message || null,
-      pending: false,
-    })
-  ),
-  on(
-    AuthActions.resetPasswordSuccess,
-    AuthActions.registerSuccess,
-    (state) => ({
-      ...state,
+      error: error?.message || null,
       pending: false,
     })
   ),
@@ -91,7 +84,7 @@ const authReducer = createReducer(
       error: null,
       userLoaded: true,
     })
-  ),
+  )
 );
 
 export function reducer(state: AuthState | undefined, action: Action) {

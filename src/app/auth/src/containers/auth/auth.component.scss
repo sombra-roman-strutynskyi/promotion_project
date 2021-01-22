@@ -1,0 +1,32 @@
+@import "vars";
+
+.auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 64px);
+    padding: {
+        top: 25px;
+        bottom: 25px;
+    }
+    &__header {
+        &--back .mat-card-header-text {
+            transform: translateX(-9px);
+        }
+        .mat-card-header-text {
+            margin: 0;
+        }
+        .mat-card-title {
+            display: inline-flex;
+            align-items: center;
+            color: rgba($black, 0.6);
+            font-weight: 500;
+        }
+    }
+    &__button.mat-icon-button {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        color: $primary;
+    }
+}

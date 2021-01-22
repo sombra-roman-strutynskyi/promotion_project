@@ -1,8 +1,7 @@
-// tslint:disable:ban-types
+// tslint:disable: ban-types
 import {
   Component,
   OnInit,
-  ViewEncapsulation,
   ChangeDetectionStrategy,
   Input,
   Output,
@@ -13,11 +12,9 @@ import {
 import { FormGroup } from '@angular/forms';
 import { environment } from '@env';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { UiFormlyService } from '../../../../services';
-
 import { get } from '../../../../helpers';
 import { UiFormButton } from '../../../../models';
-
+import { UiFormlyService } from '../../../../services';
 
 @Component({
   selector: 'ui-base-form',
@@ -26,9 +23,6 @@ import { UiFormButton } from '../../../../models';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class UiBaseFormComponent implements OnInit, AfterViewInit {
-  @Input()
-  set pending(isPending: boolean) {
-  }
   @Input() form = new FormGroup({});
   @Input() parentForm?: FormGroup;
   @Input() fields: FormlyFieldConfig[] = [];
@@ -36,14 +30,12 @@ export class UiBaseFormComponent implements OnInit, AfterViewInit {
   @Input() formOptions: FormlyFormOptions;
   @Input() formButtons: UiFormButton[];
   @Input() formClasses = '';
-  @Input() classButtonNames = 'btn btn-outline';
+  @Input() classButtonNames = '';
   @Input() showBtns = true;
-  @Input() showErrorsModal = true;
   @Output() submitted = new EventEmitter<Object>();
   @Output() canceled = new EventEmitter<any>();
   @Output() debug = new EventEmitter<any>();
   isDebug = !environment.production;
-  panelOpenState: false;
 
   constructor(
     private formlyService: UiFormlyService,

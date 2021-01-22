@@ -26,6 +26,11 @@ export const ROUTES_DATA = {
         path: 'reset-password',
         title: 'Reset Password',
       },
+      FORGOT_PASSWORD: {
+        url: 'auth/forgot-password',
+        path: 'forgot-password',
+        title: 'Forgot Password',
+      },
     },
   },
 };

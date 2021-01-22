@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFacade } from '@auth';
-import { CoreService } from '@core';
 import { ROUTES_DATA } from './shared/src/constants/routePaths';
 
 @Component({
@@ -12,13 +11,11 @@ import { ROUTES_DATA } from './shared/src/constants/routePaths';
 export class AppComponent implements OnInit {
   currentUser$ = this.authFacade.currentUser$;
   constructor(
-    private coreService: CoreService,
     private authFacade: AuthFacade,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.coreService.initRouteSubscription();
     this.authFacade.loadProfile();
   }
   goToEditUser() {

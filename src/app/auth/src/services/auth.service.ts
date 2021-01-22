@@ -8,8 +8,14 @@ import {
 import { pick, omit } from '@shared';
 import firebase from 'firebase/app';
 import { Observable, of, from } from 'rxjs';
-import { take, map, mergeMap, switchMap } from 'rxjs/operators';
-import { ICredentials, IUser, IRegisterUser, User, IUpdateUser} from '../models';
+import { take, map, mergeMap, switchMap, exhaustMap } from 'rxjs/operators';
+import {
+  ICredentials,
+  IUser,
+  IRegisterUser,
+  User,
+  IUpdateUser,
+} from '../models';
 import { AuthFacade } from './auth.facade';
 import UserCredential = firebase.auth.UserCredential;
 import UserFirebase = firebase.User;
@@ -116,9 +122,9 @@ export class AuthService {
                     ...pick(
                       userFireBase,
                       'uid',
-                      'displayNam',
-                      'firstNam',
-                      'lastNam',
+                      'displayName',
+                      'firstName',
+                      'lastName',
                       'email',
                       'photoURL'
                     ),
@@ -166,10 +172,31 @@ export class AuthService {
     );
   }
 
-  passwordForgotten(email: string, redirectUrl: string): Observable<void> {
+  passwordForgotten(email: string): Observable<void> {
     return from(
-      this.authFirebase.sendPasswordResetEmail(email, { url: redirectUrl })
+      this.authFirebase.sendPasswordResetEmail(email, {
+        url: 'http://localhost:4200/auth',
+      })
     );
+  }
+
+  resetPassword(
+    actionCode: string,
+    password: string,
+    email: string
+  ): Observable<UserCredential> {
+    return from(
+      this.authFirebase.confirmPasswordReset(actionCode, password)
+    ).pipe(
+      exhaustMap(() =>
+        this.loginWithCredentials({ email, password, remember: false })
+      )
+    );
+  }
+
+  verifyPasswordResetCode(actionCode: string): Observable<string> {
+    // return EMAIL
+    return from(this.authFirebase.verifyPasswordResetCode(actionCode));
   }
 
   updateUser(user: IUpdateUser): Observable<IUser> {

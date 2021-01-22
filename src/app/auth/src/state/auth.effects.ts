@@ -15,7 +15,7 @@ export class AuthEffects {
     private authService: AuthService,
     private router: Router,
     private snackBar: SnackbarService
-  ) { }
+  ) {}
 
   googleLogin$ = createEffect(() =>
     this.actions$.pipe(
@@ -35,9 +35,7 @@ export class AuthEffects {
       exhaustMap(() =>
         this.authService.facebookLogin().pipe(
           map(() => AuthActions.loginWithFacebook()),
-          catchError((error) =>
-            of(AuthActions.loginWithFacebookFailure(error))
-          )
+          catchError((error) => of(AuthActions.loginWithFacebookFailure(error)))
         )
       )
     )
@@ -105,9 +103,7 @@ export class AuthEffects {
           map((currentUser: IUser) =>
             AuthActions.updateUserProfileSuccess({ currentUser })
           ),
-          catchError((error) =>
-            of(AuthActions.updateUserProfileFailure(error))
-          )
+          catchError((error) => of(AuthActions.updateUserProfileFailure(error)))
         )
       )
     )
@@ -116,14 +112,12 @@ export class AuthEffects {
   uploadUserAvatar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.uploadUserAvatar),
-      exhaustMap(({ file }) => 
-         this.authService.uploadUserAvatar(file).pipe(
+      exhaustMap(({ file }) =>
+        this.authService.uploadUserAvatar(file).pipe(
           map((currentUser: IUser) =>
             AuthActions.uploadUserAvatarSuccess({ currentUser })
           ),
-          catchError((error) =>
-            of(AuthActions.uploadUserAvatarFailure(error))
-          )
+          catchError((error) => of(AuthActions.uploadUserAvatarFailure(error)))
         )
       )
     )
@@ -141,11 +135,23 @@ export class AuthEffects {
     )
   );
 
+  forgotPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.forgotPassword),
+      exhaustMap(({ email }) =>
+        this.authService.passwordForgotten(email).pipe(
+          map(() => AuthActions.forgotPasswordSuccess()),
+          catchError((error) => of(AuthActions.forgotPasswordFailure(error)))
+        )
+      )
+    )
+  );
+
   resetPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.resetPassword),
-      exhaustMap(({ email, redirectUrl }) =>
-        this.authService.passwordForgotten(email, redirectUrl).pipe(
+      exhaustMap(({ actionCode, newPassword, email }) =>
+        this.authService.resetPassword(actionCode, newPassword, email).pipe(
           map(() => AuthActions.resetPasswordSuccess()),
           catchError((error) => of(AuthActions.resetPasswordFailure(error)))
         )
@@ -159,12 +165,13 @@ export class AuthEffects {
         AuthActions.loginWithGoogleSuccess,
         AuthActions.loginWithFacebookSuccess,
         AuthActions.loginWithCredentialsSuccess,
-        AuthActions.registerSuccess
+        AuthActions.registerSuccess,
+        AuthActions.resetPasswordSuccess
       ),
+      map(() => AuthActions.loadUserProfile()),
       tap(() => {
         this.router.navigateByUrl(ROUTES_DATA.DASHBOARD.url);
-      }),
-      map(() => AuthActions.loadUserProfile())
+      })
     )
   );
 
@@ -178,13 +185,13 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
-  
+
   handleError$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(...this.getFailureActions()),
-        tap((error) => {         
-          this.snackBar.open(error.message)
+        tap((error) => {
+          this.snackBar.open(error.message);
         })
       ),
     { dispatch: false }
@@ -196,6 +203,6 @@ export class AuthEffects {
         actions.push(AuthActions[action]);
       }
       return actions;
-    }, [])
+    }, []);
   }
 }

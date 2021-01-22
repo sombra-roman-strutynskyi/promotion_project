@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { UiFormButton } from '@shared';
+import { UiFormButton, ROUTES_DATA } from '@shared';
 import { ICredentials } from '../../models';
 import { AuthFacade } from '../../services';
 
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
     },
   ];
   model = { remember: false } as ICredentials;
-
+  linkToResetPassword=[`../${ROUTES_DATA.AUTH.children.FORGOT_PASSWORD.path}`] 
   constructor(private authFacade: AuthFacade) {}
 
   ngOnInit() {}

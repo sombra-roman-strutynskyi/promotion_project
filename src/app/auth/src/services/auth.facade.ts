@@ -33,8 +33,8 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.logoutSuccess());
   }
 
-  resetPassword(email: string, redirectUrl: string) {
-    this.store.dispatch(AuthActions.resetPassword({ email, redirectUrl }));
+  forgotPassword(email: string) {
+    this.store.dispatch(AuthActions.forgotPassword({ email }));
   }
 
   changePassword({ oldPassword, newPassword }) {
@@ -54,6 +54,13 @@ export class AuthFacade {
   updateProfile(user: IUpdateUser) {
     this.store.dispatch(AuthActions.updateUserProfile({ user }));
   }
+
+  resetPassword(actionCode: string, newPassword: string, email: string) {
+    this.store.dispatch(
+      AuthActions.resetPassword({ actionCode, newPassword, email })
+    );
+  }
+
   uploadUserAvatar(file: File) {
     this.store.dispatch(AuthActions.uploadUserAvatar({ file }));
   }
