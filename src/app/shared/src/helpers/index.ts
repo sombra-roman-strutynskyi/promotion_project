@@ -1,3 +1,4 @@
+tslint: disable: no - redundant - jsdoc;
 export function isUndefined(value: any) {
   return typeof value === 'undefined';
 }
@@ -50,8 +51,8 @@ export function removeEmptyObjProperty(myObj: object) {
 
 /**
  * @description get nested property
- * @param p
- * @param o
+ * @param keys  String | String[]
+ * @param o Object
  * @tutorial https://glebbahmutov.com/blog/call-me-maybe/
  */
 export function get(keys: string | string[], o: object) {

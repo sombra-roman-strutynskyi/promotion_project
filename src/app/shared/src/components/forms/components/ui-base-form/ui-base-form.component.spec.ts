@@ -7,6 +7,7 @@ const imports = [];
 
 describe('UiBaseFormComponent', () => {
   let component: UiBaseFormComponent;
+  // tslint:disable-next-line: prefer-const
   let fixture: ComponentFixture<UiBaseFormComponent>;
 
   beforeEach(() => {

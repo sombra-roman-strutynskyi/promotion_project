@@ -5,6 +5,7 @@ const providers = [];
 
 describe('UiFormButtonsComponent', () => {
   let component: UiFormButtonsComponent;
+  // tslint:disable-next-line: prefer-const
   let fixture: ComponentFixture<UiFormButtonsComponent>;
 
   beforeEach(() => {
