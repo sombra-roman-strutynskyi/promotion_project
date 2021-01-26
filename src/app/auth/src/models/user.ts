@@ -1,5 +1,6 @@
 import { deepMerge, deepRemoveEmptyObjProperty } from '@shared';
 
+export type ProviderType = 'password' | 'google.com' | 'facebook.com';
 export interface ICredentials {
   email: string;
   password: string;
@@ -11,7 +12,7 @@ export interface IResetPasswordCredentials {
   confirmPassword: string;
   token?: string;
 }
-export interface IChangePassword{
+export interface IChangePassword {
   newPassword: string;
   oldPassword: string;
   confirmPassword?: string;

@@ -1,25 +1,22 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { User } from '../models/user';
+import { IUser, ProviderType } from '../models';
 import * as AuthActions from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';
-
 export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
+  user: IUser | null;
   userLoaded: boolean;
-  requestPasswordReset: boolean;
   pending: boolean;
   error: string;
+  providerType: ProviderType;
 }
 
 export const initialState: AuthState = {
   user: null,
-  isAuthenticated: false,
   userLoaded: false,
-  requestPasswordReset: false,
   pending: false,
   error: null,
+  providerType: null,
 };
 
 const authReducer = createReducer(
@@ -28,8 +25,7 @@ const authReducer = createReducer(
     AuthActions.loginWithCredentials,
     AuthActions.loginWithFacebook,
     AuthActions.loginWithGoogle,
-
-    // AuthActions.register,
+    AuthActions.register,
     AuthActions.changePassword,
     AuthActions.forgotPassword,
     AuthActions.uploadUserAvatar,
@@ -74,12 +70,22 @@ const authReducer = createReducer(
   })),
   on(AuthActions.logoutSuccess, () => initialState),
   on(
-    AuthActions.loadUserProfileSuccess,
     AuthActions.updateUserProfileSuccess,
     AuthActions.uploadUserAvatarSuccess,
     (state, { currentUser }) => ({
       ...state,
       user: { ...currentUser },
+      pending: false,
+      error: null,
+      userLoaded: true,
+    })
+  ),
+  on(
+    AuthActions.loadUserProfileSuccess,
+    (state, { currentUser, providerType }) => ({
+      ...state,
+      user: { ...currentUser },
+      providerType,
       pending: false,
       error: null,
       userLoaded: true,

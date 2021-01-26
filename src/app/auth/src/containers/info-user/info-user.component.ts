@@ -9,6 +9,7 @@ import { AuthFacade } from '../../services';
 export class InfoUserComponent {
   currentUser$ = this.authFacade.currentUser$;
   pending$ = this.authFacade.pending$;
+  providerType$ = this.authFacade.providerType$;
 
   constructor(private authFacade: AuthFacade) {}
 

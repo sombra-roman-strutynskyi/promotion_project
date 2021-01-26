@@ -53,6 +53,8 @@ export class EditUserComponent {
           templateOptions: {
             type: 'number',
             label: 'Age',
+            min: 6,
+            max: 120,
           },
         },
       ],
@@ -77,7 +79,7 @@ export class EditUserComponent {
     {
       label: 'Cancel',
       type: 'button',
-      classWrapper:'col-1',
+      classWrapper: 'col-1',
 
       action: { type: 'cancel' },
       style: {
@@ -92,7 +94,7 @@ export class EditUserComponent {
     this.toggleFormStateDisabled(true);
     this.submitted.emit(user);
   }
-  
+
   onCancel() {
     this.formOptions.resetModel();
     this.toggleFormStateDisabled(true);

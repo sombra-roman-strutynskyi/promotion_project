@@ -5,11 +5,6 @@ import { AUTH_FEATURE_KEY, AuthState } from './auth.reducer';
 // Lookup the 'Auth' feature state managed by NgRx
 const getAuthState = createFeatureSelector<AuthState>(AUTH_FEATURE_KEY);
 
-const getIsAuthenticated = createSelector(
-  getAuthState,
-  (state: AuthState) => state.isAuthenticated
-);
-
 const getPending = createSelector(
   getAuthState,
   (state: AuthState) => state.pending
@@ -29,16 +24,15 @@ const getError = createSelector(
   (state: AuthState) => state.error
 );
 
-const getRequestPasswordReset = createSelector(
+const getProviderType = createSelector(
   getAuthState,
-  (state: AuthState) => state.requestPasswordReset
+  (state: AuthState) => state.providerType
 );
 
 export const authQuery = {
   getPending,
-  getIsAuthenticated,
   getUser,
   getUserLoaded,
+  getProviderType,
   getError,
-  getRequestPasswordReset,
 };

@@ -8,8 +8,8 @@ import { authQuery } from '../state/auth.selectors';
 @Injectable()
 export class AuthFacade {
   pending$ = this.store.pipe(select(authQuery.getPending));
+  providerType$ = this.store.pipe(select(authQuery.getProviderType));
   userLoaded$ = this.store.pipe(select(authQuery.getUserLoaded));
-  isAuthenticated$ = this.store.pipe(select(authQuery.getIsAuthenticated));
   currentUser$ = this.store.pipe(select(authQuery.getUser));
   errors$ = this.store.pipe(select(authQuery.getError));
 

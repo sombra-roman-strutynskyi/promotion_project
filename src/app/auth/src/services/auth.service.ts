@@ -15,6 +15,7 @@ import {
   IRegisterUser,
   User,
   IUpdateUser,
+  ProviderType,
 } from '../models';
 import { AuthFacade } from './auth.facade';
 import UserCredential = firebase.auth.UserCredential;
@@ -106,7 +107,10 @@ export class AuthService {
     return from(this.authFirebase.signOut());
   }
 
-  getCurrentUser(): Observable<IUser | null> {
+  getCurrentUser(): Observable<{
+    currentUser: IUser;
+    providerType: ProviderType;
+  } | null> {
     return this.authFirebase.authState.pipe(
       take(1),
       mergeMap((userFireBase: UserFirebase) => {
@@ -116,21 +120,20 @@ export class AuthService {
             .valueChanges()
             .pipe(
               take(1),
-              map(
-                (user: IUser) =>
-                  new User({
-                    ...pick(
-                      userFireBase,
-                      'uid',
-                      'displayName',
-                      'firstName',
-                      'lastName',
-                      'email',
-                      'photoURL'
-                    ),
-                    ...user,
-                  })
-              )
+              map((user: IUser) => ({
+                currentUser: new User({
+                  ...pick(
+                    userFireBase,
+                    'uid',
+                    'firstName',
+                    'lastName',
+                    'email',
+                    'photoURL'
+                  ),
+                  ...user,
+                }),
+                providerType: userFireBase?.providerData[0]?.providerId,
+              }))
             );
         }
         return of(null);

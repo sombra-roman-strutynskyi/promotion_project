@@ -34,7 +34,7 @@ export class AuthEffects {
       ofType(AuthActions.loginWithFacebook),
       exhaustMap(() =>
         this.authService.facebookLogin().pipe(
-          map(() => AuthActions.loginWithFacebook()),
+          map(() => AuthActions.loginWithFacebookSuccess()),
           catchError((error) => of(AuthActions.loginWithFacebookFailure(error)))
         )
       )
@@ -86,8 +86,8 @@ export class AuthEffects {
       ofType(AuthActions.loadUserProfile),
       switchMap(() =>
         this.authService.getCurrentUser().pipe(
-          map((currentUser: IUser) =>
-            AuthActions.loadUserProfileSuccess({ currentUser })
+          map(({ currentUser, providerType }) =>
+            AuthActions.loadUserProfileSuccess({ currentUser, providerType })
           ),
           catchError((error) => of(AuthActions.loadUserProfileFailure(error)))
         )

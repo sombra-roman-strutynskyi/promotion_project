@@ -1,5 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { ICredentials, IUpdateUser, IUser, IRegisterUser } from '../models';
+import {
+  ICredentials,
+  IUpdateUser,
+  IUser,
+  IRegisterUser,
+  ProviderType,
+} from '../models';
 
 interface IError {
   code: string;
@@ -61,7 +67,7 @@ export const loadUserProfile = createAction('[Auth] Load User Profile');
 
 export const loadUserProfileSuccess = createAction(
   '[Auth] Load User Profile Success',
-  props<{ currentUser: IUser }>()
+  props<{ currentUser: IUser; providerType: ProviderType }>()
 );
 
 export const loadUserProfileFailure = createAction(

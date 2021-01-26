@@ -9,6 +9,7 @@
     (submitted)="updateUserProfile($event)"
   ></user-edit-user>
   <user-change-password
+    *ngIf="(providerType$ | async) === 'password'"
     class="col-12"
     (submitted)="updateUserPassword($event)"
   ></user-change-password>

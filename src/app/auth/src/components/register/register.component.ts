@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import {  UiFormButton } from '@shared';
+import { UiFormButton } from '@shared';
 import { IRegisterUser } from '../../models';
 import { AuthFacade } from '../../services';
 
@@ -41,6 +41,8 @@ export class RegisterComponent {
           templateOptions: {
             type: 'number',
             label: 'Age',
+            min: 6,
+            max: 120,
           },
         },
         {
@@ -84,14 +86,14 @@ export class RegisterComponent {
       action: { type: 'submit' },
       style: {
         color: 'accent',
-        type:'raised'
-      }
+        type: 'raised',
+      },
     },
   ];
   model = {} as IRegisterUser;
-  
+
   constructor(private authFacade: AuthFacade) {}
-  
+
   onSubmit(user: IRegisterUser) {
     this.authFacade.register(user);
   }
