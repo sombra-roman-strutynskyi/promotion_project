@@ -1,0 +1,10 @@
+<ui-accordion [title]="title" [open]="true">
+  <ui-base-form
+    [fields]="fields"
+    [model]="model"
+    [formOptions]="formOptions"
+    [formButtons]="formButtons"
+    (submitted)="onSubmit($event)"
+    (canceled)="onCancel()"
+  ></ui-base-form>
+</ui-accordion>

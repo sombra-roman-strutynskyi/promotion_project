@@ -1,0 +1,33 @@
+@import 'vars';
+@import 'mixins';
+:host {
+  padding: 15px;
+}
+.item-article {
+  text-decoration: none;
+  &__img {
+    object-fit: cover;
+    height: 250px;
+  }
+  &__date {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: $white;
+    z-index: 1;
+    background-color: rgba($black, 0.95);
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  &__title {
+    font-size: $fs-big;
+    color: $black;
+    margin: 0;
+  }
+  &__description {
+    color: lighten($black, 2);
+    font-size: $fs;
+    @include max-lines(3, $fs-lg);
+    padding-bottom: 10px;
+  }
+}

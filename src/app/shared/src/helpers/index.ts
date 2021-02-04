@@ -1,3 +1,10 @@
+import {
+  AngularFireStorage,
+  AngularFireUploadTask,
+} from '@angular/fire/storage';
+import { from, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 export function isUndefined(value: any) {
   return typeof value === 'undefined';
 }
@@ -127,4 +134,14 @@ export function deepRemoveEmptyObjProperty(object) {
     }
   });
   return obj;
+}
+
+export function getUrlToFileFromFirebaseStorage$(
+  uploadTask: AngularFireUploadTask,
+  path: string,
+  storageFirebase: AngularFireStorage
+): Observable<string> {
+  return from(uploadTask).pipe(
+    switchMap(() => storageFirebase.ref(path).getDownloadURL())
+  );
 }

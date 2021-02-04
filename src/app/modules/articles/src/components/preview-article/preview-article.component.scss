@@ -1,0 +1,13 @@
+.preview-article {
+  &__edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  &__top {
+    padding: {
+      top: 10px;
+      bottom: 10px;
+    }
+  }
+}

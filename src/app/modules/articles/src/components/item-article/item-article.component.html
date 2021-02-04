@@ -1,0 +1,21 @@
+<a class="item-article" [routerLink]="['./' + article.id]">
+  <mat-card>
+    <img
+      class="item-article__img"
+      mat-card-image
+      [src]="article.imageUrl"
+      alt="Article Image"
+    />
+    <mat-card-content>
+      <span class="item-article__date">
+        {{ article.updatedAt | date: 'dd.MM.yyyy' }}
+      </span>
+      <h4 class="item-article__title">
+        {{ article.title }}
+      </h4>
+      <p class="item-article__description">
+        {{ article.body }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</a>

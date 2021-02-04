@@ -41,7 +41,7 @@ export const SHARED_MODULES = [
 ];
 
 @NgModule({
-  declarations: [...SHARED_COMPONENTS, ...SHARED_PIPES, ...SHARED_DIRECTIVES],
+  declarations: [...SHARED_DIRECTIVES, ...SHARED_COMPONENTS, ...SHARED_PIPES],
   imports: [
     ...SHARED_MODULES,
     FormlyMaterialModule,

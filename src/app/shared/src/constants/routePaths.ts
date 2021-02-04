@@ -1,11 +1,30 @@
 export const ROUTES_DATA = {
-  DASHBOARD: {
-    title: 'Dashboard',
-    url: '/',
+  ARTICLES: {
+    title: 'Articles',
+    url: 'articles',
+    path: 'articles',
+    children: {
+      EDIT: {
+        url: 'articles/edit',
+        path: 'edit/:id',
+        title: 'Edit Article',
+      },
+      ADD: {
+        url: 'articles/add',
+        path: 'add',
+        title: 'Create Article',
+      },
+    },
   },
-  EDIT_USER: {
-    title: 'User Info',
-    url: 'user',
+  USERS: {
+    path: 'users',
+    children: {
+      CURRENT: {
+        title: 'User Info',
+        url: 'users/current',
+        path: 'current',
+      },
+    },
   },
   AUTH: {
     title: 'Auth',

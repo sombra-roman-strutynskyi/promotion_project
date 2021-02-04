@@ -1,0 +1,38 @@
+@import 'vars';
+
+.image-uploader {
+  &__header {
+    padding: {
+      top: 10px;
+      bottom: 10px;
+    }
+    color: rgba($black, 0.7);
+  }
+  &__content {
+    display: flex;
+    align-items: center;
+  }
+  &__img {
+    max-height: 150px;
+    height: auto;
+    width: 150px;
+    object-fit: contain;
+    margin-right: 25px;
+  }
+  &__button {
+    padding: 0;
+    label {
+      cursor: pointer;
+      padding: 16px;
+    }
+  }
+  & input {
+    opacity: 1;
+    height: 0;
+    width: 0;
+    // visibility: hidden;
+  }
+  mat-error {
+    font-size: 75%;
+  }
+}

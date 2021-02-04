@@ -1,0 +1,19 @@
+<div class="row article-list align-items-start">
+  <div class="col-12">
+    <a
+      mat-raised-button
+      class="article-list__button"
+      color="accent"
+      [routerLink]="['./add']"
+    >
+      <mat-icon>add</mat-icon> ADD ARTICLE</a
+    >
+  </div>
+  <div class="col-8">
+    <div class="row">
+      <ng-container *ngFor="let article of articles$ | async">
+        <app-item-article class="col-6" [article]="article"></app-item-article>
+      </ng-container>
+    </div>
+  </div>
+</div>

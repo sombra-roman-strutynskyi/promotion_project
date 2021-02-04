@@ -18,12 +18,11 @@
       *ngSwitchDefault
       mat-button
       [ngClass]="[button?.classNames || '', classNames]"
-      [disabled]="form.invalid"
       (click)="
         click(button.action.type, button.action.payload, button.action.handler)
       "
       [type]="button.type || 'button'"
-      [disabled]="button.action?.type !== 'cancel' ? form.invalid : false"
+      [disabled]="button.action?.type === 'submit' ? form.invalid : false"
       [color]="button.style?.color || ''"
     >
       {{ button.label || '' }}
@@ -33,12 +32,11 @@
       *ngSwitchCase="'raised'"
       mat-raised-button
       [ngClass]="[button?.classNames || '', classNames]"
-      [disabled]="form.invalid"
       (click)="
         click(button.action.type, button.action.payload, button.action.handler)
       "
       [type]="button.type || 'button'"
-      [disabled]="button.action.type !== 'cancel' ? form.invalid : false"
+      [disabled]="button.action.type === 'submit' ? form.invalid : false"
       [color]="button.style?.color || ''"
     >
       {{ button.label || '' }}
@@ -47,12 +45,11 @@
       *ngSwitchCase="'stroked'"
       mat-stroked-button
       [ngClass]="[button?.classNames || '', classNames]"
-      [disabled]="form.invalid"
       (click)="
         click(button.action.type, button.action.payload, button.action.handler)
       "
       [type]="button.type || 'button'"
-      [disabled]="button.action.type !== 'cancel' ? form.invalid : false"
+      [disabled]="button.action.type === 'submit' ? form.invalid : false"
       [color]="button.style?.color || ''"
     >
       {{ button.label || '' }}

@@ -16,7 +16,7 @@ export class UiFormlyService {
       disabledClassName?: string;
     }
   ) {
-    fields.forEach(field => {
+    fields?.forEach((field) => {
       if (field['fieldGroup'] && field?.fieldGroup?.length) {
         this.bindFieldsToFormState(field.fieldGroup, expressions);
       } else if (!field['template'] && field.type !== 'button') {
@@ -65,4 +65,3 @@ export class UiFormlyService {
     childForm.setParent(parentForm);
   }
 }
-

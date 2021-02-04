@@ -1,8 +1,9 @@
 import { ConfigOption } from '@ngx-formly/core';
 import { CustomValidators } from '../../../validators/index';
+import { FormlyFieldFileComponent } from '../types';
+import { FormlyWrapperImageUploaderComponent } from '../wrappers';
 
 export const FORMLY_CONFIG: ConfigOption = {
-
   validationMessages: [
     { name: 'required', message: requiredValidationMessage },
     { name: 'pattern', message: patternValidationMessage },
@@ -14,8 +15,16 @@ export const FORMLY_CONFIG: ConfigOption = {
     { name: 'equalFields', message: `Fields don't match` },
     { name: 'equalPass', message: `Passwords doesn't match` },
   ],
-  validators: [
-    { name: 'email', validation: CustomValidators.email },
+  validators: [{ name: 'email', validation: CustomValidators.email }],
+  types: [
+    {
+      name: 'file',
+      component: FormlyFieldFileComponent,
+      wrappers: ['image-uploader'],
+    },
+  ],
+  wrappers: [
+    { name: 'image-uploader', component: FormlyWrapperImageUploaderComponent },
   ],
   extras: {
     showError,
