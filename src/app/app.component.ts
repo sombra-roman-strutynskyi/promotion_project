@@ -10,16 +10,16 @@ import { ROUTES_DATA } from './shared/src/constants/routePaths';
 })
 export class AppComponent implements OnInit {
   currentUser$ = this.authFacade.currentUser$;
-  constructor(
-    private authFacade: AuthFacade,
-    private router: Router
-  ) {}
+  constructor(private authFacade: AuthFacade, private router: Router) {}
 
   ngOnInit() {
     this.authFacade.loadProfile();
   }
   goToEditUser() {
-    this.router.navigateByUrl(ROUTES_DATA.EDIT_USER.url);
+    this.router.navigateByUrl(ROUTES_DATA.PROFILE.url);
+  }
+  goToHome() {
+    this.router.navigateByUrl('/');
   }
   logout() {
     this.authFacade.logout();

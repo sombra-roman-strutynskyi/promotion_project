@@ -26,10 +26,7 @@ const authReducer = createReducer(
     AuthActions.loginWithFacebook,
     AuthActions.loginWithGoogle,
     AuthActions.register,
-    AuthActions.changePassword,
     AuthActions.forgotPassword,
-    AuthActions.uploadUserAvatar,
-    AuthActions.updateUserProfile,
     (state) => ({
       ...state,
       errors: null,
@@ -39,7 +36,6 @@ const authReducer = createReducer(
   on(
     AuthActions.loginWithCredentialsSuccess,
     AuthActions.forgotPasswordSuccess,
-    AuthActions.changePasswordSuccess,
     AuthActions.registerSuccess,
     (state) => ({
       ...state,
@@ -54,10 +50,7 @@ const authReducer = createReducer(
     AuthActions.loginWithFacebookFailure,
     AuthActions.forgotPasswordFailure,
     AuthActions.loadUserProfileFailure,
-    AuthActions.updateUserProfileFailure,
-    AuthActions.uploadUserAvatarFailure,
     AuthActions.registerFailure,
-    AuthActions.changePasswordFailure,
     (state, { error }) => ({
       ...state,
       error: error?.message || null,
@@ -69,17 +62,6 @@ const authReducer = createReducer(
     pending: true,
   })),
   on(AuthActions.logoutSuccess, () => initialState),
-  on(
-    AuthActions.updateUserProfileSuccess,
-    AuthActions.uploadUserAvatarSuccess,
-    (state, { currentUser }) => ({
-      ...state,
-      user: { ...currentUser },
-      pending: false,
-      error: null,
-      userLoaded: true,
-    })
-  ),
   on(
     AuthActions.loadUserProfileSuccess,
     (state, { currentUser, providerType }) => ({

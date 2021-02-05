@@ -1,4 +1,4 @@
-<ui-accordion [title]="title" [open]="true">
+<ui-accordion [loadingOverlay]="pending$ | async" [title]="title" [open]="true">
   <ui-base-form
     [fields]="fields"
     [model]="model"

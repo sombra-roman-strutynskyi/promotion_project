@@ -13,14 +13,18 @@ import { IUser } from '@auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
-  @Input() currentUser:IUser;
+  @Input() currentUser: IUser;
   @Output() logouted = new EventEmitter<void>();
   @Output() editedUser = new EventEmitter<void>();
+  @Output() wentToHome = new EventEmitter<void>();
 
   logout() {
     this.logouted.emit();
   }
   goToEditUser() {
     this.editedUser.emit();
+  }
+  goToHome() {
+    this.wentToHome.emit();
   }
 }

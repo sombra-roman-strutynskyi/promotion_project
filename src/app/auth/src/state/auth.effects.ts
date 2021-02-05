@@ -95,46 +95,6 @@ export class AuthEffects {
     )
   );
 
-  updateUserProfile$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.updateUserProfile),
-      exhaustMap(({ user }) =>
-        this.authService.updateUser(user).pipe(
-          map((currentUser: IUser) =>
-            AuthActions.updateUserProfileSuccess({ currentUser })
-          ),
-          catchError((error) => of(AuthActions.updateUserProfileFailure(error)))
-        )
-      )
-    )
-  );
-
-  uploadUserAvatar$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.uploadUserAvatar),
-      exhaustMap(({ file }) =>
-        this.authService.uploadUserAvatar(file).pipe(
-          map((currentUser: IUser) =>
-            AuthActions.uploadUserAvatarSuccess({ currentUser })
-          ),
-          catchError((error) => of(AuthActions.uploadUserAvatarFailure(error)))
-        )
-      )
-    )
-  );
-
-  changePassword$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.changePassword),
-      exhaustMap(({ oldPassword, newPassword }) =>
-        this.authService.changePassword(oldPassword, newPassword).pipe(
-          map(() => AuthActions.changePasswordSuccess()),
-          catchError((error) => of(AuthActions.changePasswordFailure(error)))
-        )
-      )
-    )
-  );
-
   forgotPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.forgotPassword),
@@ -170,7 +130,7 @@ export class AuthEffects {
       ),
       map(() => AuthActions.loadUserProfile()),
       tap(() => {
-        this.router.navigateByUrl(ROUTES_DATA.DASHBOARD.url);
+        this.router.navigateByUrl(ROUTES_DATA.ARTICLES.url);
       })
     )
   );

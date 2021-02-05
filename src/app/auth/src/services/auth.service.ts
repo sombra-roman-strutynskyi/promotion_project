@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import {
-  AngularFireStorage,
-  AngularFireUploadTask,
-} from '@angular/fire/storage';
 import { pick, omit } from '@shared';
 import firebase from 'firebase/app';
 import { Observable, of, from } from 'rxjs';
@@ -14,34 +10,17 @@ import {
   IUser,
   IRegisterUser,
   User,
-  IUpdateUser,
   ProviderType,
 } from '../models';
-import { AuthFacade } from './auth.facade';
 import UserCredential = firebase.auth.UserCredential;
 import UserFirebase = firebase.User;
 
 @Injectable()
 export class AuthService {
-  private userFirebase: UserFirebase;
-  private user$ = this.authFacade.currentUser$;
   constructor(
     private authFirebase: AngularFireAuth,
-    private dbFirebase: AngularFireDatabase,
-    private authFacade: AuthFacade,
-    private storageFirebase: AngularFireStorage
-  ) {
-    this.userObservable().subscribe(
-      (userFirebase) => (this.userFirebase = userFirebase)
-    );
-  }
-
-  private userObservable(): Observable<UserFirebase> {
-    return this.authFirebase.user.pipe(
-      take(1),
-      map((user) => user)
-    );
-  }
+    private dbFirebase: AngularFireDatabase
+  ) {}
 
   facebookLogin(): Observable<UserCredential> {
     const provider = new firebase.auth.FacebookAuthProvider();
@@ -160,21 +139,6 @@ export class AuthService {
     );
   }
 
-  changePassword(oldPassword: string, newPassword: string): Observable<void> {
-    const credentials = firebase.auth.EmailAuthProvider.credential(
-      this.userFirebase.email,
-      oldPassword
-    );
-    return from(
-      this.userFirebase
-        .reauthenticateWithCredential(credentials)
-        .then(async () => {
-          await this.userFirebase.updatePassword(newPassword);
-          return;
-        })
-    );
-  }
-
   passwordForgotten(email: string): Observable<void> {
     return from(
       this.authFirebase.sendPasswordResetEmail(email, {
@@ -200,51 +164,5 @@ export class AuthService {
   verifyPasswordResetCode(actionCode: string): Observable<string> {
     // return EMAIL
     return from(this.authFirebase.verifyPasswordResetCode(actionCode));
-  }
-
-  updateUser(user: IUpdateUser): Observable<IUser> {
-    return this.user$.pipe(
-      take(1),
-      map((currentUser) => {
-        const updateUser = new User({ ...currentUser, ...user });
-        this.dbFirebase
-          .object(`users/${currentUser.uid}`)
-          .update(omit(updateUser, 'uid'));
-        return updateUser;
-      })
-    );
-  }
-
-  uploadUserAvatar(file: File): Observable<IUser> {
-    return this.user$.pipe(
-      take(1),
-      mergeMap((currentUser) => {
-        const filePath = `userImages/${currentUser.uid}`;
-        return this.getUrlToFileFromStorage$(
-          this.storageFirebase.upload(filePath, file),
-          filePath
-        ).pipe(
-          map((photoURL) => {
-            const updateUser = new User({
-              ...currentUser,
-              photoURL: photoURL || '',
-            });
-            this.dbFirebase
-              .object(`users/${currentUser.uid}`)
-              .update(omit(updateUser, 'uid'));
-            return updateUser;
-          })
-        );
-      })
-    );
-  }
-
-  private getUrlToFileFromStorage$(
-    uploadTask: AngularFireUploadTask,
-    path: string
-  ): Observable<string> {
-    return from(uploadTask).pipe(
-      switchMap(() => this.storageFirebase.ref(path).getDownloadURL())
-    );
   }
 }

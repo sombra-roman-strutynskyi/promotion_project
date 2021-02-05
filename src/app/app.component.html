@@ -2,6 +2,7 @@
   [currentUser]="currentUser$ | async"
   (logouted)="logout()"
   (editedUser)="goToEditUser()"
+  (wentToHome)="goToHome()"
 >
   <router-outlet></router-outlet>
 </app-layout>

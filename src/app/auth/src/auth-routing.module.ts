@@ -7,12 +7,12 @@ import {
   RegisterComponent,
   ResetPasswordComponent,
 } from './components';
-import { AuthComponent, InfoUserComponent} from './containers';
-import { AuthGuard, UnauthorizedGuard } from './services';
+import { AuthComponent } from './containers';
+import { UnauthorizedGuard } from './services';
 
 export const routes: Routes = [
   {
-    path: ROUTES_DATA.AUTH.url,
+    path: '',
     component: AuthComponent,
     children: [
       {
@@ -52,11 +52,6 @@ export const routes: Routes = [
         },
       },
     ],
-  },
-  {
-    path: ROUTES_DATA.EDIT_USER.url,
-    component: InfoUserComponent,
-    canActivate: [AuthGuard],
   },
 ];
 

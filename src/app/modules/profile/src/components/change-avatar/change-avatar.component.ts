@@ -5,10 +5,9 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { isEmptyString, isNullOrUndefined } from '@shared';
 
 @Component({
-  selector: 'user-change-avatar',
+  selector: 'profile-change-avatar',
   templateUrl: './change-avatar.component.html',
   styleUrls: ['./change-avatar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

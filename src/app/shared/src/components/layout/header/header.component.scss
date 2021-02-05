@@ -1,4 +1,4 @@
-@import "vars";
+@import 'vars';
 :host {
   height: $hHeader;
 }
@@ -22,6 +22,9 @@
     &:active {
       background: rgba($white, 0.2);
     }
+  }
+  &__name {
+    cursor: pointer;
   }
   &__username {
     padding-left: 10px;

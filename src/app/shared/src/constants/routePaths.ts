@@ -16,19 +16,14 @@ export const ROUTES_DATA = {
       },
     },
   },
-  USERS: {
-    path: 'users',
-    children: {
-      CURRENT: {
-        title: 'User Info',
-        url: 'users/current',
-        path: 'current',
-      },
-    },
+  PROFILE: {
+    path: 'profile',
+    url: 'profile',
   },
   AUTH: {
     title: 'Auth',
     url: 'auth',
+    path: 'auth',
     children: {
       SIGN_IN: {
         url: 'auth/login',

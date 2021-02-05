@@ -14,11 +14,6 @@ const getUser = createSelector(getAuthState, (state: AuthState) =>
   state.userLoaded ? state.user : ({} as IUser)
 );
 
-const getUserLoaded = createSelector(
-  getAuthState,
-  (state: AuthState) => state.userLoaded
-);
-
 const getError = createSelector(
   getAuthState,
   (state: AuthState) => state.error
@@ -32,7 +27,6 @@ const getProviderType = createSelector(
 export const authQuery = {
   getPending,
   getUser,
-  getUserLoaded,
   getProviderType,
   getError,
 };

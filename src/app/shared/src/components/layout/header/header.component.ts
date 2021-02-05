@@ -22,10 +22,16 @@ export class HeaderComponent {
   }
   @Output() logouted = new EventEmitter<void>();
   @Output() editedUser = new EventEmitter<void>();
+  @Output() wentToHome = new EventEmitter<void>();
 
   goToEditUser() {
     this.editedUser.emit();
   }
+
+  goToHome() {
+    this.wentToHome.emit();
+  }
+
   logout() {
     this.logouted.emit();
   }

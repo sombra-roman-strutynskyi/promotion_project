@@ -5,7 +5,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { getUrlToFileFromFirebaseStorage$, omit } from '@shared';
 import { of } from 'rxjs';
 import { Observable, from } from 'rxjs';
-import { map, take, switchMap } from 'rxjs/operators';
+import { map, take, switchMap, mergeMap } from 'rxjs/operators';
 import { v4 as uuid } from 'uuid';
 import { IArticle } from '../models';
 import { Article } from '../models/articles';
@@ -29,7 +29,7 @@ export class ArticlesDBService {
   createArticle(article: IArticle): Observable<IArticle> {
     const id = uuid();
     return this.getArticleImageUrl(article, id).pipe(
-      switchMap((imageUrl) => {
+      mergeMap((imageUrl) => {
         const dateNow = new Date().toISOString();
         const newArticle = new Article(
           omit(
@@ -53,7 +53,7 @@ export class ArticlesDBService {
 
   updateArticle(article: IArticle): Observable<IArticle> {
     return this.getArticleImageUrl(article).pipe(
-      switchMap((imageUrl) => {
+      mergeMap((imageUrl) => {
         const updateArticle = omit(
           {
             ...article,
@@ -87,7 +87,7 @@ export class ArticlesDBService {
       );
   }
 
-  uploadArticlesFile(id: string, file: File): Observable<string> {
+  private uploadArticlesFile(id: string, file: File): Observable<string> {
     const filePath = `articlesImage/${id}`;
     return getUrlToFileFromFirebaseStorage$(
       this.storageFirebase.upload(filePath, file),

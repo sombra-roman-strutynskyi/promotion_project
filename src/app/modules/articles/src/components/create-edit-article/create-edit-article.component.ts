@@ -5,7 +5,10 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { isNullOrUndefined, SubscriptionDisposer, UiFormButton } from '@shared';
 import { take, takeUntil } from 'rxjs/operators';
 import { Article, IArticle } from '../../models';
-import { ArticlesFacade } from '../../services';
+import {
+  ArticlesFacade,
+  CreateEditArticleFormConfigService,
+} from '../../services';
 
 @Component({
   selector: 'app-create-edit-article',
@@ -26,9 +29,12 @@ export class CreateEditArticleComponent
   formButtons: UiFormButton[];
   model = {} as IArticle;
   articleId: string;
+  pending$ = this.articlesFacade.pending$;
+
   constructor(
     private articlesFacade: ArticlesFacade,
     private activatedRoute: ActivatedRoute,
+    private formService: CreateEditArticleFormConfigService,
     private location: Location
   ) {
     super();
@@ -53,93 +59,16 @@ export class CreateEditArticleComponent
             this.articlesFacade.loadArticleById(this.articleId);
           } else {
             this.model = { ...article };
-            this.fields = this.getFields(article.imageUrl);
+            this.fields = this.formService.getFormFields(article.imageUrl);
           }
         });
     } else {
-      this.fields = this.getFields();
+      this.fields = this.formService.getFormFields();
     }
-    this.formButtons = this.getConfigFormButtons(!this.articleId);
-  }
-
-  getConfigFormButtons(isNew: boolean): UiFormButton[] {
-    const formButtons: UiFormButton[] = [
-      {
-        label: isNew ? 'Create Article' : 'Update Article',
-        type: 'submit',
-        action: { type: 'submit' },
-        style: {
-          color: 'accent',
-          type: 'raised',
-        },
-      },
-      {
-        label: 'Cancel',
-        type: 'button',
-        classWrapper: 'col-1',
-        action: { type: 'cancel' },
-        style: {
-          color: 'primary',
-        },
-      },
-    ];
-
-    const deleteButton: UiFormButton = {
-      label: 'Remove Article',
-      type: 'button',
-      classWrapper: 'col row',
-      style: {
-        color: 'warn',
-        type: 'stroked',
-      },
-      action: {
-        handler: () => this.onRemoveArticle(),
-      },
-    };
-    return isNew ? formButtons : [deleteButton, ...formButtons];
-  }
-
-  getFields(imageUrl = '') {
-    return [
-      {
-        fieldGroupClassName: 'row',
-        fieldGroup: [
-          {
-            className: 'col-12',
-            key: 'title',
-            type: 'input',
-            templateOptions: {
-              type: 'text',
-              label: 'Title',
-              required: true,
-              minLength: 10,
-              maxLength: 100,
-            },
-          },
-          {
-            className: 'col-12',
-            key: 'body',
-            type: 'textarea',
-            templateOptions: {
-              rows: 10,
-              label: 'Body',
-              required: true,
-              minLength: 10,
-            },
-          },
-          {
-            className: 'col-12',
-            key: 'image',
-            type: 'file',
-            templateOptions: {
-              label: 'Image',
-              required: !imageUrl,
-              imageUrl,
-            },
-          },
-        ],
-      },
-    ];
+    this.formButtons = this.formService.getFormButtons(
+      !this.articleId,
+      this.onRemoveArticle
+    );
   }
 
   onSubmit(data: IArticle) {
@@ -162,7 +91,7 @@ export class CreateEditArticleComponent
     this.location.back();
   }
 
-  onRemoveArticle() {
+  onRemoveArticle = () => {
     this.articlesFacade.removeArticle(this.articleId);
-  }
+  };
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ICredentials, IRegisterUser, IUpdateUser } from '../models';
+import { ICredentials, IRegisterUser } from '../models';
 import * as AuthActions from '../state/auth.actions';
 import { AuthState } from '../state/auth.reducer';
 import { authQuery } from '../state/auth.selectors';
@@ -9,7 +9,6 @@ import { authQuery } from '../state/auth.selectors';
 export class AuthFacade {
   pending$ = this.store.pipe(select(authQuery.getPending));
   providerType$ = this.store.pipe(select(authQuery.getProviderType));
-  userLoaded$ = this.store.pipe(select(authQuery.getUserLoaded));
   currentUser$ = this.store.pipe(select(authQuery.getUser));
   errors$ = this.store.pipe(select(authQuery.getError));
 
@@ -37,12 +36,6 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.forgotPassword({ email }));
   }
 
-  changePassword({ oldPassword, newPassword }) {
-    this.store.dispatch(
-      AuthActions.changePassword({ oldPassword, newPassword })
-    );
-  }
-
   register(user: IRegisterUser) {
     this.store.dispatch(AuthActions.register({ user }));
   }
@@ -51,17 +44,9 @@ export class AuthFacade {
     this.store.dispatch(AuthActions.loadUserProfile());
   }
 
-  updateProfile(user: IUpdateUser) {
-    this.store.dispatch(AuthActions.updateUserProfile({ user }));
-  }
-
   resetPassword(actionCode: string, newPassword: string, email: string) {
     this.store.dispatch(
       AuthActions.resetPassword({ actionCode, newPassword, email })
     );
-  }
-
-  uploadUserAvatar(file: File) {
-    this.store.dispatch(AuthActions.uploadUserAvatar({ file }));
   }
 }

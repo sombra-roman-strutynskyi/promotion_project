@@ -1,11 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  ICredentials,
-  IUpdateUser,
-  IUser,
-  IRegisterUser,
-  ProviderType,
-} from '../models';
+import { ICredentials, IUser, IRegisterUser, ProviderType } from '../models';
 
 interface IError {
   code: string;
@@ -75,36 +69,6 @@ export const loadUserProfileFailure = createAction(
   props<{ error: IError }>()
 );
 
-export const updateUserProfile = createAction(
-  '[Auth] Update User Profile',
-  props<{ user: IUpdateUser }>()
-);
-
-export const updateUserProfileSuccess = createAction(
-  '[Auth] Update User Profile Success',
-  props<{ currentUser: IUser }>()
-);
-
-export const updateUserProfileFailure = createAction(
-  '[Auth] Update User Profile Failure',
-  props<{ error: IError }>()
-);
-
-export const uploadUserAvatar = createAction(
-  '[Auth] Upload User Avatar',
-  props<{ file: File }>()
-);
-
-export const uploadUserAvatarSuccess = createAction(
-  '[Auth] Upload User Avatar Success',
-  props<{ currentUser: IUser }>()
-);
-
-export const uploadUserAvatarFailure = createAction(
-  '[Auth] Upload User Avatar Failure',
-  props<{ error: IError }>()
-);
-
 export const forgotPassword = createAction(
   '[Auth] Forgot Password',
   props<{ email: string }>()
@@ -116,20 +80,6 @@ export const forgotPasswordSuccess = createAction(
 
 export const forgotPasswordFailure = createAction(
   '[Auth] Forgot Password Failure',
-  props<{ error: IError }>()
-);
-
-export const changePassword = createAction(
-  '[Auth] Change Password',
-  props<{ oldPassword: string; newPassword: string }>()
-);
-
-export const changePasswordSuccess = createAction(
-  '[Auth] Change Password Success'
-);
-
-export const changePasswordFailure = createAction(
-  '[Auth] Change Password Failure',
   props<{ error: IError }>()
 );
 
