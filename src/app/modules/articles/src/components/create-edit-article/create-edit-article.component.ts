@@ -3,10 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthFacade, IUser } from '@auth';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { isNullOrUndefined, SubscriptionDisposer, UiFormButton } from '@shared';
+import {
+  isEmptyObject,
+  isNullOrUndefined,
+  SubscriptionDisposer,
+  UiFormButton,
+} from '@shared';
 import { take, takeUntil, filter, map } from 'rxjs/operators';
 import { Article, IArticle } from '../../models';
-import { isEmptyObject } from '../../../../../shared/src/helpers/index';
 import {
   ArticlesFacade,
   CreateEditArticleFormConfigService,

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ROUTES_DATA } from '@shared';
 import { of } from 'rxjs';
 import { map, switchMap, catchError, exhaustMap, tap } from 'rxjs/operators';
 import { ArticlesDBService } from '../services/articles-db.service';
 import * as ArticlesActions from './articles.actions';
-import { ROUTES_DATA } from '../../../../shared/src/constants/routePaths';
 
 @Injectable()
 export class ArticlesEffects {
