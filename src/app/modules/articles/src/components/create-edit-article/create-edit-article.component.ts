@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthFacade, IUser } from '@auth';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { isNullOrUndefined, SubscriptionDisposer, UiFormButton } from '@shared';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, filter, map } from 'rxjs/operators';
 import { Article, IArticle } from '../../models';
+import { isEmptyObject } from '../../../../../shared/src/helpers/index';
 import {
   ArticlesFacade,
   CreateEditArticleFormConfigService,
@@ -30,9 +32,11 @@ export class CreateEditArticleComponent
   model = {} as IArticle;
   articleId: string;
   pending$ = this.articlesFacade.pending$;
+  authorId: string;
 
   constructor(
     private articlesFacade: ArticlesFacade,
+    private authFacade: AuthFacade,
     private activatedRoute: ActivatedRoute,
     private formService: CreateEditArticleFormConfigService,
     private location: Location
@@ -46,6 +50,7 @@ export class CreateEditArticleComponent
         this.articleId = id;
       }
     });
+
     this.configuringForm();
   }
 
@@ -63,12 +68,25 @@ export class CreateEditArticleComponent
           }
         });
     } else {
+      this.getAuthorId();
       this.fields = this.formService.getFormFields();
     }
     this.formButtons = this.formService.getFormButtons(
       !this.articleId,
       this.onRemoveArticle
     );
+  }
+
+  getAuthorId() {
+    this.authFacade.currentUser$
+      .pipe(
+        filter((d) => !isEmptyObject(d)),
+        take(1),
+        map(({ uid }) => uid)
+      )
+      .subscribe((id) => {
+        this.authorId = id;
+      });
   }
 
   onSubmit(data: IArticle) {
@@ -79,7 +97,9 @@ export class CreateEditArticleComponent
       this.createArticle(article);
     }
   }
+
   createArticle(article: IArticle) {
+    article.authorId = this.authorId;
     this.articlesFacade.createArticle(article);
   }
 

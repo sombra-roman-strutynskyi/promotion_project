@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { isNullOrUndefined, SubscriptionDisposer } from '@shared';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { AuthFacade } from '@auth';
+import {
+  isEmptyObject,
+  isNullOrUndefined,
+  SubscriptionDisposer,
+} from '@shared';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { IArticle } from '../../models';
 import { ArticlesFacade } from '../../services';
 
@@ -14,10 +19,12 @@ export class PreviewArticleComponent
   extends SubscriptionDisposer
   implements OnInit {
   private articleId: string;
+  currentUserId: string;
   article: IArticle;
 
   constructor(
     private articlesFacade: ArticlesFacade,
+    private authFacade: AuthFacade,
     private activatedRoute: ActivatedRoute
   ) {
     super();
@@ -37,6 +44,19 @@ export class PreviewArticleComponent
         if (!isNullOrUndefined(article)) {
           this.article = { ...article };
         }
+      });
+    this.getCurrentUserId();
+  }
+
+  private getCurrentUserId() {
+    this.authFacade.currentUser$
+      .pipe(
+        filter((d) => !isEmptyObject(d)),
+        take(1),
+        map(({ uid }) => uid)
+      )
+      .subscribe((id) => {
+        this.currentUserId = id;
       });
   }
 }

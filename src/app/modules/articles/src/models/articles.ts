@@ -8,6 +8,7 @@ export interface IArticle {
   updatedAt: Date;
   imageUrl: string;
   image?: File;
+  authorId: string;
 }
 
 export class Article implements IArticle {
@@ -18,6 +19,7 @@ export class Article implements IArticle {
   updatedAt = null;
   imageUrl = '';
   image = null;
+  authorId = '';
   constructor(data: IArticle) {
     Object.assign(this, deepMerge(this, deepRemoveEmptyObjProperty(data)));
     // if (isArray(data.image)) {

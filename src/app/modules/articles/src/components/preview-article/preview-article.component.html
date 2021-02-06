@@ -11,6 +11,7 @@
       </div>
       <div class="col-6 preview-article__edit">
         <a
+          *ngIf="article.authorId === currentUserId"
           class="col-auto"
           [routerLink]="['../edit/' + article.id]"
           mat-stroked-button

@@ -7,6 +7,7 @@ import {
   PreviewArticleComponent,
 } from './components';
 import { ListComponent } from './containers';
+import { ArticleEditGuard } from './services';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
   {
     path: ROUTES_DATA.ARTICLES.children.EDIT.path,
     component: CreateEditArticleComponent,
+    canActivate: [ArticleEditGuard],
     data: {
       title: ROUTES_DATA.AUTH.children.SIGN_IN.title,
     },
