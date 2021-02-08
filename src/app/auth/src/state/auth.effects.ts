@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ROUTES_DATA, SnackbarService } from '@shared';
+import {
+  ROUTES_DATA,
+  SnackbarService,
+  IFirebaseError,
+  getAllFailureActions,
+} from '@shared';
 import { of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
 import { IUser } from '../models';
@@ -149,20 +154,14 @@ export class AuthEffects {
   handleError$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(...this.getFailureActions()),
-        tap((error) => {
-          this.snackBar.open(error.message);
+        ofType(...getAllFailureActions(AuthActions)),
+        tap((action) => {
+          const { message } = action.error;
+          if (message) {
+            this.snackBar.open(message);
+          }
         })
       ),
     { dispatch: false }
   );
-
-  private getFailureActions() {
-    return Object.keys(AuthActions).reduce((actions, action) => {
-      if (action.toLowerCase().endsWith('failure')) {
-        actions.push(AuthActions[action]);
-      }
-      return actions;
-    }, []);
-  }
 }

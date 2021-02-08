@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ROUTES_DATA } from '@shared';
+import { getAllFailureActions, ROUTES_DATA, SnackbarService } from '@shared';
 import { of } from 'rxjs';
 import { map, switchMap, catchError, exhaustMap, tap } from 'rxjs/operators';
 import { ArticlesDBService } from '../services/articles-db.service';
@@ -20,7 +20,7 @@ export class ArticlesEffects {
             })
           ),
           catchError((error) =>
-            of(ArticlesActions.loadArticleByIdFailure({ errors: [error] }))
+            of(ArticlesActions.loadArticleByIdFailure({ error }))
           )
         )
       )
@@ -36,7 +36,7 @@ export class ArticlesEffects {
             ArticlesActions.updateArticleSuccess({ article: data })
           ),
           catchError((error) =>
-            of(ArticlesActions.updateArticleFailure({ errors: [error] }))
+            of(ArticlesActions.updateArticleFailure({ error }))
           )
         )
       )
@@ -52,7 +52,7 @@ export class ArticlesEffects {
             ArticlesActions.createArticleSuccess({ article: data })
           ),
           catchError((error) =>
-            of(ArticlesActions.createArticleFailure({ errors: [error] }))
+            of(ArticlesActions.createArticleFailure({ error }))
           )
         )
       )
@@ -70,7 +70,7 @@ export class ArticlesEffects {
             })
           ),
           catchError((error) =>
-            of(ArticlesActions.loadArticlesFailure({ errors: [error] }))
+            of(ArticlesActions.loadArticlesFailure({ error }))
           )
         )
       )
@@ -89,7 +89,7 @@ export class ArticlesEffects {
           ),
           tap(() => this.router.navigateByUrl(ROUTES_DATA.ARTICLES.url)),
           catchError((error) =>
-            of(ArticlesActions.removeArticleFailure({ errors: [error] }))
+            of(ArticlesActions.removeArticleFailure({ error }))
           )
         )
       )
@@ -110,9 +110,24 @@ export class ArticlesEffects {
     { dispatch: false }
   );
 
+  handleError$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(...getAllFailureActions(ArticlesActions)),
+        tap((action) => {
+          const { message } = action.error;
+          if (message) {
+            this.snackBar.open(message);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private articlesDB: ArticlesDBService,
-    private router: Router
+    private router: Router,
+    private snackBar: SnackbarService
   ) {}
 }

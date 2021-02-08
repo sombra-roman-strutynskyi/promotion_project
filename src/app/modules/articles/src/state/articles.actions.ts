@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { IFirebaseError } from '@shared';
 import { IArticle } from '../models';
 
 export const loadArticleById = createAction(
@@ -15,7 +16,7 @@ export const loadArticleByIdSuccess = createAction(
 
 export const loadArticleByIdFailure = createAction(
   '[Articles] Load Article By ID Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const loadArticles = createAction('[Articles] Load Articles');
@@ -29,7 +30,7 @@ export const loadArticlesSuccess = createAction(
 
 export const loadArticlesFailure = createAction(
   '[Articles] Load Articles Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const createArticle = createAction(
@@ -44,7 +45,7 @@ export const createArticleSuccess = createAction(
 
 export const createArticleFailure = createAction(
   '[Articles] Create Article Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const updateArticle = createAction(
@@ -59,7 +60,7 @@ export const updateArticleSuccess = createAction(
 
 export const updateArticleFailure = createAction(
   '[Articles] Update Article Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const removeArticle = createAction(
@@ -74,5 +75,5 @@ export const removeArticleSuccess = createAction(
 
 export const removeArticleFailure = createAction(
   '[Articles] Remove Article Failure',
-  props<{ errors: string[] }>()
+  props<{ error: IFirebaseError }>()
 );

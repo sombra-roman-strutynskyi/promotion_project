@@ -1,11 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { IFirebaseError } from '@shared';
 import { ICredentials, IUser, IRegisterUser, ProviderType } from '../models';
-
-interface IError {
-  code: string;
-  message: string;
-  type: string;
-}
 
 export const loginWithCredentials = createAction(
   '[Auth] Login With Credentials',
@@ -18,7 +13,7 @@ export const loginWithCredentialsSuccess = createAction(
 
 export const loginWithCredentialsFailure = createAction(
   '[Auth] Login With Credentials Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const loginWithGoogle = createAction('[Auth] Login With Google');
@@ -29,7 +24,7 @@ export const loginWithGoogleSuccess = createAction(
 
 export const loginWithGoogleFailure = createAction(
   '[Auth] Login With Google Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 export const loginWithFacebook = createAction('[Auth] Login With Facebook');
 
@@ -39,7 +34,7 @@ export const loginWithFacebookSuccess = createAction(
 
 export const loginWithFacebookFailure = createAction(
   '[Auth] Login With Facebook Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const register = createAction(
@@ -51,7 +46,7 @@ export const registerSuccess = createAction('[Auth] Register Success');
 
 export const registerFailure = createAction(
   '[Auth] Register Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const logout = createAction('[Auth] Logout');
@@ -66,7 +61,7 @@ export const loadUserProfileSuccess = createAction(
 
 export const loadUserProfileFailure = createAction(
   '[Auth] Load User Profile Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const forgotPassword = createAction(
@@ -80,7 +75,7 @@ export const forgotPasswordSuccess = createAction(
 
 export const forgotPasswordFailure = createAction(
   '[Auth] Forgot Password Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const resetPassword = createAction(
@@ -94,5 +89,5 @@ export const resetPasswordSuccess = createAction(
 
 export const resetPasswordFailure = createAction(
   '[Auth] Reset Password Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );

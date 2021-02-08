@@ -1,11 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { IFirebaseError } from '@shared';
 import { IUpdateProfile } from '../models';
-
-interface IError {
-  code: string;
-  message: string;
-  type: string;
-}
 
 export const updateUserProfile = createAction(
   '[Profile] Update User Profile',
@@ -18,7 +13,7 @@ export const updateUserProfileSuccess = createAction(
 
 export const updateUserProfileFailure = createAction(
   '[Profile] Update User Profile Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );
 
 export const changePassword = createAction(
@@ -32,5 +27,5 @@ export const changePasswordSuccess = createAction(
 
 export const changePasswordFailure = createAction(
   '[Profile] Change Password Failure',
-  props<{ error: IError }>()
+  props<{ error: IFirebaseError }>()
 );

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthFacade } from '@auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SnackbarService } from '@shared';
+import { SnackbarService, IFirebaseError } from '@shared';
 import { of } from 'rxjs';
 import { catchError, map, tap, exhaustMap } from 'rxjs/operators';
 import { ProfileDbService } from '../services';
@@ -46,20 +46,17 @@ export class ProfileEffects {
   handleError$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(...this.getFailureActions()),
-        tap((error) => {
-          this.snackBar.open(error.message);
+        ofType(
+          ProfileActions.updateUserProfileFailure,
+          ProfileActions.changePasswordFailure
+        ),
+        tap(({ error }) => {
+          const { message } = error;
+          if (message) {
+            this.snackBar.open(message);
+          }
         })
       ),
     { dispatch: false }
   );
-
-  private getFailureActions() {
-    return Object.keys(ProfileActions).reduce((actions, action) => {
-      if (action.toLowerCase().endsWith('failure')) {
-        actions.push(ProfileActions[action]);
-      }
-      return actions;
-    }, []);
-  }
 }

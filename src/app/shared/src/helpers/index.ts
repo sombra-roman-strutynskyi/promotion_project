@@ -145,3 +145,12 @@ export function getUrlToFileFromFirebaseStorage$(
     switchMap(() => storageFirebase.ref(path).getDownloadURL())
   );
 }
+
+export function getAllFailureActions(actions) {
+  return Object.keys(actions).reduce((failureActions, action) => {
+    if (action.toLowerCase().endsWith('failure')) {
+      failureActions.push(actions[action]);
+    }
+    return failureActions;
+  }, []);
+}

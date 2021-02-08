@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { pick, omit } from '@shared';
+import { pick, omit, UserCredential, UserFirebase } from '@shared';
 import firebase from 'firebase/app';
 import { Observable, of, from } from 'rxjs';
-import { take, map, mergeMap, switchMap, exhaustMap } from 'rxjs/operators';
+import { take, map, mergeMap, exhaustMap } from 'rxjs/operators';
 import {
   ICredentials,
   IUser,
@@ -12,8 +12,6 @@ import {
   User,
   ProviderType,
 } from '../models';
-import UserCredential = firebase.auth.UserCredential;
-import UserFirebase = firebase.User;
 
 @Injectable()
 export class AuthService {
@@ -92,17 +90,17 @@ export class AuthService {
   } | null> {
     return this.authFirebase.authState.pipe(
       take(1),
-      mergeMap((userFireBase: UserFirebase) => {
-        if (userFireBase) {
+      mergeMap((userFirebase: UserFirebase) => {
+        if (userFirebase) {
           return this.dbFirebase
-            .object(`users/${userFireBase.uid}`)
+            .object(`users/${userFirebase.uid}`)
             .valueChanges()
             .pipe(
               take(1),
               map((user: IUser) => ({
                 currentUser: new User({
                   ...pick(
-                    userFireBase,
+                    userFirebase,
                     'uid',
                     'firstName',
                     'lastName',
@@ -111,7 +109,7 @@ export class AuthService {
                   ),
                   ...user,
                 }),
-                providerType: userFireBase?.providerData[0]?.providerId,
+                providerType: userFirebase?.providerData[0]?.providerId,
               }))
             );
         }

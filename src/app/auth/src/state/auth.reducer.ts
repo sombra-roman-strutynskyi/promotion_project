@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { IFirebaseError } from '@shared';
 import { IUser, ProviderType } from '../models';
 import * as AuthActions from './auth.actions';
 
@@ -43,7 +44,6 @@ const authReducer = createReducer(
       pending: false,
     })
   ),
-
   on(
     AuthActions.loginWithCredentialsFailure,
     AuthActions.loginWithGoogleFailure,
@@ -51,7 +51,7 @@ const authReducer = createReducer(
     AuthActions.forgotPasswordFailure,
     AuthActions.loadUserProfileFailure,
     AuthActions.registerFailure,
-    (state, { error }) => ({
+    (state, { error }: { error: IFirebaseError }) => ({
       ...state,
       error: error?.message || null,
       pending: false,

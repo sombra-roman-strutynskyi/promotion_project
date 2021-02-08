@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { IFirebaseError } from '@shared';
 import * as ProfileActions from './profile.actions';
 
 export const PROFILE_FEATURE_KEY = 'profile';
@@ -36,7 +37,7 @@ const profileReducer = createReducer(
   on(
     ProfileActions.updateUserProfileFailure,
     ProfileActions.changePasswordFailure,
-    (state, { error }) => ({
+    (state, { error }: { error: IFirebaseError }) => ({
       ...state,
       error: error?.message || null,
       pending: false,

@@ -1,5 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
+import { IFirebaseError } from '@shared';
 import { IArticle } from '../models';
 
 import * as ArticlesActions from './articles.actions';
@@ -7,7 +8,7 @@ import * as ArticlesActions from './articles.actions';
 export const ARTICLES_FEATURE_KEY = 'articles';
 export interface ArticlesState extends EntityState<IArticle> {
   article?: IArticle;
-  errors?: string[] | null;
+  error?: string;
   pending: boolean;
   selectedId: string;
 }
@@ -45,7 +46,7 @@ const articlesReducer = createReducer(
     (state) => ({
       ...state,
 
-      errors: null,
+      error: null,
       pending: true,
     })
   ),
@@ -53,6 +54,7 @@ const articlesReducer = createReducer(
     articlesAdapter.setOne(article, {
       ...state,
       article,
+      error: null,
       pending: false,
     })
   ),
@@ -63,41 +65,42 @@ const articlesReducer = createReducer(
       articlesAdapter.upsertOne(article, {
         ...state,
         article,
+        error: null,
         pending: false,
       })
   ),
   on(ArticlesActions.loadArticleById, (state, { id }) => ({
     ...state,
-    errors: null,
+    error: null,
     pending: true,
     selectedId: id,
   })),
   on(ArticlesActions.loadArticlesSuccess, (state, { articles }) =>
     articlesAdapter.setAll(articles, {
       ...state,
-      errors: null,
+      error: null,
       pending: false,
     })
   ),
   on(ArticlesActions.removeArticleSuccess, (state, { id }) =>
     articlesAdapter.removeOne(id, {
       ...state,
-      errors: null,
+      error: null,
+      pending: false,
+    })
+  ),
+  on(
+    ArticlesActions.loadArticlesFailure,
+    ArticlesActions.loadArticleByIdFailure,
+    ArticlesActions.updateArticleFailure,
+    ArticlesActions.createArticleFailure,
+    ArticlesActions.removeArticleFailure,
+    (state, { error }: { error: IFirebaseError }) => ({
+      ...state,
+      error: error?.message || null,
       pending: false,
     })
   )
-  // on(
-  //   ArticlesActions.loadArticlesFailure,
-  //   ArticlesActions.loadArticleByIdFailure,
-  //   ArticlesActions.updateArticleFailure,
-  //   ArticlesActions.createArticleFailure,
-  //   ArticlesActions.removeArticleFailure,
-  //   (state, { errors }) => ({
-  //     ...state,
-  //     errors,
-  //     pending: false,
-  //   })
-  // )
 );
 
 export function reducer(state: ArticlesState | undefined, action: Action) {
