@@ -114,8 +114,8 @@ export class ArticlesEffects {
     () =>
       this.actions$.pipe(
         ofType(...getAllFailureActions(ArticlesActions)),
-        tap((action) => {
-          const { message } = action?.error;
+        tap((error) => {
+          const { message = null } = error;
           if (message) {
             this.snackBar.open(message);
           }

@@ -150,8 +150,8 @@ export class AuthEffects implements OnInitEffects {
     () =>
       this.actions$.pipe(
         ofType(...getAllFailureActions(AuthActions)),
-        tap((action) => {
-          const { message = null } = action?.error;
+        tap((error) => {
+          const { message = null } = error;
           if (message) {
             this.snackBar.open(message);
           }
@@ -159,6 +159,7 @@ export class AuthEffects implements OnInitEffects {
       ),
     { dispatch: false }
   );
+
   ngrxOnInitEffects(): Action {
     return { type: '[Auth] Load User Profile' };
   }

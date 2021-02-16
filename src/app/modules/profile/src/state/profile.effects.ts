@@ -50,8 +50,8 @@ export class ProfileEffects {
           ProfileActions.updateUserProfileFailure,
           ProfileActions.changePasswordFailure
         ),
-        tap(({ error }) => {
-          const { message } = error;
+        tap((error) => {
+          const message = error['message'];
           if (message) {
             this.snackBar.open(message);
           }
