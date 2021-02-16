@@ -1,0 +1,60 @@
+<mat-card class="crypto-currencies" [loadingOverlay]="pending$ | async">
+  <mat-card-header>
+    <mat-card-title
+      ><span class="crypto-currencies__title"
+        >Crypto Currencies Widget</span
+      ></mat-card-title
+    >
+  </mat-card-header>
+
+  <ng-container *ngIf="!formOptions?.formState?.disabled; else widgetResult">
+    <mat-card-content class="crypto-currencies__form">
+      <ui-base-form
+        [fields]="fields"
+        [model]="model"
+        [formOptions]="formOptions"
+        [formButtons]="formButtons"
+        (submitted)="setWidgetConfig($event)"
+        (canceled)="onCancel()"
+      >
+      </ui-base-form>
+    </mat-card-content>
+  </ng-container>
+  <ng-template #widgetResult>
+    <mat-card-content>
+      <button
+        mat-icon-button
+        class="crypto-currencies__button"
+        (click)="toggleFormStateDisabled(false)"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+      <mat-list>
+        <ng-container *ngFor="let cryptoCurrency of getDataWidget() | async">
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <img
+              [title]="cryptoCurrency.symbol"
+              mat-list-icon
+              [src]="cryptoCurrency.image"
+              [alt]="cryptoCurrency.name"
+            />
+            <div mat-line>
+              <div class="crypto-currencies__item row">
+                <div
+                  [title]="cryptoCurrency.name"
+                  class="col crypto-currencies__name"
+                >
+                  {{ cryptoCurrency.name }}
+                </div>
+                <div class="col-auto crypto-currencies__price">
+                  {{ cryptoCurrency.price }}
+                </div>
+              </div>
+            </div>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
+    </mat-card-content>
+  </ng-template>
+</mat-card>

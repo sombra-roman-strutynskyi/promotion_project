@@ -1,0 +1,22 @@
+.crypto-currencies {
+  .mat-card-header .mat-card-title {
+    margin-bottom: 0;
+  }
+  .mat-card-header-text {
+    margin: {
+      left: 0;
+      top: -10px;
+      right: 20px;
+      bottom: 0;
+    }
+  }
+  .mat-list-base .mat-list-item {
+    &.mat-list-item-with-avatar {
+      height: 45px;
+    }
+
+    .mat-list-item-content {
+      padding: 0;
+    }
+  }
+}

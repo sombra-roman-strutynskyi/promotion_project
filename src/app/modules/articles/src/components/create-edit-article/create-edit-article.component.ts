@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthFacade, IUser } from '@auth';
+import { AuthFacade } from '@auth';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import {
   isEmptyObject,
@@ -17,7 +17,7 @@ import {
 } from '../../services';
 
 @Component({
-  selector: 'app-create-edit-article',
+  selector: 'articles-create-edit-article',
   templateUrl: './create-edit-article.component.html',
   styleUrls: ['./create-edit-article.component.scss'],
 })

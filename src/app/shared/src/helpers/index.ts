@@ -3,7 +3,7 @@ import {
   AngularFireUploadTask,
 } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 export function isUndefined(value: any) {
   return typeof value === 'undefined';
@@ -153,4 +153,12 @@ export function getAllFailureActions(actions) {
     }
     return failureActions;
   }, []);
+}
+
+export function getOptionsForSelect(
+  request: Observable<{ id: string; name: string }[]>
+): Observable<{ label: string; value: string }[]> {
+  return request.pipe(
+    map((data) => data.map(({ id, name }) => ({ label: name, value: id })))
+  );
 }

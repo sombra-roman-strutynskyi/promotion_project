@@ -8,13 +8,10 @@ import { ROUTES_DATA } from './shared/src/constants/routePaths';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   currentUser$ = this.authFacade.currentUser$;
   constructor(private authFacade: AuthFacade, private router: Router) {}
 
-  ngOnInit() {
-    this.authFacade.loadProfile();
-  }
   goToEditUser() {
     this.router.navigateByUrl(ROUTES_DATA.PROFILE.url);
   }

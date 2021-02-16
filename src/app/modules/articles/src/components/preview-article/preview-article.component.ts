@@ -11,7 +11,7 @@ import { IArticle } from '../../models';
 import { ArticlesFacade } from '../../services';
 
 @Component({
-  selector: 'app-preview-article',
+  selector: 'articles-preview-article',
   templateUrl: './preview-article.component.html',
   styleUrls: ['./preview-article.component.scss'],
 })

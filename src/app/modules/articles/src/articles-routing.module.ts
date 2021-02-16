@@ -6,15 +6,10 @@ import {
   CreateEditArticleComponent,
   PreviewArticleComponent,
 } from './components';
-import { ListComponent } from './containers';
+import { ListComponent, WrapperComponent } from './containers';
 import { ArticleEditGuard } from './services';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ListComponent,
-    canActivate: [AuthGuard],
-  },
   {
     path: ROUTES_DATA.ARTICLES.children.EDIT.path,
     component: CreateEditArticleComponent,
@@ -31,8 +26,18 @@ const routes: Routes = [
     },
   },
   {
-    path: ':id',
-    component: PreviewArticleComponent,
+    path: '',
+    component: WrapperComponent,
+    children: [
+      {
+        path: '',
+        component: ListComponent,
+      },
+      {
+        path: ':id',
+        component: PreviewArticleComponent,
+      },
+    ],
   },
 ];
 

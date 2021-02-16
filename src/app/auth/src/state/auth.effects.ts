@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  ROUTES_DATA,
-  SnackbarService,
-  IFirebaseError,
-  getAllFailureActions,
-} from '@shared';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { ROUTES_DATA, SnackbarService, getAllFailureActions } from '@shared';
 import { of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
-import { IUser } from '../models';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
 
 @Injectable()
-export class AuthEffects {
+export class AuthEffects implements OnInitEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
@@ -156,7 +151,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(...getAllFailureActions(AuthActions)),
         tap((action) => {
-          const { message } = action.error;
+          const { message } = action?.error;
           if (message) {
             this.snackBar.open(message);
           }
@@ -164,4 +159,7 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+  ngrxOnInitEffects(): Action {
+    return { type: '[Auth] Load User Profile' };
+  }
 }

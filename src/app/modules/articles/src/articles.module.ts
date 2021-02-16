@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BUCKET } from '@angular/fire/storage';
 import { CoreModule } from '@core';
 import { environment } from '@env';
+import { WidgetsModule } from '@modules/widgets/src/widgets.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '@shared';
@@ -19,13 +20,11 @@ import { ARTICLES_FEATURE_KEY, reducer } from './state/articles.reducer';
     CommonModule,
     SharedModule,
     CoreModule,
+    WidgetsModule,
     ArticlesRoutingModule,
     StoreModule.forFeature(ARTICLES_FEATURE_KEY, reducer),
     EffectsModule.forFeature([ArticlesEffects]),
   ],
-  providers: [
-    ...SERVICES,
-    { provide: BUCKET, useValue: environment.firebase.storageBucket },
-  ],
+  providers: [...SERVICES],
 })
 export class ArticlesModule {}

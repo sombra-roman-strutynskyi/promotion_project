@@ -15,7 +15,7 @@ const { selectAll, selectEntities } = articlesAdapter.getSelectors();
 
 export const getArticlesError = createSelector(
   getArticlesState,
-  (state: ArticlesState) => state.errors
+  (state: ArticlesState) => state.error
 );
 export const getSelectedId = createSelector(
   getArticlesState,
