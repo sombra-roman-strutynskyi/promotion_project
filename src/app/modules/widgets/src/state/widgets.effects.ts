@@ -39,8 +39,6 @@ export class WidgetsEffects implements OnInitEffects {
       exhaustMap(() =>
         this.widgetsApiService.getExchangeRates().pipe(
           map(({ rates }) => {
-            console.log(rates);
-
             const currencyTypes = Object.entries(rates || {}).map(
               ([id, data]) => ({
                 ...data,

@@ -15,7 +15,10 @@
   <div class="col-12">
     <div class="row">
       <ng-container *ngFor="let article of articles$ | async">
-        <app-item-article class="col-6" [article]="article"></app-item-article>
+        <articles-item-article
+          class="col-6"
+          [article]="article"
+        ></articles-item-article>
       </ng-container>
     </div>
   </div>

@@ -151,7 +151,7 @@ export class AuthEffects implements OnInitEffects {
       this.actions$.pipe(
         ofType(...getAllFailureActions(AuthActions)),
         tap((action) => {
-          const { message } = action?.error;
+          const { message = null } = action?.error;
           if (message) {
             this.snackBar.open(message);
           }
