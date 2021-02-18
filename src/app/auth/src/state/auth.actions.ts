@@ -42,7 +42,10 @@ export const register = createAction(
   props<{ user: IRegisterUser }>()
 );
 
-export const registerSuccess = createAction('[Auth] Register Success');
+export const registerSuccess = createAction(
+  '[Auth] Register Success',
+  props<{ successText: string; redirectTo: string }>()
+);
 
 export const registerFailure = createAction(
   '[Auth] Register Failure',
@@ -70,7 +73,8 @@ export const forgotPassword = createAction(
 );
 
 export const forgotPasswordSuccess = createAction(
-  '[Auth] Forgot Password Success'
+  '[Auth] Forgot Password Success',
+  props<{ successText: string; redirectTo: string }>()
 );
 
 export const forgotPasswordFailure = createAction(
@@ -89,5 +93,19 @@ export const resetPasswordSuccess = createAction(
 
 export const resetPasswordFailure = createAction(
   '[Auth] Reset Password Failure',
+  props<{ error: IFirebaseError }>()
+);
+
+export const verifyEmailAddress = createAction(
+  '[Auth] Verify Email Address',
+  props<{ actionCode: string }>()
+);
+
+export const verifyEmailAddressSuccess = createAction(
+  '[Auth] Verify Email Address Success'
+);
+
+export const verifyEmailAddressFailure = createAction(
+  '[Auth] Verify Email Address Failure',
   props<{ error: IFirebaseError }>()
 );

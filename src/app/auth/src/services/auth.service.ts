@@ -128,6 +128,7 @@ export class AuthService {
         .then((userCredential: UserCredential) => {
           const { user } = userCredential;
           if (user) {
+            user.sendEmailVerification();
             this.dbFirebase
               .object(`users/${user.uid}`)
               .set(omit(registerUser, 'password'));
@@ -162,5 +163,9 @@ export class AuthService {
   verifyPasswordResetCode(actionCode: string): Observable<string> {
     // return EMAIL
     return from(this.authFirebase.verifyPasswordResetCode(actionCode));
+  }
+
+  verifyEmailAddress(actionCode: string) {
+    this.authFirebase.applyActionCode(actionCode);
   }
 }

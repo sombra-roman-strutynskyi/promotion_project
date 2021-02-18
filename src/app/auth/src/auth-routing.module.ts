@@ -5,7 +5,7 @@ import {
   ForgotPasswordComponent,
   LoginComponent,
   RegisterComponent,
-  ResetPasswordComponent,
+  UserManagementComponent,
 } from './components';
 import { AuthComponent } from './containers';
 import { UnauthorizedGuard } from './services';
@@ -37,10 +37,10 @@ export const routes: Routes = [
         },
       },
       {
-        path: ROUTES_DATA.AUTH.children.RESET_PASSWORD.path,
-        component: ResetPasswordComponent,
+        path: ROUTES_DATA.AUTH.children.USER_MANAGEMENT.path,
+        component: UserManagementComponent,
         data: {
-          title: ROUTES_DATA.AUTH.children.RESET_PASSWORD.title,
+          title: ROUTES_DATA.AUTH.children.USER_MANAGEMENT.title,
         },
       },
       {

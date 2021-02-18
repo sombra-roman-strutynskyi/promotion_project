@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { ROUTES_DATA, SnackbarService, getAllFailureActions } from '@shared';
+import {
+  ROUTES_DATA,
+  SnackbarService,
+  getAllFailureActions,
+  DialogSuccessBlockComponent,
+} from '@shared';
 import { of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
 import { AuthService } from '../services';
@@ -14,7 +20,8 @@ export class AuthEffects implements OnInitEffects {
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private snackBar: SnackbarService
+    private snackBar: SnackbarService,
+    private dialog: MatDialog
   ) {}
 
   googleLogin$ = createEffect(() =>
@@ -64,10 +71,13 @@ export class AuthEffects implements OnInitEffects {
       ofType(AuthActions.register),
       exhaustMap(({ user }) =>
         this.authService.register(user).pipe(
-          map(() => AuthActions.registerSuccess()),
-          catchError((error) =>
-            of(AuthActions.loginWithCredentialsFailure(error))
-          )
+          map(() =>
+            AuthActions.registerSuccess({
+              successText: `Verification Email Sent To ${user.email}`,
+              redirectTo: ROUTES_DATA.ARTICLES.url,
+            })
+          ),
+          catchError((error) => of(AuthActions.registerFailure(error)))
         )
       )
     )
@@ -87,7 +97,10 @@ export class AuthEffects implements OnInitEffects {
       switchMap(() =>
         this.authService.getCurrentUser().pipe(
           map(({ currentUser, providerType }) =>
-            AuthActions.loadUserProfileSuccess({ currentUser, providerType })
+            AuthActions.loadUserProfileSuccess({
+              currentUser,
+              providerType,
+            })
           ),
           catchError((error) => of(AuthActions.loadUserProfileFailure(error)))
         )
@@ -100,7 +113,12 @@ export class AuthEffects implements OnInitEffects {
       ofType(AuthActions.forgotPassword),
       exhaustMap(({ email }) =>
         this.authService.passwordForgotten(email).pipe(
-          map(() => AuthActions.forgotPasswordSuccess()),
+          map(() =>
+            AuthActions.forgotPasswordSuccess({
+              successText: `Password Reset Email Sent To ${email}`,
+              redirectTo: ROUTES_DATA.AUTH.children.SIGN_IN.url,
+            })
+          ),
           catchError((error) => of(AuthActions.forgotPasswordFailure(error)))
         )
       )
@@ -125,13 +143,28 @@ export class AuthEffects implements OnInitEffects {
         AuthActions.loginWithGoogleSuccess,
         AuthActions.loginWithFacebookSuccess,
         AuthActions.loginWithCredentialsSuccess,
-        AuthActions.registerSuccess,
         AuthActions.resetPasswordSuccess
       ),
       map(() => AuthActions.loadUserProfile()),
       tap(() => {
         this.router.navigateByUrl(ROUTES_DATA.ARTICLES.url);
       })
+    )
+  );
+
+  sentEmailVerification$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.registerSuccess, AuthActions.forgotPasswordSuccess),
+      tap(({ successText, redirectTo }) => {
+        this.dialog.open(DialogSuccessBlockComponent, {
+          maxWidth: '500px',
+          minWidth: '300px',
+          data: { text: successText },
+        });
+        this.router.navigateByUrl(redirectTo);
+      }),
+
+      map(() => AuthActions.loadUserProfile())
     )
   );
 

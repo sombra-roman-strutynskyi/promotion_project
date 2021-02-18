@@ -77,6 +77,9 @@ export class CryptoCurrencyComponent
       .subscribe((config: ICryptoCurrencyWidget) => {
         this.model = { ...config };
         this.widgetConfig = { ...config };
+        if (!this.formOptions.formState.disabled) {
+          this.toggleFormStateDisabled(true);
+        }
       });
   }
 

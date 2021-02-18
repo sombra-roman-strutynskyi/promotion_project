@@ -19,6 +19,7 @@ export const SHARED_COMPONENTS = [
 ];
 
 export * from './layout/layout.component';
-export * from './forms/index';
 export * from './layout/header/header.component';
+export * from './forms';
+export * from './ui';
 export * from './loading-overlay/loading-overlay.component';

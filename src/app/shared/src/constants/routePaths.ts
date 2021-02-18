@@ -35,10 +35,10 @@ export const ROUTES_DATA = {
         path: 'register',
         title: 'Sign Up',
       },
-      RESET_PASSWORD: {
-        url: 'auth/reset-password',
-        path: 'reset-password',
-        title: 'Reset Password',
+      USER_MANAGEMENT: {
+        url: 'auth/user-management',
+        path: 'user-management',
+        title: 'User Management',
       },
       FORGOT_PASSWORD: {
         url: 'auth/forgot-password',

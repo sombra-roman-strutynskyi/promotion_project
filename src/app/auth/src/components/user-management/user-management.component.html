@@ -1,0 +1,22 @@
+<div class="user-management row">
+  <ng-container *ngIf="mode" [ngSwitch]="mode">
+    <ng-container *ngSwitchCase="'resetPassword'">
+      <div class="col-12 user-management__title">Reset Password</div>
+      <div class="form-container col-12">
+        <ui-base-form
+          [form]="form"
+          [fields]="fields"
+          [model]="model"
+          [formOptions]="formOptions"
+          [formButtons]="formButtons"
+          (submitted)="onSubmit($event)"
+        >
+        </ui-base-form>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+      <div class="col-12 user-management__title">Email Verification</div>
+    </ng-container>
+  </ng-container>
+</div>
