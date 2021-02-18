@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { isNullOrUndefined, SubscriptionDisposer, UiFormButton } from '@shared';
-import { timer, BehaviorSubject, Observable } from 'rxjs';
+import { timer, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, map } from 'rxjs/operators';
 import { ICryptoCurrencyWidget } from '../../models';
 import { ICryptoCurrency, ICurrencyType } from '../../models/widgets';
@@ -19,7 +19,10 @@ import {
 })
 export class CryptoCurrencyComponent
   extends SubscriptionDisposer
-  implements OnInit {
+  implements OnInit, OnDestroy {
+  private cryptoCurrencies$ = new BehaviorSubject<ICryptoCurrency[]>(null);
+  loadWidgetSubject = new Subject();
+  pending$ = this.widgetsFacade.pending$;
   timeout = 1000;
   fields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {
@@ -28,33 +31,11 @@ export class CryptoCurrencyComponent
       disabled: true,
     },
   };
-  formButtons: UiFormButton[] = [
-    {
-      label: 'Save',
-      type: 'submit',
-      classWrapper: 'col',
-      classNames: 'margin-left-auto ',
-      action: { type: 'submit' },
-      style: {
-        color: 'accent',
-        type: 'raised',
-      },
-    },
-    {
-      label: 'Cancel',
-      type: 'button',
-      classWrapper: 'col-auto',
-      action: { type: 'cancel' },
-      style: {
-        color: 'primary',
-      },
-    },
-  ];
+  formButtons: UiFormButton[];
   model = {} as ICryptoCurrencyWidget;
-  pending$ = this.widgetsFacade.pending$;
-  private cryptoCurrencies$ = new BehaviorSubject<ICryptoCurrency[]>(null);
   currencies: ICurrencyType[];
   widgetConfig: ICryptoCurrencyWidget;
+
   constructor(
     private widgetsFacade: WidgetsFacade,
     private formService: WidgetCryptoCurrencyFormService,
@@ -68,9 +49,50 @@ export class CryptoCurrencyComponent
     this.loadWidgetConfig();
     this.loadCurrencies();
     this.loadWidgetData();
-    this.fields = this.formService.getFormFields();
+    this.initForm();
   }
-  loadWidgetConfig() {
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.stopLoadingWidgetData();
+  }
+
+  getDataWidget(): Observable<ICryptoCurrency[]> {
+    return this.cryptoCurrencies$.asObservable();
+  }
+
+  setWidgetConfig(config: ICryptoCurrencyWidget) {
+    this.widgetConfig = { ...config };
+    this.widgetDataConfig.setCryptoCurrencyConfig(config);
+    this.restartLoadingWidgetData();
+  }
+
+  onCancel() {
+    this.model = { ...this.widgetConfig };
+    this.toggleFormStateDisabled(true);
+  }
+
+  toggleFormStateDisabled(disabled: boolean) {
+    this.formOptions.formState.disabled = disabled;
+  }
+
+  private loadCurrencies() {
+    this.widgetsFacade.currencyTypes$
+      .pipe(
+        filter((d) => !isNullOrUndefined(d)),
+        take(1)
+      )
+      .subscribe((currencies) => {
+        this.currencies = currencies;
+      });
+  }
+
+  private initForm() {
+    this.fields = this.formService.getFormFields();
+    this.formButtons = this.formService.getFormButtons();
+  }
+
+  private loadWidgetConfig() {
     this.widgetDataConfig
       .getCryptoCurrencyConfig()
       .pipe(takeUntil(this.ngSubject))
@@ -83,9 +105,9 @@ export class CryptoCurrencyComponent
       });
   }
 
-  loadWidgetData() {
+  private loadWidgetData() {
     timer(this.timeout)
-      .pipe(take(1))
+      .pipe(take(1), takeUntil(this.loadWidgetSubject))
       .subscribe(() => {
         this.timeout = this.widgetConfig ? 5000 : 100;
         if (this.widgetConfig) {
@@ -95,18 +117,7 @@ export class CryptoCurrencyComponent
       });
   }
 
-  loadCurrencies() {
-    this.widgetsFacade.currencyTypes$
-      .pipe(
-        filter((d) => !isNullOrUndefined(d)),
-        take(1)
-      )
-      .subscribe((currencies) => {
-        this.currencies = currencies;
-      });
-  }
-
-  loadCryptoCurrencies() {
+  private loadCryptoCurrencies() {
     const { cryptoCurrencies, convertTo } = this.widgetConfig;
 
     this.widgetApi
@@ -131,21 +142,15 @@ export class CryptoCurrencyComponent
       });
   }
 
-  getDataWidget(): Observable<ICryptoCurrency[]> {
-    return this.cryptoCurrencies$.asObservable();
+  private stopLoadingWidgetData() {
+    this.loadWidgetSubject.next();
+    this.loadWidgetSubject.complete();
   }
 
-  setWidgetConfig(config: ICryptoCurrencyWidget) {
-    this.widgetConfig = { ...config };
-    this.widgetDataConfig.setCryptoCurrencyConfig(config);
-  }
-
-  onCancel() {
-    this.model = { ...this.widgetConfig };
-    this.toggleFormStateDisabled(true);
-  }
-
-  toggleFormStateDisabled(disabled: boolean) {
-    this.formOptions.formState.disabled = disabled;
+  private restartLoadingWidgetData() {
+    this.stopLoadingWidgetData();
+    this.loadWidgetSubject = new Subject();
+    this.timeout = 0;
+    this.loadWidgetData();
   }
 }

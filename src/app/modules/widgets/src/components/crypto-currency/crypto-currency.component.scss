@@ -32,4 +32,11 @@
   &__price {
     color: #028786;
   }
+  &__loading {
+    height: 65px !important;
+    span {
+      text-align: center;
+      width: 100%;
+    }
+  }
 }

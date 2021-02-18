@@ -6,7 +6,6 @@
       ></mat-card-title
     >
   </mat-card-header>
-
   <ng-container *ngIf="!formOptions?.formState?.disabled; else widgetResult">
     <mat-card-content class="crypto-currencies__form">
       <ui-base-form
@@ -20,16 +19,19 @@
       </ui-base-form>
     </mat-card-content>
   </ng-container>
-  <ng-template #widgetResult>
-    <mat-card-content>
-      <button
-        mat-icon-button
-        class="crypto-currencies__button"
-        (click)="toggleFormStateDisabled(false)"
-      >
-        <mat-icon>settings</mat-icon>
-      </button>
-      <mat-list>
+</mat-card>
+
+<ng-template #widgetResult>
+  <mat-card-content>
+    <button
+      mat-icon-button
+      class="crypto-currencies__button"
+      (click)="toggleFormStateDisabled(false)"
+    >
+      <mat-icon>settings</mat-icon>
+    </button>
+    <mat-list>
+      <ng-container *ngIf="getDataWidget() | async; else loading">
         <ng-container *ngFor="let cryptoCurrency of getDataWidget() | async">
           <mat-divider></mat-divider>
           <mat-list-item>
@@ -54,7 +56,14 @@
             </div>
           </mat-list-item>
         </ng-container>
-      </mat-list>
-    </mat-card-content>
-  </ng-template>
-</mat-card>
+      </ng-container>
+    </mat-list>
+  </mat-card-content>
+</ng-template>
+
+<ng-template #loading>
+  <mat-divider></mat-divider>
+  <mat-list-item class="crypto-currencies__loading">
+    <span>Loading...</span>
+  </mat-list-item>
+</ng-template>
