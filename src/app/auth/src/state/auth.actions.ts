@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { IFirebaseError } from '@shared';
-import { ICredentials, IUser, IRegisterUser, ProviderType } from '../models';
+import { ICredentials, IUser, IRegisterUser, IProviders } from '../models';
 
 export const loginWithCredentials = createAction(
   '[Auth] Login With Credentials',
@@ -59,7 +59,7 @@ export const loadUserProfile = createAction('[Auth] Load User Profile');
 
 export const loadUserProfileSuccess = createAction(
   '[Auth] Load User Profile Success',
-  props<{ currentUser: IUser; providerType: ProviderType }>()
+  props<{ currentUser: IUser; providers: IProviders }>()
 );
 
 export const loadUserProfileFailure = createAction(

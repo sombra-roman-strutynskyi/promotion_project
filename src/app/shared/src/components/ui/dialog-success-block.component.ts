@@ -1,10 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-export interface DialogData {
+interface IDialogSuccessData {
   text: string;
 }
-
 @Component({
   selector: 'ui-dialog-success-block',
   template: `
@@ -50,7 +48,7 @@ export interface DialogData {
 export class DialogSuccessBlockComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogSuccessBlockComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: IDialogSuccessData
   ) {}
 
   onClick() {

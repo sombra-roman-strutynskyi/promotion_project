@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthFacade } from '@auth';
 import { isEmptyObject } from '@shared';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { UpdateProfile } from '../../models';
 import { ProfileFacade } from '../../services';
 
@@ -11,7 +11,9 @@ import { ProfileFacade } from '../../services';
 })
 export class ProfileComponent {
   pending$ = this.profileFacade.pending$;
-  providerType$ = this.authFacade.providerType$;
+  showChangePassword$ = this.authFacade.providers$.pipe(
+    map(({ password }) => password)
+  );
   currentUser$ = this.authFacade.currentUser$.pipe(
     filter((d) => !isEmptyObject(d))
   );

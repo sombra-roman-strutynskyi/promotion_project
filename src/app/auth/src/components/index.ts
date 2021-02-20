@@ -1,3 +1,4 @@
+import { DialogPasswordConformationComponent } from './dialog-password-conformation/dialog-password-conformation.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -10,6 +11,7 @@ export const COMPONENTS = [
   ResetPasswordComponent,
   ForgotPasswordComponent,
   UserManagementComponent,
+  DialogPasswordConformationComponent,
 ];
 
 export * from './login/login.component';
@@ -17,3 +19,4 @@ export * from './register/register.component';
 export * from './reset-password/reset-password.component';
 export * from './forgot-password/forgot-password.component';
 export * from './user-management/user-management.component';
+export * from './dialog-password-conformation/dialog-password-conformation.component';

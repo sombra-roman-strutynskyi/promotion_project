@@ -1,6 +1,11 @@
 import { deepMerge, deepRemoveEmptyObjProperty } from '@shared';
 
 export type ProviderType = 'password' | 'google.com' | 'facebook.com';
+export interface IProviders {
+  password: boolean;
+  google: boolean;
+  facebook: boolean;
+}
 export interface ICredentials {
   email: string;
   password: string;

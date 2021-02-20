@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { IFirebaseError } from '@shared';
-import { IUser, ProviderType } from '../models';
+import { IUser, IProviders } from '../models';
 import * as AuthActions from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';
@@ -9,7 +9,7 @@ export interface AuthState {
   userLoaded: boolean;
   pending: boolean;
   error: string;
-  providerType: ProviderType;
+  providers: IProviders;
 }
 
 export const initialState: AuthState = {
@@ -17,7 +17,11 @@ export const initialState: AuthState = {
   userLoaded: false,
   pending: false,
   error: null,
-  providerType: null,
+  providers: {
+    password: false,
+    google: false,
+    facebook: false,
+  },
 };
 
 const authReducer = createReducer(
@@ -64,10 +68,10 @@ const authReducer = createReducer(
   on(AuthActions.logoutSuccess, () => initialState),
   on(
     AuthActions.loadUserProfileSuccess,
-    (state, { currentUser, providerType }) => ({
+    (state, { currentUser, providers }) => ({
       ...state,
       user: { ...currentUser },
-      providerType,
+      providers: { ...state.providers, ...providers },
       pending: false,
       error: null,
       userLoaded: true,

@@ -9,7 +9,7 @@
     (submitted)="updateUserProfile($event)"
   ></profile-edit-profile>
   <profile-change-password
-    *ngIf="(providerType$ | async) === 'password'"
+    *ngIf="showChangePassword$ | async"
     class="col-12"
     (submitted)="updateUserPassword($event)"
   ></profile-change-password>

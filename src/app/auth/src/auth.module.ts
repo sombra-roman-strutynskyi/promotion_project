@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
+import { FormsModule } from '@angular/forms';
 import { CoreModule } from '@core';
 import { environment } from '@env';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,6 +26,7 @@ import { AUTH_FEATURE_KEY, reducer } from './state/auth.reducer';
     AuthRoutingModule,
     SharedModule,
     CoreModule,
+    FormsModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
     StoreModule.forFeature(AUTH_FEATURE_KEY, reducer),

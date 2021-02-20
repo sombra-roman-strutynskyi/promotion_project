@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthFacade } from '@auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SnackbarService, IFirebaseError } from '@shared';
+import { DialogSuccessBlockComponent, SnackbarService } from '@shared';
 import { of } from 'rxjs';
 import { catchError, map, tap, exhaustMap } from 'rxjs/operators';
 import { ProfileDbService } from '../services';
@@ -13,7 +14,8 @@ export class ProfileEffects {
     private actions$: Actions,
     private profileDbService: ProfileDbService,
     private authFacade: AuthFacade,
-    private snackBar: SnackbarService
+    private snackBar: SnackbarService,
+    private dialog: MatDialog
   ) {}
 
   updateUserProfile$ = createEffect(() =>
@@ -41,6 +43,21 @@ export class ProfileEffects {
         )
       )
     )
+  );
+
+  changePasswordSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProfileActions.changePasswordSuccess),
+        tap(() => {
+          this.dialog.open(DialogSuccessBlockComponent, {
+            maxWidth: '500px',
+            minWidth: '300px',
+            data: { text: 'Your Password Changed Success' },
+          });
+        })
+      ),
+    { dispatch: false }
   );
 
   handleError$ = createEffect(

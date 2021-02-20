@@ -8,8 +8,10 @@ import {
   SnackbarService,
   getAllFailureActions,
   DialogSuccessBlockComponent,
+  IFirebaseError,
+  isNullOrUndefined,
 } from '@shared';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
@@ -30,7 +32,13 @@ export class AuthEffects implements OnInitEffects {
       exhaustMap(() =>
         this.authService.googleLogin().pipe(
           map(() => AuthActions.loginWithGoogleSuccess()),
-          catchError((error) => of(AuthActions.loginWithGoogleFailure(error)))
+          catchError((error) =>
+            this.handleErrorOrMergeAccounts(
+              error,
+              AuthActions.loginWithGoogleFailure,
+              AuthActions.loginWithGoogleSuccess
+            )
+          )
         )
       )
     )
@@ -42,7 +50,13 @@ export class AuthEffects implements OnInitEffects {
       exhaustMap(() =>
         this.authService.facebookLogin().pipe(
           map(() => AuthActions.loginWithFacebookSuccess()),
-          catchError((error) => of(AuthActions.loginWithFacebookFailure(error)))
+          catchError((error) =>
+            this.handleErrorOrMergeAccounts(
+              error,
+              AuthActions.loginWithFacebookFailure,
+              AuthActions.loginWithFacebookSuccess
+            )
+          )
         )
       )
     )
@@ -96,10 +110,10 @@ export class AuthEffects implements OnInitEffects {
       ofType(AuthActions.loadUserProfile),
       switchMap(() =>
         this.authService.getCurrentUser().pipe(
-          map(({ currentUser, providerType }) =>
+          map(({ currentUser, providers }) =>
             AuthActions.loadUserProfileSuccess({
               currentUser,
-              providerType,
+              providers,
             })
           ),
           catchError((error) => of(AuthActions.loadUserProfileFailure(error)))
@@ -192,6 +206,22 @@ export class AuthEffects implements OnInitEffects {
       ),
     { dispatch: false }
   );
+
+  private handleErrorOrMergeAccounts(
+    error: IFirebaseError,
+    errorAction: any,
+    successAction: any
+  ): Observable<any> {
+    if (error.code === 'auth/account-exists-with-different-credential') {
+      return this.authService.mergeAccounts(error.email, error.credential).pipe(
+        map((val) =>
+          isNullOrUndefined(val) ? errorAction(error) : successAction()
+        ),
+        catchError((err) => errorAction(err))
+      );
+    }
+    return of(errorAction(error));
+  }
 
   ngrxOnInitEffects(): Action {
     return { type: '[Auth] Load User Profile' };

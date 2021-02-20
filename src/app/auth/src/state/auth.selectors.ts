@@ -19,14 +19,14 @@ const getError = createSelector(
   (state: AuthState) => state.error
 );
 
-const getProviderType = createSelector(
+const getProviders = createSelector(
   getAuthState,
-  (state: AuthState) => state.providerType
+  (state: AuthState) => state.providers
 );
 
 export const authQuery = {
   getPending,
   getUser,
-  getProviderType,
+  getProviders,
   getError,
 };

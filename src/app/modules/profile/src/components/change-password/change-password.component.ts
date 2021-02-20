@@ -56,16 +56,19 @@ export class ChangePasswordComponent implements OnInit {
     this.fields = this.formService.getPasswordFormFields(this.form, this.model);
   }
   changePassword(data: IChangePassword) {
-    this.toggleFormStateDisabled(true);
     this.submitted.emit(data);
+    this.clearForm();
   }
 
   onCancel() {
-    this.formOptions.resetModel();
-    this.toggleFormStateDisabled(true);
+    this.clearForm();
   }
 
   toggleFormStateDisabled(disabled: boolean) {
     this.formOptions.formState.disabled = disabled;
+  }
+  private clearForm() {
+    this.formOptions.resetModel();
+    this.toggleFormStateDisabled(true);
   }
 }
