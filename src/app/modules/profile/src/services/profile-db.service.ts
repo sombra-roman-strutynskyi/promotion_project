@@ -46,8 +46,6 @@ export class ProfileDbService {
         const updateUser = new User({ ...currentUser, ...profile });
         return this.getPhotoUrl(updateUser).pipe(
           mergeMap((photoURL: string) => {
-            console.log(updateUser);
-
             return from(
               this.dbFirebase
                 .object(`users/${updateUser.uid}`)

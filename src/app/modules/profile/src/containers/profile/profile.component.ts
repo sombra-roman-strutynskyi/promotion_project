@@ -25,8 +25,6 @@ export class ProfileComponent {
 
   updateUserProfile(userInfo) {
     const profile = new UpdateProfile(userInfo);
-    console.log(profile);
-
     this.profileFacade.updateProfile(profile);
   }
   updateUserPassword(password) {

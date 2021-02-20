@@ -34,9 +34,6 @@ export class ArticleEditGuard implements CanActivate {
       mergeMap((authorId) =>
         this.isCurrentUserId(authorId).pipe(
           map((isEqual) => {
-            console.log(isEqual);
-            console.log(authorId);
-
             if (isEqual) {
               return true;
             }

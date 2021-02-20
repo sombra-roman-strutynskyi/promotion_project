@@ -38,8 +38,6 @@ export class AuthService {
       map((userCredential: UserCredential) => {
         const { user, additionalUserInfo } = userCredential;
         if (user) {
-          console.log(additionalUserInfo);
-
           const { isNewUser, profile } = additionalUserInfo;
           if (isNewUser) {
             this.dbFirebase.object(`users/${user.uid}`).set({
@@ -61,11 +59,8 @@ export class AuthService {
     });
     return from(this.authFirebase.signInWithPopup(provider)).pipe(
       map((userCredential: UserCredential) => {
-        console.log(userCredential);
         const { user, additionalUserInfo } = userCredential;
-
         if (user) {
-          console.log(additionalUserInfo);
           const { isNewUser, profile } = additionalUserInfo;
           if (isNewUser) {
             this.dbFirebase.object(`users/${user.uid}`).set({
@@ -196,40 +191,41 @@ export class AuthService {
   mergeAccounts(
     email: string,
     credential: AuthCredential
-  ): Observable<UserCredential> {
+  ): Observable<UserCredential | null> {
     return from(this.authFirebase.fetchSignInMethodsForEmail(email)).pipe(
-      mergeMap((providers: ProviderType[]) => {
-        const firstProvider = providers[0];
-        if (firstProvider === 'password') {
+      mergeMap((providerTypes: ProviderType[]) => {
+        const providerType = providerTypes[0];
+        if (providerType === 'password') {
           return this.getPasswordFromDialog(email).pipe(
             take(1),
             mergeMap((password) =>
               from(
-                this.loginWithCredentials({ email, password, remember: false })
-              ).pipe(
-                mergeMap((userCredential) => {
-                  return from(
-                    userCredential.user.linkWithCredential(credential)
-                  );
+                this.loginWithCredentials({
+                  email,
+                  password,
+                  remember: false,
                 })
               )
             )
           );
         }
-        const provider = this.getProviderForProviderId(firstProvider);
-        if (isNullOrUndefined(provider)) {
-          return of(null);
+        const provider = this.getProviderForProviderId(providerType);
+        return provider
+          ? from(this.authFirebase.signInWithPopup(provider))
+          : of(provider);
+      }),
+      mergeMap((userCredential: UserCredential) => {
+        if (userCredential) {
+          return userCredential.user.linkWithCredential(credential);
         }
-        return from(this.authFirebase.signInWithPopup(provider)).pipe(
-          mergeMap((resultCredentials) =>
-            from(resultCredentials.user.linkWithCredential(credential))
-          )
-        );
+        return of(userCredential);
       })
     );
   }
 
-  private getProviderForProviderId(providerType: ProviderType): AuthProvider {
+  private getProviderForProviderId(
+    providerType: ProviderType
+  ): AuthProvider | null {
     switch (providerType) {
       case 'google.com':
         return new firebase.auth.GoogleAuthProvider();
