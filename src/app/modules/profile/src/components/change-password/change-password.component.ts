@@ -23,21 +23,22 @@ export class ChangePasswordComponent implements OnInit {
   fields: FormlyFieldConfig[];
   formButtons: UiFormButton[] = [
     {
+      label: 'Cancel',
+      type: 'button',
+      classWrapper: 'col row no-gutters justify-content-end ',
+      action: { type: 'cancel' },
+      style: {
+        color: 'primary',
+      },
+    },
+    {
       label: 'Change Password',
+      classWrapper: 'col-auto',
       type: 'submit',
       action: { type: 'submit' },
       style: {
         color: 'accent',
         type: 'raised',
-      },
-    },
-    {
-      label: 'Cancel',
-      type: 'button',
-      classWrapper: 'col-1',
-      action: { type: 'cancel' },
-      style: {
-        color: 'primary',
       },
     },
   ];

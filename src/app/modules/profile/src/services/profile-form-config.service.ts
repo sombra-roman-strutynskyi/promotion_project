@@ -15,7 +15,7 @@ export class ProfileFormConfigService {
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-4',
+            className: 'col-md-4 col-sm-6 col-12',
             key: 'firstName',
             type: 'input',
             templateOptions: {
@@ -25,7 +25,7 @@ export class ProfileFormConfigService {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-md-4 col-sm-6 col-12',
             key: 'lastName',
             type: 'input',
             templateOptions: {
@@ -35,7 +35,7 @@ export class ProfileFormConfigService {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-md-4 col-sm-6 col-12',
             key: 'age',
             type: 'input',
             templateOptions: {
@@ -72,7 +72,7 @@ export class ProfileFormConfigService {
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-4',
+            className: 'col-md-4 col-sm-6 col-12',
             key: 'oldPassword',
             type: 'input',
             templateOptions: {
@@ -84,7 +84,7 @@ export class ProfileFormConfigService {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-md-4 col-sm-6 col-12',
             key: 'newPassword',
             type: 'input',
             templateOptions: {
@@ -96,7 +96,7 @@ export class ProfileFormConfigService {
             },
           },
           {
-            className: 'col-4',
+            className: 'col-md-4 col-sm-6 col-12',
             key: 'confirmPassword',
             type: 'input',
             templateOptions: {

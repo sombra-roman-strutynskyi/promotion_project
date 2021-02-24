@@ -1,4 +1,3 @@
-
 export interface UiFormButton {
   label?: string;
   type?: string;
@@ -12,5 +11,9 @@ export interface UiFormButton {
   style?: {
     type?: string;
     color?: string;
+  };
+  icon?: {
+    name: string;
+    size?: number;
   };
 }

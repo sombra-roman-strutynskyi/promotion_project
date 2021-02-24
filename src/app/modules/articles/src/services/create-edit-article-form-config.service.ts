@@ -8,32 +8,37 @@ export class CreateEditArticleFormConfigService {
   getFormButtons(isNew: boolean, removeArticleFn: Function): UiFormButton[] {
     const formButtons: UiFormButton[] = [
       {
-        label: isNew ? 'Create Article' : 'Update Article',
-        type: 'submit',
-        action: { type: 'submit' },
-        style: {
-          color: 'accent',
-          type: 'raised',
-        },
-      },
-      {
         label: 'Cancel',
         type: 'button',
-        classWrapper: 'col-1',
+        classWrapper: 'col row no-gutters justify-content-end ',
         action: { type: 'cancel' },
         style: {
           color: 'primary',
         },
       },
+      {
+        label: isNew ? 'Create' : 'Update',
+        type: 'submit',
+        action: { type: 'submit' },
+        classWrapper: 'col-auto',
+        style: {
+          color: 'accent',
+          type: 'raised',
+        },
+      },
     ];
 
     const deleteButton: UiFormButton = {
-      label: 'Remove Article',
+      label: 'Remove',
       type: 'button',
       classWrapper: 'col row',
+      classNames: 'create-edit-article__remove',
       style: {
         color: 'warn',
         type: 'stroked',
+      },
+      icon: {
+        name: 'delete',
       },
       action: {
         handler: () => removeArticleFn(),

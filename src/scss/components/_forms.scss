@@ -1,6 +1,8 @@
 @import 'vars';
+@import 'media';
 
 .image-uploader {
+  padding-bottom: 10px;
   &__header {
     padding: {
       top: 10px;
@@ -19,12 +21,19 @@
     max-width: 150px;
     object-fit: contain;
     margin-right: 25px;
+    @include media('<phone') {
+      margin-right: 15px;
+      max-width: 115px;
+    }
   }
   &__button {
-    padding: 0;
+    padding: 0 !important;
     label {
       cursor: pointer;
       padding: 16px;
+      @include media('<phone') {
+        padding: 10px;
+      }
     }
   }
   & input {

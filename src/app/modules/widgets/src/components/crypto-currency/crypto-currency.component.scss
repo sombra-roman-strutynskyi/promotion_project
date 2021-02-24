@@ -1,12 +1,17 @@
 @import 'mixins';
 @import 'vars';
+@import 'media';
 
 .crypto-currencies {
   padding-bottom: 0;
   margin-top: 70px;
+  @include media('<tablet') {
+    margin-top: 15px;
+  }
   &__title {
     font-size: $fs;
     color: #0d47a0;
+    display: block;
   }
   &__form {
     padding: 15px 0;
@@ -17,7 +22,11 @@
     right: 5px;
     z-index: 1;
   }
+  &__list {
+    display: flex !important;
+  }
   &__item {
+    display: flex;
     font-size: $fs-sm;
     padding: {
       left: 0;
@@ -25,9 +34,13 @@
     }
   }
   &__name {
-    @include max-lines(1, $fs-lg);
     white-space: normal;
     cursor: help;
+    padding-left: 0;
+    @include max-lines(1, $fs-lg);
+    @include media('≥tablet', '<desktop') {
+      display: none;
+    }
   }
   &__price {
     color: #028786;

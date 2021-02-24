@@ -1,3 +1,4 @@
+@import 'media';
 .crypto-currencies {
   .mat-card-header .mat-card-title {
     margin-bottom: 0;
@@ -17,6 +18,26 @@
 
     .mat-list-item-content {
       padding: 0;
+    }
+  }
+}
+.create-edit-article {
+  &__remove {
+    @include media('<phone') {
+      padding: 0 !important;
+      min-width: 35px !important;
+    }
+    .form-buttons {
+      &__icon {
+        @include media('>=phone') {
+          display: none;
+        }
+      }
+      &__label {
+        @include media('<phone') {
+          display: none;
+        }
+      }
     }
   }
 }

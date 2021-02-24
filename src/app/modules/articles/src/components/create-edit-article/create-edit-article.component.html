@@ -1,11 +1,17 @@
-<ui-accordion [loadingOverlay]="pending$ | async" [title]="title" [open]="true">
-  <ui-base-form
-    class="create-edit-article"
-    [fields]="fields"
-    [model]="model"
-    [formOptions]="formOptions"
-    [formButtons]="formButtons"
-    (submitted)="onSubmit($event)"
-    (canceled)="onCancel()"
-  ></ui-base-form>
-</ui-accordion>
+<div class="col-12">
+  <ui-accordion
+    [loadingOverlay]="pending$ | async"
+    [title]="title"
+    [open]="true"
+  >
+    <ui-base-form
+      class="create-edit-article"
+      [fields]="fields"
+      [model]="model"
+      [formOptions]="formOptions"
+      [formButtons]="formButtons"
+      (submitted)="onSubmit($event)"
+      (canceled)="onCancel()"
+    ></ui-base-form>
+  </ui-accordion>
+</div>

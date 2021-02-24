@@ -29,21 +29,22 @@ export class EditProfileComponent implements OnInit {
   };
   formButtons: UiFormButton[] = [
     {
+      label: 'Cancel',
+      type: 'button',
+      classWrapper: 'col row no-gutters justify-content-end ',
+      action: { type: 'cancel' },
+      style: {
+        color: 'primary',
+      },
+    },
+    {
       label: 'Update Profile',
       type: 'submit',
+      classWrapper: 'col-auto',
       action: { type: 'submit' },
       style: {
         color: 'accent',
         type: 'raised',
-      },
-    },
-    {
-      label: 'Cancel',
-      type: 'button',
-      classWrapper: 'col-1',
-      action: { type: 'cancel' },
-      style: {
-        color: 'primary',
       },
     },
   ];

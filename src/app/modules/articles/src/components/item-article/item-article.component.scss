@@ -1,13 +1,23 @@
 @import 'vars';
 @import 'mixins';
+@import 'media';
+
 :host {
   padding: 15px;
 }
 .item-article {
   text-decoration: none;
+  height: 100%;
+  display: block;
+  mat-card {
+    height: 100%;
+  }
   &__img {
     object-fit: cover;
     height: 250px;
+    @include media('≥tablet', '<desktop') {
+      height: 150px;
+    }
   }
   &__date {
     position: absolute;
@@ -23,11 +33,19 @@
     font-size: $fs-big;
     color: $black;
     margin: 0;
+    @include media('≥tablet', '<desktop') {
+      font-size: $fs-sm;
+    }
   }
   &__description {
     color: lighten($black, 2);
     font-size: $fs;
     @include max-lines(3, $fs-lg);
     padding-bottom: 10px;
+    @include media('≥tablet', '<desktop') {
+      @include max-lines(3, $fs-big);
+
+      font-size: $fs-lt;
+    }
   }
 }

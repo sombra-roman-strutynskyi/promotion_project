@@ -25,7 +25,9 @@
       [disabled]="button.action?.type === 'submit' ? form.invalid : false"
       [color]="button.style?.color || ''"
     >
-      {{ button.label || '' }}
+      <ng-container
+        *ngTemplateOutlet="buttonContent; context: { $implicit: button }"
+      ></ng-container>
     </button>
 
     <button
@@ -39,7 +41,9 @@
       [disabled]="button.action.type === 'submit' ? form.invalid : false"
       [color]="button.style?.color || ''"
     >
-      {{ button.label || '' }}
+      <ng-container
+        *ngTemplateOutlet="buttonContent; context: { $implicit: button }"
+      ></ng-container>
     </button>
     <button
       *ngSwitchCase="'stroked'"
@@ -52,7 +56,26 @@
       [disabled]="button.action.type === 'submit' ? form.invalid : false"
       [color]="button.style?.color || ''"
     >
-      {{ button.label || '' }}
+      <ng-container
+        *ngTemplateOutlet="buttonContent; context: { $implicit: button }"
+      ></ng-container>
     </button>
   </ng-container>
+</ng-template>
+
+<ng-template #buttonContent let-button>
+  <div class="form-buttons__content">
+    <mat-icon
+      class="form-buttons__icon"
+      [ngStyle]="{
+        'font-size': button?.icon?.size ? button?.icon?.size + 'px' : '24px'
+      }"
+      *ngIf="button?.icon?.name"
+      [color]="button.style?.color || ''"
+      >{{ button?.icon?.name }}</mat-icon
+    >
+    <span class="form-buttons__label">
+      {{ button.label || '' }}
+    </span>
+  </div>
 </ng-template>
