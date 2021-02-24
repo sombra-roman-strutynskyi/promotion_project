@@ -1,0 +1,27 @@
+<mat-expansion-panel
+  class="accordion"
+  [hideToggle]="hideToggle"
+  [expanded]="open"
+>
+  <mat-expansion-panel-header *ngIf="title || description">
+    <mat-panel-title *ngIf="title"> {{ title }} </mat-panel-title>
+    <mat-panel-description *ngIf="description">
+      {{ description }}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-template matExpansionPanelContent>
+    <div class="accordion__subheader" *ngIf="buttonLabel">
+      <button
+        class="accordion__button"
+        mat-button
+        color="primary"
+        [disabled]="buttonDisabled"
+        (click)="onClick()"
+      >
+        {{ buttonLabel }}
+      </button>
+    </div>
+
+    <ng-content></ng-content>
+  </ng-template>
+</mat-expansion-panel>

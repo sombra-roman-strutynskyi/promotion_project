@@ -1,0 +1,27 @@
+@import 'vars';
+
+.success-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__text {
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    color: rgba($black, 0.8);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  &__icon {
+    height: 50px;
+    width: 50px;
+    color: $pastel-green;
+    border: 3px solid currentColor;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+  }
+}

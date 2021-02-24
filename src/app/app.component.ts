@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFacade } from '@auth';
-import { ROUTES_DATA } from './shared/src/constants/routePaths';
+import { ROUTES_DATA } from './shared/constants';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +12,13 @@ export class AppComponent {
   currentUser$ = this.authFacade.currentUser$;
   constructor(private authFacade: AuthFacade, private router: Router) {}
 
-  goToEditUser() {
+  public goToEditUser(): void {
     this.router.navigateByUrl(ROUTES_DATA.PROFILE.url);
   }
-  goToHome() {
+  public goToHome(): void {
     this.router.navigateByUrl('/');
   }
-  logout() {
+  public logout(): void {
     this.authFacade.logout();
   }
 }

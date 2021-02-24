@@ -1,0 +1,30 @@
+@import 'vars';
+
+.login {
+  &__button {
+    width: 100%;
+    margin-top: 15px;
+    text-align: left;
+    text-transform: uppercase;
+    padding-left: 0;
+    color: $white;
+    &--google {
+      background-color: $dodger-blue;
+    }
+    &--facebook {
+      background-color: $chambray;
+    }
+  }
+  &__icon {
+    height: 50px;
+    width: 50px;
+    padding: 13px;
+    background-color: rgba($black, 0.2);
+    margin-right: 10px;
+  }
+  &__or {
+    text-align: center;
+    color: rgba($black, 0.8);
+    padding: 20px 0 10px;
+  }
+}
