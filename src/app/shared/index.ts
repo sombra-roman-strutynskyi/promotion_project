@@ -1,6 +1,5 @@
 export * from './constants';
 export * from './shared.module';
-export * from './helpers';
 export * from './pipes';
 export * from './utils';
 export * from './components';

@@ -9,12 +9,12 @@ import {
   getAllFailureActions,
   DialogSuccessBlockComponent,
   IFirebaseError,
-  isNullOrUndefined,
 } from '@shared';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
+import { isNil } from 'lodash';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -214,9 +214,7 @@ export class AuthEffects implements OnInitEffects {
   ): Observable<any> {
     if (error.code === 'auth/account-exists-with-different-credential') {
       return this.authService.mergeAccounts(error.email, error.credential).pipe(
-        map((val) =>
-          isNullOrUndefined(val) ? errorAction(error) : successAction()
-        ),
+        map((val) => (isNil(val) ? errorAction(error) : successAction())),
         catchError((err) => errorAction(err))
       );
     }

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
-  ActivatedRoute,
   RouterStateSnapshot,
   UrlTree,
   Router,
 } from '@angular/router';
 import { AuthFacade } from '@auth';
-import { isEmptyObject, ROUTES_DATA, isNullOrUndefined } from '@shared';
+import { ROUTES_DATA } from '@shared';
+import { isEmpty, isNil } from 'lodash';
 import { Observable } from 'rxjs';
 import { filter, take, map, mergeMap } from 'rxjs/operators';
 import { ArticlesFacade } from './articles.facade';
@@ -47,7 +47,7 @@ export class ArticleEditGuard implements CanActivate {
 
   private isCurrentUserId(authorId: string) {
     return this.authFacade.currentUser$.pipe(
-      filter((d) => !isEmptyObject(d)),
+      filter((d) => !isEmpty(d)),
       take(1),
       map(({ uid }) => uid === authorId)
     );
@@ -55,7 +55,7 @@ export class ArticleEditGuard implements CanActivate {
 
   private getArticleAuthor() {
     return this.articlesFacade.selectedArticle$.pipe(
-      filter((d) => !isNullOrUndefined(d)),
+      filter((d) => !isNil(d)),
       take(1),
       map(({ authorId }) => authorId)
     );

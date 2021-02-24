@@ -1,14 +1,13 @@
-import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { getUrlToFileFromFirebaseStorage$, omit } from '@shared';
+import { getUrlToFileFromFirebaseStorage$ } from '@shared';
+import { omit } from 'lodash';
 import { of } from 'rxjs';
 import { Observable, from } from 'rxjs';
-import { map, take, switchMap, mergeMap } from 'rxjs/operators';
+import { map, take, mergeMap } from 'rxjs/operators';
 import { v4 as uuid } from 'uuid';
-import { IArticle } from '../models';
-import { Article } from '../models/articles';
+import { IArticle, Article } from '../models';
 @Injectable()
 export class ArticlesDBService {
   constructor(
@@ -40,7 +39,7 @@ export class ArticlesDBService {
               createdAt: dateNow,
               updatedAt: dateNow,
             },
-            'image'
+            ['image']
           ) as IArticle
         );
 
@@ -60,7 +59,7 @@ export class ArticlesDBService {
             updatedAt: new Date().toISOString(),
             imageUrl,
           },
-          'image'
+          ['image']
         ) as IArticle;
         return from(
           this.dbFirebase.object(`articles/${article.id}`).update(updateArticle)

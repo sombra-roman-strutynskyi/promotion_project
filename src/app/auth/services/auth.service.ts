@@ -3,15 +3,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  pick,
-  omit,
   UserCredential,
   UserFirebase,
   AuthCredential,
-  isNullOrUndefined,
   AuthProvider,
 } from '@shared';
 import firebase from 'firebase/app';
+import { omit, pick } from 'lodash';
 import { Observable, of, from } from 'rxjs';
 import { take, map, mergeMap, exhaustMap } from 'rxjs/operators';
 import { DialogPasswordConformationComponent } from '../components/dialog-password-conformation/dialog-password-conformation.component';
@@ -111,14 +109,13 @@ export class AuthService {
               take(1),
               map((user: IUser) => ({
                 currentUser: new User({
-                  ...pick(
-                    userFirebase,
+                  ...pick(userFirebase, [
                     'uid',
                     'firstName',
                     'lastName',
                     'email',
-                    'photoURL'
-                  ),
+                    'photoURL',
+                  ]),
                   ...user,
                 }),
                 providers: userFirebase?.providerData.reduce(
@@ -150,7 +147,7 @@ export class AuthService {
             user.sendEmailVerification();
             this.dbFirebase
               .object(`users/${user.uid}`)
-              .set(omit(registerUser, 'password'));
+              .set(omit(registerUser, ['password']));
           }
           return userCredential;
         })

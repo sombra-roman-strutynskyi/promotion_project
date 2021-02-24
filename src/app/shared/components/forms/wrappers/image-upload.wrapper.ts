@@ -7,10 +7,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FieldWrapper } from '@ngx-formly/core';
-import { Subject, Observable } from 'rxjs';
+import { isNil } from 'lodash';
+import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { isNullOrUndefined, isString } from '../../../helpers';
-
 @Component({
   selector: 'formly-wrapper-image-uploader',
   template: `
@@ -68,7 +67,7 @@ export class FormlyWrapperImageUploaderComponent
     if (!this.to.imageUrl && this.to.imageUrl$) {
       this.to.imageUrl$
         .pipe(
-          filter((v) => !isNullOrUndefined(v)),
+          filter((v) => !isNil(v)),
           takeUntil(this.ngSubject)
         )
         .subscribe((imageUrl) => {
@@ -81,7 +80,7 @@ export class FormlyWrapperImageUploaderComponent
     this.formControl.valueChanges
       .pipe(takeUntil(this.ngSubject))
       .subscribe((res) => {
-        if (isNullOrUndefined(res) || !res.length) {
+        if (isNil(res) || !res.length) {
           this.resetImage();
         } else {
           this.reader.readAsDataURL(res[0]);
@@ -96,7 +95,7 @@ export class FormlyWrapperImageUploaderComponent
     if (!this.to.imageUrl && this.to.imageUrl$) {
       this.to.imageUrl$
         .pipe(
-          filter((v) => !isNullOrUndefined(v)),
+          filter((v) => !isNil(v)),
           take(1)
         )
         .subscribe((imageUrl) => {

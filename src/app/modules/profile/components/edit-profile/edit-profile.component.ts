@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { IUser } from '@auth';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { isEmptyObject, isNullOrUndefined, UiFormButton } from '@shared';
+import { UiFormButton } from '@shared';
+import { isEmpty, isNil } from 'lodash';
 import { UpdateProfile, IUpdateProfile } from '../../models';
 import { ProfileFormConfigService } from '../../services';
 
@@ -12,7 +13,7 @@ import { ProfileFormConfigService } from '../../services';
 })
 export class EditProfileComponent implements OnInit {
   @Input() set currentUser(user: IUser) {
-    if (!isNullOrUndefined(user) && !isEmptyObject(user)) {
+    if (!isNil(user) && !isEmpty(user)) {
       this.model = new UpdateProfile(user);
       this.formService.updatePhotoURL(this.model.photoURL);
     }

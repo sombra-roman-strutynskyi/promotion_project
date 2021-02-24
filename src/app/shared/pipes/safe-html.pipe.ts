@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { isString } from '../helpers';
-
+import { isString } from 'lodash';
 @Pipe({
   name: 'safeHtml',
 })

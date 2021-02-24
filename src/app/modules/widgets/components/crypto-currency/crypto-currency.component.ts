@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { isNullOrUndefined, SubscriptionDisposer, UiFormButton } from '@shared';
+import { SubscriptionDisposer, UiFormButton } from '@shared';
 import { timer, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, map } from 'rxjs/operators';
 import { ICryptoCurrencyWidget } from '../../models';
 import { ICryptoCurrency, ICurrencyType } from '../../models/widgets';
+import { isNil } from 'lodash';
 import {
   WidgetCryptoCurrencyFormService,
   WidgetLocalStorageConfigService,
@@ -79,7 +80,7 @@ export class CryptoCurrencyComponent
   private loadCurrencies() {
     this.widgetsFacade.currencyTypes$
       .pipe(
-        filter((d) => !isNullOrUndefined(d)),
+        filter((d) => !isNil(d)),
         take(1)
       )
       .subscribe((currencies) => {

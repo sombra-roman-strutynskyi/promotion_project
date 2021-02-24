@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthFacade } from '@auth';
-import { isEmptyObject, isNullOrUndefined } from '@shared';
+import { isEmpty, isNil } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
@@ -18,7 +18,7 @@ export class WidgetLocalStorageConfigService {
   constructor(private authFacade: AuthFacade) {
     this.authFacade.currentUser$
       .pipe(
-        filter((d) => !isEmptyObject(d)),
+        filter((d) => !isEmpty(d)),
         take(1),
         map(({ uid }) => uid)
       )
@@ -49,9 +49,7 @@ export class WidgetLocalStorageConfigService {
   }
 
   private getUserWidgetsConfig(): Observable<IWidgetsConfig> {
-    return this.userWidgetConfig$
-      .asObservable()
-      .pipe(filter((d) => !isNullOrUndefined(d)));
+    return this.userWidgetConfig$.asObservable().pipe(filter((d) => !isNil(d)));
   }
 
   private setUserWidgetsConfig(config: IWidgetsConfig) {

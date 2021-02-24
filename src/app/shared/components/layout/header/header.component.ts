@@ -5,7 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { isEmptyObject } from '../../../helpers';
+import { isEmpty } from 'lodash';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,7 +15,7 @@ import { isEmptyObject } from '../../../helpers';
 export class HeaderComponent {
   _currentUser;
   @Input() set currentUser(data) {
-    this._currentUser = isEmptyObject(data) ? null : data;
+    this._currentUser = isEmpty(data) ? null : data;
   }
   get currentUser() {
     return this._currentUser;

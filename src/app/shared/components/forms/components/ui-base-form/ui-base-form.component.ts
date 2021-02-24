@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { get } from '../../../../helpers';
+import { get } from 'lodash';
 import { UiFormButton } from '../../../../models';
 import { UiFormlyService } from '../../../../services';
 
@@ -42,10 +42,10 @@ export class UiBaseFormComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.formlyService.bindFieldsToFormState(this.fields, {
       disabled: 'formState.disabled',
-      disabledClassName: get('formState.disabledClassName', this.formOptions),
+      disabledClassName: get(this.formOptions, 'formState.disabledClassName'),
       validationShow: 'formState.showErrorState',
     });
-    const validators = get('formState.validators', this.formOptions);
+    const validators = get(this.formOptions, 'formState.validators');
     if (validators) {
       this.form.setValidators(validators);
     }

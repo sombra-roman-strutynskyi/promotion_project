@@ -3,12 +3,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AuthFacade, IUser, User } from '@auth';
-import { omit, getUrlToFileFromFirebaseStorage$, UserFirebase } from '@shared';
+import { getUrlToFileFromFirebaseStorage$, UserFirebase } from '@shared';
 import firebase from 'firebase/app';
+import { omit } from 'lodash';
 import { Observable, of, from } from 'rxjs';
 import { take, mergeMap } from 'rxjs/operators';
 import { IUpdateProfile } from '../models';
-
 @Injectable()
 export class ProfileDbService {
   private userFirebase: UserFirebase;
@@ -49,7 +49,7 @@ export class ProfileDbService {
             return from(
               this.dbFirebase
                 .object(`users/${updateUser.uid}`)
-                .update(omit({ ...updateUser, photoURL }, 'uid', 'photo'))
+                .update(omit({ ...updateUser, photoURL }, ['uid', 'photo']))
             );
           })
         );

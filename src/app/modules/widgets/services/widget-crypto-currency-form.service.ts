@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { getOptionsForSelect, isNullOrUndefined, UiFormButton } from '@shared';
+import { getOptionsForSelect, UiFormButton } from '@shared';
 import { map, take, filter } from 'rxjs/operators';
 import { WidgetsFacade } from './widgets.facade';
+import { isNil } from 'lodash';
 
 @Injectable()
 export class WidgetCryptoCurrencyFormService {
@@ -76,7 +77,7 @@ export class WidgetCryptoCurrencyFormService {
   private getCryptoCurrenciesOptions() {
     return getOptionsForSelect(
       this.widgetFacade.cryptoCurrencyTypes$.pipe(
-        filter((d) => !isNullOrUndefined(d)),
+        filter((d) => !isNil(d)),
         take(1),
         map((d) => d.slice(200, 2200))
       )
@@ -85,7 +86,7 @@ export class WidgetCryptoCurrencyFormService {
   private getCurrenciesOptions() {
     return getOptionsForSelect(
       this.widgetFacade.currencyTypes$.pipe(
-        filter((d) => !isNullOrUndefined(d)),
+        filter((d) => !isNil(d)),
         take(1)
       )
     );

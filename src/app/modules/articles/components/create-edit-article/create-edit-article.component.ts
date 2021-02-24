@@ -3,12 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthFacade } from '@auth';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import {
-  isEmptyObject,
-  isNullOrUndefined,
-  SubscriptionDisposer,
-  UiFormButton,
-} from '@shared';
+import { SubscriptionDisposer, UiFormButton } from '@shared';
+import { isEmpty, isNil } from 'lodash';
 import { take, takeUntil, filter, map } from 'rxjs/operators';
 import { Article, IArticle } from '../../models';
 import {
@@ -50,7 +46,7 @@ export class CreateEditArticleComponent
 
   ngOnInit() {
     this.activatedRoute.params.pipe(take(1)).subscribe(({ id }) => {
-      if (!isNullOrUndefined(id)) {
+      if (!isNil(id)) {
         this.articleId = id;
       }
     });
@@ -64,7 +60,7 @@ export class CreateEditArticleComponent
       this.articlesFacade.selectedArticle$
         .pipe(takeUntil(this.ngSubject))
         .subscribe((article: IArticle) => {
-          if (isNullOrUndefined(article)) {
+          if (isNil(article)) {
             this.articlesFacade.loadArticleById(this.articleId);
           } else {
             this.model = { ...article };
@@ -84,7 +80,7 @@ export class CreateEditArticleComponent
   getAuthorId() {
     this.authFacade.currentUser$
       .pipe(
-        filter((d) => !isEmptyObject(d)),
+        filter((d) => !isEmpty(d)),
         take(1),
         map(({ uid }) => uid)
       )

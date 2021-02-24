@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthFacade } from '@auth';
-import {
-  isEmptyObject,
-  isNullOrUndefined,
-  SubscriptionDisposer,
-} from '@shared';
+import { SubscriptionDisposer } from '@shared';
+import { isEmpty, isNil } from 'lodash';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { IArticle } from '../../models';
 import { ArticlesFacade } from '../../services';
@@ -32,7 +29,7 @@ export class PreviewArticleComponent
 
   ngOnInit() {
     this.activatedRoute.params.pipe(take(1)).subscribe(({ id }) => {
-      if (!isNullOrUndefined(id)) {
+      if (!isNil(id)) {
         this.articleId = id;
       }
     });
@@ -41,7 +38,7 @@ export class PreviewArticleComponent
     this.articlesFacade.selectedArticle$
       .pipe(takeUntil(this.ngSubject))
       .subscribe((article) => {
-        if (!isNullOrUndefined(article)) {
+        if (!isNil(article)) {
           this.article = { ...article };
         }
       });
@@ -51,7 +48,7 @@ export class PreviewArticleComponent
   private getCurrentUserId() {
     this.authFacade.currentUser$
       .pipe(
-        filter((d) => !isEmptyObject(d)),
+        filter((d) => !isEmpty(d)),
         take(1),
         map(({ uid }) => uid)
       )
