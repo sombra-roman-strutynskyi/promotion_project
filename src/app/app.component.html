@@ -1,8 +1,3 @@
-<app-layout
-  [currentUser]="currentUser$ | async"
-  (logouted)="logout()"
-  (editedUser)="goToEditUser()"
-  (wentToHome)="goToHome()"
->
+<app-layout [currentUser]="currentUser$ | async" (logouted)="logout()">
   <router-outlet></router-outlet>
 </app-layout>

@@ -10,11 +10,11 @@ import {
   DialogSuccessBlockComponent,
   IFirebaseError,
 } from '@shared';
+import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
-import { isNil } from 'lodash';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {

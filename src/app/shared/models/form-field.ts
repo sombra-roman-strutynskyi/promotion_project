@@ -1,7 +1,7 @@
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 
 export interface IFieldOptions {
   className?: string;

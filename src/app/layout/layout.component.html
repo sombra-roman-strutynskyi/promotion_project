@@ -1,0 +1,41 @@
+<main>
+  <mat-toolbar color="primary" class="container-fluid header">
+    <div class="col-12">
+      <div class="row justify-content-space-between align-items-center">
+        <div (click)="goToHome()" class="header__name col-sm-6 col-auto">
+          <span class="hidden-xs-down"> My Application </span>
+          <mat-icon class="hidden-sm-up header__icon--home">home</mat-icon>
+        </div>
+        <ng-container *ngIf="currentUser">
+          <div class="col row justify-content-end align-items-center">
+            <button class="header__user" (click)="goToEditUser()">
+              <img
+                src="{{
+                  currentUser.photoURL || './assets/images/profile-user.svg'
+                }}"
+                alt="avatar"
+                class="header__avatar"
+              />
+              <div class="header__username">
+                {{ currentUser.firstName }} {{ currentUser.lastName }}
+              </div>
+            </button>
+          </div>
+          <button
+            mat-icon-button
+            class="col-auto header__button"
+            (click)="logout()"
+          >
+            <mat-icon
+              class="header__icon header__icon--logout"
+              svgIcon="logout"
+            ></mat-icon>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="container">
+    <ng-content></ng-content>
+  </div>
+</main>

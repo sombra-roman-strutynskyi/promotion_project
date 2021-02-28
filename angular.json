@@ -29,7 +29,8 @@
               "includePaths": ["src/scss/base"]
             },
             "styles": ["src/scss/main.scss"],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["lodash"]
           },
           "configurations": {
             "production": {

@@ -16,12 +16,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedModule } from '@shared';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
@@ -34,9 +36,9 @@ import { AppComponent } from './app.component';
     AuthModule,
     SharedModule,
     ReactiveFormsModule,
-    CommonModule,
     HttpClientModule,
     AngularFireStorageModule,
+    LayoutModule,
   ],
   providers: [
     { provide: BUCKET, useValue: environment.firebase.storageBucket },

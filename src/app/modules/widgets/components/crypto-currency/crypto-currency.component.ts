@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { SubscriptionDisposer, UiFormButton } from '@shared';
+import { isNil } from 'lodash';
 import { timer, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, map } from 'rxjs/operators';
-import { ICryptoCurrencyWidget } from '../../models';
-import { ICryptoCurrency, ICurrencyType } from '../../models/widgets';
-import { isNil } from 'lodash';
+import {
+  ICryptoCurrencyWidget,
+  ICryptoCurrency,
+  ICurrencyType,
+} from '../../models';
 import {
   WidgetCryptoCurrencyFormService,
   WidgetLocalStorageConfigService,
