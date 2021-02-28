@@ -6,3 +6,62 @@ main {
   min-height: 100vh;
   overflow: hidden;
 }
+.layout-header {
+  &__user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba($white, 0);
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: background 0.35s;
+    cursor: pointer;
+    outline: none;
+    &:hover,
+    &:focus {
+      background: rgba($white, 0.1);
+    }
+    &:active {
+      background: rgba($white, 0.2);
+    }
+  }
+  &__name {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    @include media('<maxPhone') {
+      padding: 0;
+    }
+  }
+  &__username {
+    padding-left: 10px;
+    color: $white;
+    font-size: 14px;
+  }
+  &__icon {
+    height: 25px;
+    width: auto;
+    display: block;
+    &--logout {
+      @include media('<maxPhone') {
+        height: 20px;
+      }
+    }
+    &--home {
+      @include media('<maxPhone') {
+        font-size: 30px;
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+  &__avatar {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 100%;
+  }
+}

@@ -1,6 +1,3 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-// const { compilerOptions } = require('./tsconfig');
-
 module.exports = {
   preset: 'jest-preset-angular',
   roots: ['<rootDir>/src/'],
@@ -9,7 +6,11 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ['html'],
   coverageDirectory: 'coverage/my-app',
-  // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
-  //   prefix: '<rootDir>/',
-  // }),
+  moduleNameMapper: {
+    '@env': '<rootDir>/src/environments/environment',
+    '@shared': '<rootDir>/src/app/shared/index.ts',
+    '@core': '<rootDir>/src/app/core/index.ts',
+    '@auth': '<rootDir>/src/app/auth/index.ts',
+    '@modules/*': '<rootDir>/src/app/modules/*',
+  },
 };
