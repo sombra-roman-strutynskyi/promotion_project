@@ -5,9 +5,13 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ROUTES_DATA, SubscriptionDisposer, UiFormButton } from '@shared';
 import { of } from 'rxjs';
 import { take, catchError, tap } from 'rxjs/operators';
-import { AuthFacade, AuthService } from '../../services';
+import { AuthFacade, AuthFormService, AuthService } from '../../services';
 
-type TRequestMode = 'resetPassword' | 'verifyEmail';
+type TMode = 'resetPassword' | 'verifyEmail';
+enum Mode {
+  RESET_PASSWORD = 'resetPassword',
+  VERIFY_EMAIL = 'verifyEmail',
+}
 
 @Component({
   selector: 'auth-user-management',
@@ -17,48 +21,10 @@ type TRequestMode = 'resetPassword' | 'verifyEmail';
 export class UserManagementComponent
   extends SubscriptionDisposer
   implements OnInit {
+  fields: FormlyFieldConfig[];
   form = new FormGroup({});
   actionCode: string;
   userEmail: string;
-  fields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: 'row',
-      fieldGroup: [
-        {
-          className: 'col-12',
-          key: 'newPassword',
-          type: 'input',
-          templateOptions: {
-            type: 'password',
-            label: 'New Password',
-            placeholder: '•'.repeat(8),
-            required: true,
-            minLength: 6,
-          },
-        },
-        {
-          className: 'col-12',
-          key: 'confirmPassword',
-          type: 'input',
-          templateOptions: {
-            type: 'password',
-            label: 'Confirm Password',
-            placeholder: '•'.repeat(8),
-          },
-          validators: {
-            fieldMatch: {
-              expression: (control) => control.value === this.model.newPassword,
-              message: 'Password Not Matching',
-            },
-          },
-          expressionProperties: {
-            'templateOptions.disabled': () =>
-              !this.form.get('newPassword').valid,
-          },
-        },
-      ],
-    },
-  ];
 
   formButtons: UiFormButton[] = [
     {
@@ -80,12 +46,13 @@ export class UserManagementComponent
     },
   };
   model = { newPassword: '' };
-  mode: TRequestMode;
+  mode: TMode;
   constructor(
     private router: Router,
     private authFacade: AuthFacade,
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private formService: AuthFormService
   ) {
     super();
   }
@@ -101,14 +68,18 @@ export class UserManagementComponent
       });
   }
 
-  configComponent(params) {
+  private configComponent(params): void {
     const { oobCode, mode } = params;
 
     this.mode = mode;
     this.actionCode = oobCode;
 
     switch (mode) {
-      case 'resetPassword':
+      case Mode.RESET_PASSWORD:
+        this.fields = this.formService.getResetPasswordFormFields(
+          this.form,
+          this.ngSubject
+        );
         this.authService
           .verifyPasswordResetCode(oobCode)
           .pipe(
@@ -123,7 +94,7 @@ export class UserManagementComponent
           )
           .subscribe();
         break;
-      case 'verifyEmail':
+      case Mode.VERIFY_EMAIL:
         this.authService.verifyEmailAddress(oobCode);
         this.goToLogin();
         break;
@@ -132,11 +103,11 @@ export class UserManagementComponent
     }
   }
 
-  onSubmit({ newPassword }) {
+  public onSubmit({ newPassword }): void {
     this.authFacade.resetPassword(this.actionCode, newPassword, this.userEmail);
   }
 
-  goToLogin() {
+  private goToLogin(): void {
     this.router.navigate([ROUTES_DATA.AUTH.children.SIGN_IN.url]);
   }
 }

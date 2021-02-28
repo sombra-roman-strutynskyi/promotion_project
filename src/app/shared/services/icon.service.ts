@@ -12,7 +12,7 @@ export class IconService {
     private matIconRegistry: MatIconRegistry
   ) {}
 
-  private addIcons() {
+  private addIcons(): void {
     this.icons.forEach((name) => {
       this.matIconRegistry.addSvgIcon(
         name,
@@ -23,7 +23,7 @@ export class IconService {
     });
   }
 
-  public load() {
+  public load(): void {
     this.addIcons();
   }
 }

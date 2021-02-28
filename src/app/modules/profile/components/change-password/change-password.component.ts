@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { UiFormButton } from '@shared';
+import { SubscriptionDisposer, UiFormButton } from '@shared';
 import { IChangePassword } from '../../models';
 import { ProfileFormConfigService } from '../../services';
 
@@ -17,7 +17,9 @@ import { ProfileFormConfigService } from '../../services';
   styleUrls: ['./change-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent
+  extends SubscriptionDisposer
+  implements OnInit {
   @Output() submitted = new EventEmitter<IChangePassword>();
   form = new FormGroup({});
   fields: FormlyFieldConfig[];
@@ -52,22 +54,33 @@ export class ChangePasswordComponent implements OnInit {
 
   model = {} as IChangePassword;
 
-  constructor(private formService: ProfileFormConfigService) {}
-  ngOnInit() {
-    this.fields = this.formService.getPasswordFormFields(this.form, this.model);
+  constructor(private formService: ProfileFormConfigService) {
+    super();
   }
-  changePassword(data: IChangePassword) {
+
+  ngOnInit() {
+    this.fields = this.formService.getPasswordFormFields(
+      this.form,
+      this.ngSubject
+    );
+  }
+  public changePassword(data: IChangePassword): void {
     this.submitted.emit(data);
     this.clearForm();
   }
 
-  onCancel() {
+  public onCancel(): void {
     this.clearForm();
   }
 
-  toggleFormStateDisabled(disabled: boolean) {
+  public enableForm(): void {
+    this.toggleFormStateDisabled(false);
+  }
+
+  private toggleFormStateDisabled(disabled: boolean): void {
     this.formOptions.formState.disabled = disabled;
   }
+
   private clearForm() {
     this.formOptions.resetModel();
     this.toggleFormStateDisabled(true);

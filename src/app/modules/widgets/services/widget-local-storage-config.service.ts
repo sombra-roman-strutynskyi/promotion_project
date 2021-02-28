@@ -30,13 +30,13 @@ export class WidgetLocalStorageConfigService {
       });
   }
 
-  getCryptoCurrencyConfig(): Observable<ICryptoCurrencyWidget> {
+  public getCryptoCurrencyConfig(): Observable<ICryptoCurrencyWidget> {
     return this.getUserWidgetsConfig().pipe(
       map(({ cryptoCurrencyWidget }) => cryptoCurrencyWidget)
     );
   }
 
-  setCryptoCurrencyConfig(cryptoCurrencyWidget: ICryptoCurrencyWidget) {
+  public setCryptoCurrencyConfig(cryptoCurrencyWidget: ICryptoCurrencyWidget) {
     this.getUserWidgetsConfig()
       .pipe(take(1))
       .subscribe((config) => {

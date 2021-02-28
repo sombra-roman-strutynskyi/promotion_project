@@ -13,6 +13,7 @@ import { omit, pick } from 'lodash';
 import { Observable, of, from } from 'rxjs';
 import { take, map, mergeMap, exhaustMap } from 'rxjs/operators';
 import { DialogPasswordConformationComponent } from '../components/dialog-password-conformation/dialog-password-conformation.component';
+
 import {
   ICredentials,
   IUser,
@@ -20,6 +21,7 @@ import {
   User,
   ProviderType,
   IProviders,
+  Providers,
 } from '../models';
 
 @Injectable()
@@ -30,7 +32,7 @@ export class AuthService {
     private dialog: MatDialog
   ) {}
 
-  facebookLogin(): Observable<UserCredential> {
+  public facebookLogin(): Observable<UserCredential> {
     const provider = new firebase.auth.FacebookAuthProvider();
     return from(this.authFirebase.signInWithPopup(provider)).pipe(
       map((userCredential: UserCredential) => {
@@ -50,7 +52,7 @@ export class AuthService {
     );
   }
 
-  googleLogin(): Observable<UserCredential> {
+  public googleLogin(): Observable<UserCredential> {
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({
       prompt: 'select_account',
@@ -73,7 +75,9 @@ export class AuthService {
     );
   }
 
-  loginWithCredentials(credentials: ICredentials): Observable<UserCredential> {
+  public loginWithCredentials(
+    credentials: ICredentials
+  ): Observable<UserCredential> {
     return from(
       this.authFirebase
         .setPersistence(
@@ -90,11 +94,11 @@ export class AuthService {
     );
   }
 
-  logout(): Observable<void> {
+  public logout(): Observable<void> {
     return from(this.authFirebase.signOut());
   }
 
-  getCurrentUser(): Observable<{
+  public getCurrentUser(): Observable<{
     currentUser: IUser;
     providers: IProviders;
   } | null> {
@@ -134,7 +138,7 @@ export class AuthService {
     );
   }
 
-  register(registerUser: IRegisterUser): Observable<UserCredential> {
+  public register(registerUser: IRegisterUser): Observable<UserCredential> {
     return from(
       this.authFirebase
         .createUserWithEmailAndPassword(
@@ -154,7 +158,7 @@ export class AuthService {
     );
   }
 
-  passwordForgotten(email: string): Observable<void> {
+  public passwordForgotten(email: string): Observable<void> {
     return from(
       this.authFirebase.sendPasswordResetEmail(email, {
         url: 'http://localhost:4200/auth',
@@ -162,7 +166,7 @@ export class AuthService {
     );
   }
 
-  resetPassword(
+  public resetPassword(
     actionCode: string,
     password: string,
     email: string
@@ -176,23 +180,23 @@ export class AuthService {
     );
   }
 
-  verifyPasswordResetCode(actionCode: string): Observable<string> {
+  public verifyPasswordResetCode(actionCode: string): Observable<string> {
     // return EMAIL
     return from(this.authFirebase.verifyPasswordResetCode(actionCode));
   }
 
-  verifyEmailAddress(actionCode: string): void {
+  public verifyEmailAddress(actionCode: string): void {
     this.authFirebase.applyActionCode(actionCode);
   }
 
-  mergeAccounts(
+  public mergeAccounts(
     email: string,
     credential: AuthCredential
   ): Observable<UserCredential | null> {
     return from(this.authFirebase.fetchSignInMethodsForEmail(email)).pipe(
       mergeMap((providerTypes: ProviderType[]) => {
         const providerType = providerTypes[0];
-        if (providerType === 'password') {
+        if (providerType === Providers.PASSWORD) {
           return this.getPasswordFromDialog(email).pipe(
             take(1),
             mergeMap((password) =>
@@ -224,9 +228,9 @@ export class AuthService {
     providerType: ProviderType
   ): AuthProvider | null {
     switch (providerType) {
-      case 'google.com':
+      case Providers.GOOGLE:
         return new firebase.auth.GoogleAuthProvider();
-      case 'facebook.com':
+      case Providers.FACEBOOK:
         return new firebase.auth.FacebookAuthProvider();
       default:
         return null;

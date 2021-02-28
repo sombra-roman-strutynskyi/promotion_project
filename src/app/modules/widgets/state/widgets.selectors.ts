@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { WidgetsState, WIDGETS_FEATURE_KEY } from './widgets.reducer';
 
-// Lookup the 'Widgets' feature state managed by NgRx
 const getWidgetsState = createFeatureSelector<WidgetsState>(
   WIDGETS_FEATURE_KEY
 );

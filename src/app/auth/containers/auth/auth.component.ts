@@ -1,4 +1,3 @@
-// tslint:disable: use-component-view-encapsulation
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
@@ -17,7 +16,6 @@ import { AuthFacade } from '../../services';
 @Component({
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AuthComponent extends SubscriptionDisposer implements OnInit {
   pending$ = this.authFacade.pending$;
@@ -58,12 +56,12 @@ export class AuthComponent extends SubscriptionDisposer implements OnInit {
       });
   }
 
-  configurationLayout() {
+  private configurationLayout(): void {
     this.title = this.getTitle();
     this.needShowTabs = this.showTabs();
   }
 
-  getTitle(): string {
+  private getTitle(): string {
     const route = this.activatedRoute.firstChild;
     if (route.outlet === 'primary') {
       return (route.data as BehaviorSubject<Data>).getValue()?.title;
@@ -71,11 +69,11 @@ export class AuthComponent extends SubscriptionDisposer implements OnInit {
     return '';
   }
 
-  showTabs(): boolean {
+  private showTabs(): boolean {
     return this.tabs.some(({ title }) => title === this.title);
   }
 
-  goToBack() {
+  public goToBack(): void {
     this.location.back();
   }
 }

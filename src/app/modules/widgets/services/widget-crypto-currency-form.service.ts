@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { getOptionsForSelect, UiFormButton } from '@shared';
+import { isNil } from 'lodash';
 import { map, take, filter } from 'rxjs/operators';
 import { WidgetsFacade } from './widgets.facade';
-import { isNil } from 'lodash';
 
 @Injectable()
 export class WidgetCryptoCurrencyFormService {

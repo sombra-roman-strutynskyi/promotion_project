@@ -21,11 +21,11 @@ export class ProfileComponent {
     private authFacade: AuthFacade
   ) {}
 
-  updateUserProfile(userInfo) {
+  public updateUserProfile(userInfo): void {
     const profile = new UpdateProfile(userInfo);
     this.profileFacade.updateProfile(profile);
   }
-  updateUserPassword(password) {
+  public updateUserPassword(password): void {
     this.profileFacade.changePassword(password);
   }
 }

@@ -5,9 +5,11 @@ import {
 import { isNil, isObject, isEmpty, isString } from 'lodash';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-
-export function deepMerge(source, obj) {
-  const newObj = {};
+interface IObject {
+  [key: string]: any;
+}
+export function deepMerge<T>(source: T, obj: T): T {
+  const newObj = {} as T;
   for (const key of Object.keys(source)) {
     if (obj instanceof Object && key in obj) {
       if (source[key] instanceof Object) {
@@ -22,7 +24,7 @@ export function deepMerge(source, obj) {
   return newObj;
 }
 
-export function deepRemoveEmptyObjProperty<T>(object: T): T {
+export function deepRemoveEmptyObjProperty(object: IObject): IObject {
   const obj = { ...object };
   Object.keys(obj).forEach((key) => {
     const val = obj[key];

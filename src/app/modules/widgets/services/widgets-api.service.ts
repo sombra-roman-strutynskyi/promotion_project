@@ -16,22 +16,22 @@ interface IExchangeRates {
 
 @Injectable()
 export class WidgetsApiService {
-  apiUrl = `https://api.coingecko.com/api/v3`;
+  private apiUrl = `https://api.coingecko.com/api/v3`;
   constructor(private http: HttpClient) {}
 
-  getCryptoCurrencyTypes(): Observable<ICryptoCurrencyType[]> {
+  public getCryptoCurrencyTypes(): Observable<ICryptoCurrencyType[]> {
     return this.http.get(`${this.apiUrl}/coins/list`) as Observable<
       ICryptoCurrencyType[]
     >;
   }
 
-  getExchangeRates(): Observable<IExchangeRates> {
+  public getExchangeRates(): Observable<IExchangeRates> {
     return this.http.get(
       `${this.apiUrl}/exchange_rates`
     ) as Observable<IExchangeRates>;
   }
 
-  getCryptoCurrency(
+  public getCryptoCurrency(
     cryptoCurrencies: string[],
     convertTo: string
   ): Observable<ICryptoCurrency[]> {

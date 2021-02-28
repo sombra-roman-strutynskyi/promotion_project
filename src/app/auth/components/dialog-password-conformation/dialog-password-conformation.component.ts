@@ -5,7 +5,6 @@ interface IDialogPasswordConformationData {
   email: string;
   password: string;
 }
-
 @Component({
   selector: 'app-dialog-password-conformation',
   templateUrl: './dialog-password-conformation.component.html',

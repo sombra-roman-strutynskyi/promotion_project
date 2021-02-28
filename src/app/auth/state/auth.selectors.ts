@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IUser } from '../models';
 import { AUTH_FEATURE_KEY, AuthState } from './auth.reducer';
 
-// Lookup the 'Auth' feature state managed by NgRx
 const getAuthState = createFeatureSelector<AuthState>(AUTH_FEATURE_KEY);
 
 const getPending = createSelector(

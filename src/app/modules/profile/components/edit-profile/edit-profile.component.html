@@ -3,7 +3,7 @@
   [open]="true"
   [buttonDisabled]="!formOptions?.formState?.disabled"
   [buttonLabel]="'Edit'"
-  (buttonClicked)="toggleFormStateDisabled(false)"
+  (buttonClicked)="enableForm()"
 >
   <ui-base-form
     [fields]="fields"

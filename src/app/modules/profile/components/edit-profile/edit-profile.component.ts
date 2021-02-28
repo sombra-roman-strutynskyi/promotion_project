@@ -56,18 +56,21 @@ export class EditProfileComponent implements OnInit {
     this.fields = this.formService.getProfileFormFields();
   }
 
-  updateProfile(profile: IUpdateProfile) {
+  public updateProfile(profile: IUpdateProfile): void {
     this.formService.updatePhotoURL(profile.photoURL);
     this.toggleFormStateDisabled(true);
     this.submitted.emit(profile);
   }
 
-  onCancel() {
+  public onCancel(): void {
     this.formOptions.resetModel();
     this.toggleFormStateDisabled(true);
   }
+  public enableForm(): void {
+    this.toggleFormStateDisabled(false);
+  }
 
-  toggleFormStateDisabled(disabled: boolean) {
+  private toggleFormStateDisabled(disabled: boolean): void {
     this.formOptions.formState.disabled = disabled;
   }
 }

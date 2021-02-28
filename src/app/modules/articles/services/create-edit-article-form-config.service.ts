@@ -1,11 +1,13 @@
-// tslint:disable: ban-types
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { UiFormButton } from '@shared';
 
 @Injectable()
 export class CreateEditArticleFormConfigService {
-  getFormButtons(isNew: boolean, removeArticleFn: Function): UiFormButton[] {
+  public getFormButtons(
+    isNew: boolean,
+    removeArticleFn: () => void
+  ): UiFormButton[] {
     const formButtons: UiFormButton[] = [
       {
         label: 'Cancel',
@@ -47,7 +49,7 @@ export class CreateEditArticleFormConfigService {
     return isNew ? formButtons : [deleteButton, ...formButtons];
   }
 
-  getFormFields(imageUrl = ''): FormlyFieldConfig[] {
+  public getFormFields(imageUrl = ''): FormlyFieldConfig[] {
     return [
       {
         fieldGroupClassName: 'row',

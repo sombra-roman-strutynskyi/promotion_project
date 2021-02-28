@@ -54,7 +54,7 @@ export class CreateEditArticleComponent
     this.configuringForm();
   }
 
-  configuringForm() {
+  private configuringForm(): void {
     this.title = this.articleId ? 'Update Article' : 'Create Article';
     if (this.articleId) {
       this.articlesFacade.selectedArticle$
@@ -77,7 +77,7 @@ export class CreateEditArticleComponent
     );
   }
 
-  getAuthorId() {
+  private getAuthorId(): void {
     this.authFacade.currentUser$
       .pipe(
         filter((d) => !isEmpty(d)),
@@ -89,7 +89,7 @@ export class CreateEditArticleComponent
       });
   }
 
-  onSubmit(data: IArticle) {
+  public onSubmit(data: IArticle): void {
     const article = new Article(data);
     if (this.articleId) {
       this.updateArticle(article);
@@ -98,20 +98,20 @@ export class CreateEditArticleComponent
     }
   }
 
-  createArticle(article: IArticle) {
+  private createArticle(article: IArticle): void {
     article.authorId = this.authorId;
     this.articlesFacade.createArticle(article);
   }
 
-  updateArticle(article: IArticle) {
+  private updateArticle(article: IArticle): void {
     this.articlesFacade.updateArticle(article);
   }
 
-  onCancel() {
+  public onCancel(): void {
     this.location.back();
   }
 
-  onRemoveArticle = () => {
+  public onRemoveArticle = (): void => {
     this.articlesFacade.removeArticle(this.articleId);
   };
 }

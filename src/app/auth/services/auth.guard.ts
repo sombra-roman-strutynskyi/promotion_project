@@ -9,7 +9,7 @@ import { take, map, distinctUntilChanged } from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
-  canActivate(): Observable<boolean> {
+  public canActivate(): Observable<boolean> {
     return this.checkAuthed().pipe(
       map((auth) => {
         if (!auth) {
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     );
   }
 
-  canActivateChild(): Observable<boolean> {
+  public canActivateChild(): Observable<boolean> {
     return this.checkAuthed();
   }
 

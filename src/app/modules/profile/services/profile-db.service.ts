@@ -24,7 +24,10 @@ export class ProfileDbService {
       .subscribe((userFirebase) => (this.userFirebase = userFirebase));
   }
 
-  changePassword(oldPassword: string, newPassword: string): Observable<void> {
+  public changePassword(
+    oldPassword: string,
+    newPassword: string
+  ): Observable<void> {
     const credentials = firebase.auth.EmailAuthProvider.credential(
       this.userFirebase.email,
       oldPassword
@@ -39,7 +42,7 @@ export class ProfileDbService {
     );
   }
 
-  updateProfile(profile: IUpdateProfile): Observable<void> {
+  public updateProfile(profile: IUpdateProfile): Observable<void> {
     return this.user$.pipe(
       take(1),
       mergeMap((currentUser: IUser) => {

@@ -58,26 +58,30 @@ export class CryptoCurrencyComponent
     this.stopLoadingWidgetData();
   }
 
-  getDataWidget(): Observable<ICryptoCurrency[]> {
+  public getDataWidget(): Observable<ICryptoCurrency[]> {
     return this.cryptoCurrencies$.asObservable();
   }
 
-  setWidgetConfig(config: ICryptoCurrencyWidget) {
+  public setWidgetConfig(config: ICryptoCurrencyWidget): void {
     this.widgetConfig = { ...config };
     this.widgetDataConfig.setCryptoCurrencyConfig(config);
     this.restartLoadingWidgetData();
   }
 
-  onCancel() {
+  public onCancel(): void {
     this.model = { ...this.widgetConfig };
     this.toggleFormStateDisabled(true);
   }
 
-  toggleFormStateDisabled(disabled: boolean) {
+  public enableForm(): void {
+    this.toggleFormStateDisabled(false);
+  }
+
+  private toggleFormStateDisabled(disabled: boolean) {
     this.formOptions.formState.disabled = disabled;
   }
 
-  private loadCurrencies() {
+  private loadCurrencies(): void {
     this.widgetsFacade.currencyTypes$
       .pipe(
         filter((d) => !isNil(d)),
@@ -88,12 +92,12 @@ export class CryptoCurrencyComponent
       });
   }
 
-  private initForm() {
+  private initForm(): void {
     this.fields = this.formService.getFormFields();
     this.formButtons = this.formService.getFormButtons();
   }
 
-  private loadWidgetConfig() {
+  private loadWidgetConfig(): void {
     this.widgetDataConfig
       .getCryptoCurrencyConfig()
       .pipe(takeUntil(this.ngSubject))
@@ -106,7 +110,7 @@ export class CryptoCurrencyComponent
       });
   }
 
-  private loadWidgetData() {
+  private loadWidgetData(): void {
     timer(this.timeout)
       .pipe(take(1), takeUntil(this.loadWidgetSubject))
       .subscribe(() => {
@@ -118,7 +122,7 @@ export class CryptoCurrencyComponent
       });
   }
 
-  private loadCryptoCurrencies() {
+  private loadCryptoCurrencies(): void {
     const { cryptoCurrencies, convertTo } = this.widgetConfig;
 
     this.widgetApi
@@ -143,12 +147,12 @@ export class CryptoCurrencyComponent
       });
   }
 
-  private stopLoadingWidgetData() {
+  private stopLoadingWidgetData(): void {
     this.loadWidgetSubject.next();
     this.loadWidgetSubject.complete();
   }
 
-  private restartLoadingWidgetData() {
+  private restartLoadingWidgetData(): void {
     this.stopLoadingWidgetData();
     this.loadWidgetSubject = new Subject();
     this.timeout = 0;

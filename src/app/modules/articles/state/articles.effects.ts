@@ -47,7 +47,7 @@ export class ArticlesEffects {
     this.actions$.pipe(
       ofType(ArticlesActions.createArticle),
       exhaustMap(({ article }) =>
-        this.articlesDB.createArticle(article).pipe(
+        this.articlesDB.createArticle({ ...article }).pipe(
           map((data) =>
             ArticlesActions.createArticleSuccess({ article: data })
           ),

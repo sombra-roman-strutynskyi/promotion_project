@@ -51,7 +51,7 @@ export class ForgotPasswordComponent {
 
   constructor(private authFacade: AuthFacade) {}
 
-  onSubmit({ email }) {
+  public onSubmit({ email }): void {
     this.authFacade.forgotPassword(email);
   }
 }
