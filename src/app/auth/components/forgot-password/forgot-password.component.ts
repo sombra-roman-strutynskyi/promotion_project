@@ -1,34 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { UiFormButton } from '@shared';
-import { AuthFacade } from '../../services';
+import { AuthFacade, AuthFormService } from '../../services';
 
 @Component({
   selector: 'auth-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent {
-  fields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: 'row',
-      fieldGroup: [
-        {
-          className: 'col-12',
-          key: 'email',
-          type: 'input',
-          templateOptions: {
-            type: 'email',
-            label: 'Email',
-            required: true,
-          },
-          validators: {
-            validation: ['email'],
-          },
-        },
-      ],
-    },
-  ];
+export class ForgotPasswordComponent implements OnInit {
+  fields: FormlyFieldConfig[];
   formOptions: FormlyFormOptions = {
     formState: {
       showErrorState: false,
@@ -49,9 +30,16 @@ export class ForgotPasswordComponent {
   ];
   model = { email: '' };
 
-  constructor(private authFacade: AuthFacade) {}
+  constructor(
+    private authFacade: AuthFacade,
+    private formService: AuthFormService
+  ) {}
 
-  public onSubmit({ email }): void {
+  ngOnInit() {
+    this.fields = this.formService.getForgotPasswordFormFields();
+  }
+
+  public onSubmit({ email }: { email: string }): void {
     this.authFacade.forgotPassword(email);
   }
 }

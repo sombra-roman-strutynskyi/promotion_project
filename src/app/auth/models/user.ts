@@ -1,10 +1,22 @@
 import { deepMerge, deepRemoveEmptyObjProperty } from '@shared';
 
 export type ProviderType = 'password' | 'google.com' | 'facebook.com';
+export type TUserManagementMode = 'resetPassword' | 'verifyEmail';
+
 export enum Providers {
   PASSWORD = 'password',
   GOOGLE = 'google.com',
   FACEBOOK = 'facebook.com',
+}
+
+export enum UserManagementMode {
+  RESET_PASSWORD = 'resetPassword',
+  VERIFY_EMAIL = 'verifyEmail',
+}
+
+export interface IDialogPasswordConformationData {
+  email: string;
+  password: string;
 }
 export interface IProviders {
   password: boolean;
@@ -17,9 +29,8 @@ export interface ICredentials {
   remember: boolean;
 }
 export interface IResetPasswordCredentials {
-  password: string;
-  confirmPassword: string;
-  token?: string;
+  newPassword: string;
+  confirmPassword?: string;
 }
 export class IRegisterUser {
   email: string;
@@ -34,7 +45,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
-  age: string;
+  age: number | string;
   photoURL?: string;
   photo?: File[];
 }

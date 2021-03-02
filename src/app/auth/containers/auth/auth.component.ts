@@ -1,16 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {
-  ActivatedRoute,
-  Data,
-  NavigationEnd,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router';
 import { ROUTES_DATA, SubscriptionDisposer } from '@shared';
-import { of } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
-import { filter, map, takeUntil, tap } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { AuthFacade } from '../../services';
 
 @Component({
@@ -26,10 +19,12 @@ export class AuthComponent extends SubscriptionDisposer implements OnInit {
     {
       title: ROUTES_DATA.AUTH.children.SIGN_IN.title,
       url: ROUTES_DATA.AUTH.children.SIGN_IN.path,
+      path: `/${ROUTES_DATA.AUTH.children.SIGN_IN.url}`,
     },
     {
       title: ROUTES_DATA.AUTH.children.SIGN_UP.title,
       url: ROUTES_DATA.AUTH.children.SIGN_UP.path,
+      path: `/${ROUTES_DATA.AUTH.children.SIGN_UP.url}`,
     },
   ];
   constructor(
@@ -50,7 +45,7 @@ export class AuthComponent extends SubscriptionDisposer implements OnInit {
       )
       .subscribe(() => {
         this.activeTab = this.tabs.indexOf(
-          this.tabs.find((tab) => tab?.url === '.' + this.router.url)
+          this.tabs.find((tab) => tab?.path === this.router.url)
         );
         this.configurationLayout();
       });

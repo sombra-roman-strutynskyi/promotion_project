@@ -5,13 +5,13 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ROUTES_DATA, SubscriptionDisposer, UiFormButton } from '@shared';
 import { of } from 'rxjs';
 import { take, catchError, tap } from 'rxjs/operators';
+import {
+  IResetPasswordCredentials,
+  TUserManagementMode,
+  UserManagementMode,
+} from '../../models';
 import { AuthFacade, AuthFormService, AuthService } from '../../services';
-
-type TMode = 'resetPassword' | 'verifyEmail';
-enum Mode {
-  RESET_PASSWORD = 'resetPassword',
-  VERIFY_EMAIL = 'verifyEmail',
-}
+import { isNil, isEmpty } from 'lodash';
 
 @Component({
   selector: 'auth-user-management',
@@ -45,8 +45,8 @@ export class UserManagementComponent
       disabled: false,
     },
   };
-  model = { newPassword: '' };
-  mode: TMode;
+  model = {} as IResetPasswordCredentials;
+  mode: TUserManagementMode;
   constructor(
     private router: Router,
     private authFacade: AuthFacade,
@@ -61,10 +61,11 @@ export class UserManagementComponent
     this.activatedRoute.queryParams
       .pipe(take(1))
       .subscribe((params: Params) => {
-        if (!params) {
+        if (isNil(params) || isEmpty(params)) {
           this.goToLogin();
+        } else {
+          this.configComponent(params);
         }
-        this.configComponent(params);
       });
   }
 
@@ -75,7 +76,7 @@ export class UserManagementComponent
     this.actionCode = oobCode;
 
     switch (mode) {
-      case Mode.RESET_PASSWORD:
+      case UserManagementMode.RESET_PASSWORD:
         this.fields = this.formService.getResetPasswordFormFields(
           this.form,
           this.ngSubject
@@ -94,7 +95,7 @@ export class UserManagementComponent
           )
           .subscribe();
         break;
-      case Mode.VERIFY_EMAIL:
+      case UserManagementMode.VERIFY_EMAIL:
         this.authService.verifyEmailAddress(oobCode);
         this.goToLogin();
         break;
@@ -103,7 +104,7 @@ export class UserManagementComponent
     }
   }
 
-  public onSubmit({ newPassword }): void {
+  public onSubmit({ newPassword }: IResetPasswordCredentials): void {
     this.authFacade.resetPassword(this.actionCode, newPassword, this.userEmail);
   }
 

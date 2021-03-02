@@ -1,10 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IDialogPasswordConformationData } from '../../models';
 
-interface IDialogPasswordConformationData {
-  email: string;
-  password: string;
-}
 @Component({
   selector: 'app-dialog-password-conformation',
   templateUrl: './dialog-password-conformation.component.html',

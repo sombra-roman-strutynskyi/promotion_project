@@ -13,6 +13,7 @@ import { omit, pick } from 'lodash';
 import { Observable, of, from } from 'rxjs';
 import { take, map, mergeMap, exhaustMap } from 'rxjs/operators';
 import { DialogPasswordConformationComponent } from '../components/dialog-password-conformation/dialog-password-conformation.component';
+import { IDialogPasswordConformationData } from '../models';
 
 import {
   ICredentials,
@@ -238,15 +239,16 @@ export class AuthService {
   }
 
   private getPasswordFromDialog(email): Observable<string> {
+    const data: IDialogPasswordConformationData = {
+      email,
+      password: '',
+    };
     const dialogRef = this.dialog.open(DialogPasswordConformationComponent, {
       minWidth: '300px',
       maxWidth: '350px',
       width: 'auto',
       disableClose: true,
-      data: {
-        email,
-        password: '',
-      },
+      data,
     });
 
     return dialogRef.afterClosed();

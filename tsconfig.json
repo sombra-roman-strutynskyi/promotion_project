@@ -27,6 +27,7 @@
       "@shared": ["src/app/shared/index.ts"],
       "@core": ["src/app/core/index.ts"],
       "@auth": ["src/app/auth/index.ts"],
+      "@testing": ["src/app/testing/index.ts"],
       "@modules/*": ["src/app/modules/*"]
     }
   }
