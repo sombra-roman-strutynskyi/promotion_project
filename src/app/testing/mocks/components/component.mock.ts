@@ -1,6 +1,23 @@
-// tslint:disable:component-class-suffix
-// tslint:disable: component-selector
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
+/**
+ * Examples:
+ * ComponentMock({ selector: 'cranium' });
+ * ComponentMock({ selector: 'arm', inputs: ['side'] });
+ */
 
-@Component({ selector: 'component-mock', template: 'I am dumb' })
-export class ComponentMock {}
+export function ComponentMock(options: Component): Component {
+  const metadata = { ...options };
+  metadata.selector = metadata.selector;
+  metadata.template = metadata.template || '';
+  metadata.outputs = metadata.outputs || [];
+  metadata.exportAs = metadata.exportAs || '';
+  metadata.inputs = metadata.inputs || [];
+
+  class Mock {}
+
+  metadata.outputs.forEach((method) => {
+    Mock.prototype[method] = new EventEmitter<any>();
+  });
+
+  return Component(metadata)(Mock as any);
+}

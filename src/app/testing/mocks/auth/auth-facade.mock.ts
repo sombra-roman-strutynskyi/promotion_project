@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { mockUserInfo } from './auth-data.mock';
-import { of } from 'rxjs';
 import { AuthFacade } from '@auth';
+import { of } from 'rxjs';
+import { MOCK_USER } from './auth-data.mock';
 
 @Injectable()
 export class AuthFacadeMock implements Partial<AuthFacade> {
   pending$ = of(null);
-  providers$ = of(null);
-  currentUser$ = of(mockUserInfo);
+  providers$ = of({ password: true, google: true, facebook: true });
+  currentUser$ = of(MOCK_USER);
   errors$ = of(null);
 
   loginWithCredentials = jest.fn();

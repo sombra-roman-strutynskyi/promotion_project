@@ -12,6 +12,8 @@ module.exports = {
     '@core': '<rootDir>/src/app/core/index.ts',
     '@auth': '<rootDir>/src/app/auth/index.ts',
     '@testing': '<rootDir>/src/app/testing/index.ts',
-    '@modules/*': '<rootDir>/src/app/modules/*',
+    '@modules/profile': '<rootDir>/src/app/modules/profile/index.ts',
+    '@modules/article': '<rootDir>/src/app/modules/article/index.ts',
+    '@modules/widgets': '<rootDir>/src/app/modules/widgets/index.ts',
   },
 };

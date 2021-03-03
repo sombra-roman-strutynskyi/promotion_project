@@ -32,8 +32,6 @@ export function deepRemoveEmptyObjProperty(object: IObject): IObject {
       obj[key] = deepRemoveEmptyObjProperty(val);
     }
     if (isNil(val) || (isString(val) && isEmpty(val))) {
-      console.log(obj[key], isEmpty(val));
-
       delete obj[key];
     }
   });

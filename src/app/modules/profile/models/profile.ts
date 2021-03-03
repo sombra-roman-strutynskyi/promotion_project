@@ -12,7 +12,7 @@ export interface IChangePassword {
 export interface IUpdateProfile {
   firstName: string;
   lastName: string;
-  age: string;
+  age: string | number;
   photoURL: string;
   photo: File[];
 }
@@ -22,7 +22,7 @@ export class UpdateProfile implements IUpdateProfile {
   age = '';
   photoURL = '';
   photo = null;
-  constructor(data: IUser) {
+  constructor(data: IUser | IUpdateProfile) {
     Object.assign(this, deepMerge(this, deepRemoveEmptyObjProperty(data)));
   }
 }
