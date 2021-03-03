@@ -45,6 +45,8 @@ export class WidgetsEffects implements OnInitEffects {
                 id,
               })
             );
+            console.log(currencyTypes);
+
             return WidgetsActions.loadCurrencyTypesSuccess({ currencyTypes });
           }),
           catchError(({ error }) =>
