@@ -7,7 +7,7 @@ export interface IArticle {
   createdAt: string;
   updatedAt: string;
   imageUrl: string;
-  image?: File;
+  image?: File[];
   authorId: string;
 }
 

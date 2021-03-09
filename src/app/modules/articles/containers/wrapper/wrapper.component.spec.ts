@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentMock, TestingModule } from '@testing';
 import { WrapperComponent } from './wrapper.component';
 
 describe('WrapperComponent', () => {
@@ -8,7 +10,11 @@ describe('WrapperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [WrapperComponent],
+      imports: [TestingModule, RouterTestingModule],
+      declarations: [
+        WrapperComponent,
+        ComponentMock({ selector: 'widget-crypto-currency' }),
+      ],
     }).compileComponents();
   }));
 

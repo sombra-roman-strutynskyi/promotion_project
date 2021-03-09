@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ROUTES_DATA } from '@shared';
-import { createComponent, TestingModule } from '@testing';
+import { createComponent, TestingModule, MOCK_USER } from '@testing';
 
 import { LayoutComponent } from './layout.component';
 const imports = [TestingModule];
@@ -18,7 +18,15 @@ describe('LayoutComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create with user', () => {
+    component.currentUser = MOCK_USER;
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+  });
+  it('should create without user', () => {
+    component.currentUser = null;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
   it('should logout', () => {

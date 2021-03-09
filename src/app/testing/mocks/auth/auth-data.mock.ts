@@ -24,7 +24,7 @@ export const MOCK_REGISTER_USER: IRegisterUser = {
 
 export const MOCK_USER: IUser = {
   ...MOCK_REGISTER_USER,
-  uid: null,
+  uid: '1',
   photoURL: 'http://photo.url',
 };
 

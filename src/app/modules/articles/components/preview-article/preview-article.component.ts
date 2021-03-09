@@ -28,12 +28,16 @@ export class PreviewArticleComponent
   }
 
   ngOnInit() {
-    this.activatedRoute.params.pipe(take(1)).subscribe(({ id }) => {
-      if (!isNil(id)) {
+    this.activatedRoute.params
+      .pipe(
+        map(({ id }) => id),
+        filter((d) => !isNil(d)),
+        take(1)
+      )
+      .subscribe((id) => {
         this.articleId = id;
-      }
-    });
-    this.articlesFacade.loadArticleById(this.articleId);
+        this.articlesFacade.loadArticleById(this.articleId);
+      });
 
     this.articlesFacade.selectedArticle$
       .pipe(takeUntil(this.ngSubject))

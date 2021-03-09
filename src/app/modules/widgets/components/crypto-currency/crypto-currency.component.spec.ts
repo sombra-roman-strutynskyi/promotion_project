@@ -106,6 +106,7 @@ describe('CryptoCurrencyComponent', () => {
       imports
     );
     component = fixture.componentInstance;
+    component.timeout = 0;
     widgetDataConfig = TestBed.inject(WidgetLocalStorageConfigService);
     fixture.detectChanges();
   });

@@ -60,11 +60,18 @@ describe('EditProfileComponent', () => {
     );
     component = fixture.componentInstance;
     formService = TestBed.inject(ProfileFormConfigService);
-    component.currentUser = MOCK_USER;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create with user', () => {
+    component.currentUser = MOCK_USER;
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+  });
+  it('should create without user', () => {
+    component.currentUser = null;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
   it('should update profile', () => {

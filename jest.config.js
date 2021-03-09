@@ -13,7 +13,7 @@ module.exports = {
     '@auth': '<rootDir>/src/app/auth/index.ts',
     '@testing': '<rootDir>/src/app/testing/index.ts',
     '@modules/profile': '<rootDir>/src/app/modules/profile/index.ts',
-    '@modules/article': '<rootDir>/src/app/modules/article/index.ts',
+    '@modules/articles': '<rootDir>/src/app/modules/articles/index.ts',
     '@modules/widgets': '<rootDir>/src/app/modules/widgets/index.ts',
   },
 };
