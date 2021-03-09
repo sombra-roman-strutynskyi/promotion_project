@@ -16,8 +16,8 @@ import {
   WidgetsFacadeMock,
 } from '@testing';
 
-import { CryptoCurrencyComponent } from './crypto-currency.component';
 import { of } from 'rxjs';
+import { CryptoCurrencyComponent } from './crypto-currency.component';
 const imports = [TestingModule];
 
 const providers = [

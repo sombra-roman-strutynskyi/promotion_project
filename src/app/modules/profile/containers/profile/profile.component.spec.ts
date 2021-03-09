@@ -8,9 +8,10 @@ import {
   ProfileFacadeMock,
   TestingModule,
 } from '@testing';
+import { MOCK_PROFILE, MOCK_CHANGE_PASSWORD } from '@testing';
 import { ProfileFacade } from '../../services';
 import { ProfileComponent } from './profile.component';
-import { MOCK_PROFILE, MOCK_CHANGE_PASSWORD } from '@testing';
+
 const imports = [TestingModule];
 const providers = [
   {

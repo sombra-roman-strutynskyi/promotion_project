@@ -1,4 +1,4 @@
-// tslint:disable:directive-class-suffix no-host-metadata-property
+// tslint:disable:directive-class-suffix no-host-metadata-property directive-selector
 import { Directive, Input } from '@angular/core';
 export { RouterLink } from '@angular/router';
 

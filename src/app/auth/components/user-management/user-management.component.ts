@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ROUTES_DATA, SubscriptionDisposer, UiFormButton } from '@shared';
+import { isNil, isEmpty } from 'lodash';
 import { of } from 'rxjs';
 import { take, catchError, tap } from 'rxjs/operators';
 import {
@@ -11,7 +12,6 @@ import {
   UserManagementMode,
 } from '../../models';
 import { AuthFacade, AuthFormService, AuthService } from '../../services';
-import { isNil, isEmpty } from 'lodash';
 
 @Component({
   selector: 'auth-user-management',
