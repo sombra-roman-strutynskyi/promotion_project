@@ -4,7 +4,7 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-export { cold, hot, getTestScheduler, time } from 'jasmine-marbles';
+export { cold, hot } from 'jasmine-marbles';
 import { MatDialog } from '@angular/material/dialog';
 import { ROUTES_DATA, SnackbarService, UserCredential } from '@shared';
 import {
@@ -14,13 +14,13 @@ import {
   MOCK_CREDENTIALS,
   MOCK_FIREBASE_ERROR,
   RouterMock,
+  MOCK_REGISTER_USER,
+  MOCK_FIREBASE_USER_CREDENTIALS,
+  MOCK_USER,
 } from '@testing';
-import { MOCK_REGISTER_USER, MOCK_FIREBASE_USER_CREDENTIALS } from '@testing';
 import { cold, hot } from 'jasmine-marbles';
-import { MOCK_USER } from '../../testing/mocks/auth/auth-data.mock';
-import { AuthFacade } from '../services';
-import { AuthService } from '../services';
-import { initialState } from '../state/auth.reducer';
+import { AuthFacade, AuthService } from '../services';
+import { AUTH_FEATURE_KEY, initialState } from '../state/auth.reducer';
 import * as AuthActions from './auth.actions';
 import { AuthEffects } from './auth.effects';
 
@@ -36,7 +36,7 @@ describe('AuthEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MockStoreModule.forRoot('auth', { initialState })],
+      imports: [MockStoreModule.forRoot(AUTH_FEATURE_KEY, { initialState })],
       providers: [
         AuthEffects,
         provideMockActions(() => actions$),

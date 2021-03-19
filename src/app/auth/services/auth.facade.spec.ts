@@ -16,7 +16,12 @@ import {
 import { IRegisterUser, ICredentials } from '../models';
 import * as AuthActions from '../state/auth.actions';
 import { AuthEffects } from '../state/auth.effects';
-import { AuthState, initialState, reducer } from '../state/auth.reducer';
+import {
+  AuthState,
+  AUTH_FEATURE_KEY,
+  initialState,
+  reducer,
+} from '../state/auth.reducer';
 import { AuthFacade } from './auth.facade';
 import { AuthService } from './auth.service';
 
@@ -44,7 +49,7 @@ describe('AuthFacade', () => {
       @NgModule({
         imports: [
           RouterTestingModule,
-          StoreModule.forFeature('auth', reducer, {
+          StoreModule.forFeature(AUTH_FEATURE_KEY, reducer, {
             initialState: mockInitialState,
           }),
           EffectsModule.forFeature([AuthEffects]),

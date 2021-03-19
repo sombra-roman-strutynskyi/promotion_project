@@ -8,7 +8,7 @@ import { profileQuery } from '../state/profile.selectors';
 @Injectable()
 export class ProfileFacade {
   pending$ = this.store.pipe(select(profileQuery.getPending));
-  errors$ = this.store.pipe(select(profileQuery.getError));
+  error$ = this.store.pipe(select(profileQuery.getError));
 
   constructor(private store: Store<ProfileState>) {}
 

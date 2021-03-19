@@ -39,7 +39,7 @@ const profileReducer = createReducer(
     ProfileActions.changePasswordFailure,
     (state, { error }: { error: IFirebaseError }) => ({
       ...state,
-      error: error?.message || null,
+      error: error?.message ?? null,
       pending: false,
     })
   )

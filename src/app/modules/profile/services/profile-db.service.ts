@@ -33,13 +33,8 @@ export class ProfileDbService {
       oldPassword
     );
     return from(
-      this.userFirebase
-        .reauthenticateWithCredential(credentials)
-        .then(async () => {
-          await this.userFirebase.updatePassword(newPassword);
-          return;
-        })
-    );
+      this.userFirebase.reauthenticateWithCredential(credentials)
+    ).pipe(mergeMap(() => this.userFirebase.updatePassword(newPassword)));
   }
 
   public updateProfile(profile: IUpdateProfile): Observable<void> {
@@ -72,6 +67,6 @@ export class ProfileDbService {
   private getPhotoUrl(user: IUser): Observable<string> {
     return user.photo
       ? this.uploadProfilePicture(user.uid, user.photo[0])
-      : of(user?.photoURL || '');
+      : of(user?.photoURL ?? '');
   }
 }

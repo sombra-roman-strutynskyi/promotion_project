@@ -26,7 +26,7 @@ export class ProfileEffects {
           map(() => ProfileActions.updateUserProfileSuccess()),
           tap(() => this.authFacade.loadProfile()),
           catchError((error) =>
-            of(ProfileActions.updateUserProfileFailure(error))
+            of(ProfileActions.updateUserProfileFailure({ error }))
           )
         )
       )
@@ -39,7 +39,9 @@ export class ProfileEffects {
       exhaustMap(({ oldPassword, newPassword }) =>
         this.profileDbService.changePassword(oldPassword, newPassword).pipe(
           map(() => ProfileActions.changePasswordSuccess()),
-          catchError((error) => of(ProfileActions.changePasswordFailure(error)))
+          catchError((error) =>
+            of(ProfileActions.changePasswordFailure({ error }))
+          )
         )
       )
     )
@@ -67,8 +69,8 @@ export class ProfileEffects {
           ProfileActions.updateUserProfileFailure,
           ProfileActions.changePasswordFailure
         ),
-        tap((error) => {
-          const message = error['message'];
+        tap(({ error }) => {
+          const { message } = error;
           if (message) {
             this.snackBar.open(message);
           }

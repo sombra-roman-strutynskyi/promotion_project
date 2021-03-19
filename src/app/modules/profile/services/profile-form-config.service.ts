@@ -40,6 +40,10 @@ export class ProfileFormConfigService {
   }
 
   public updatePhotoURL(url: string) {
+    this.nextPhotoURL(url);
+  }
+
+  private nextPhotoURL(url: string) {
     this.photoURL$.next(url);
   }
 
