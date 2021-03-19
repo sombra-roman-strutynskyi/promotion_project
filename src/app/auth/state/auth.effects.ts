@@ -6,7 +6,6 @@ import { Action } from '@ngrx/store';
 import {
   ROUTES_DATA,
   SnackbarService,
-  getAllFailureActions,
   DialogSuccessBlockComponent,
   IFirebaseError,
 } from '@shared';
@@ -67,13 +66,13 @@ export class AuthEffects implements OnInitEffects {
       ofType(AuthActions.loginWithCredentials),
       map(({ credentials }) => ({
         ...credentials,
-        remember: credentials?.remember || false,
+        remember: credentials?.remember ?? false,
       })),
       exhaustMap((credentials) =>
         this.authService.loginWithCredentials(credentials).pipe(
           map(() => AuthActions.loginWithCredentialsSuccess()),
           catchError((error) =>
-            of(AuthActions.loginWithCredentialsFailure(error))
+            of(AuthActions.loginWithCredentialsFailure({ error }))
           )
         )
       )
@@ -91,7 +90,7 @@ export class AuthEffects implements OnInitEffects {
               redirectTo: ROUTES_DATA.ARTICLES.url,
             })
           ),
-          catchError((error) => of(AuthActions.registerFailure(error)))
+          catchError((error) => of(AuthActions.registerFailure({ error })))
         )
       )
     )
@@ -116,7 +115,9 @@ export class AuthEffects implements OnInitEffects {
               providers,
             })
           ),
-          catchError((error) => of(AuthActions.loadUserProfileFailure(error)))
+          catchError((error) =>
+            of(AuthActions.loadUserProfileFailure({ error }))
+          )
         )
       )
     )
@@ -133,7 +134,9 @@ export class AuthEffects implements OnInitEffects {
               redirectTo: ROUTES_DATA.AUTH.children.SIGN_IN.url,
             })
           ),
-          catchError((error) => of(AuthActions.forgotPasswordFailure(error)))
+          catchError((error) =>
+            of(AuthActions.forgotPasswordFailure({ error }))
+          )
         )
       )
     )
@@ -145,7 +148,7 @@ export class AuthEffects implements OnInitEffects {
       exhaustMap(({ actionCode, newPassword, email }) =>
         this.authService.resetPassword(actionCode, newPassword, email).pipe(
           map(() => AuthActions.resetPasswordSuccess()),
-          catchError((error) => of(AuthActions.resetPasswordFailure(error)))
+          catchError((error) => of(AuthActions.resetPasswordFailure({ error })))
         )
       )
     )
@@ -196,9 +199,18 @@ export class AuthEffects implements OnInitEffects {
   handleError$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(...getAllFailureActions(AuthActions)),
-        tap((error) => {
-          const { message = null } = error;
+        ofType(
+          AuthActions.loginWithCredentialsFailure,
+          AuthActions.loginWithGoogleFailure,
+          AuthActions.loginWithFacebookFailure,
+          AuthActions.registerFailure,
+          AuthActions.loadUserProfileFailure,
+          AuthActions.forgotPasswordFailure,
+          AuthActions.resetPasswordFailure,
+          AuthActions.verifyEmailAddressFailure
+        ),
+        tap(({ error }) => {
+          const { message } = error;
           if (message) {
             this.snackBar.open(message);
           }
@@ -214,11 +226,11 @@ export class AuthEffects implements OnInitEffects {
   ): Observable<any> {
     if (error.code === 'auth/account-exists-with-different-credential') {
       return this.authService.mergeAccounts(error.email, error.credential).pipe(
-        map((val) => (isNil(val) ? errorAction(error) : successAction())),
-        catchError((err) => errorAction(err))
+        map((val) => (isNil(val) ? errorAction({ error }) : successAction())),
+        catchError((err) => errorAction({ err }))
       );
     }
-    return of(errorAction(error));
+    return of(errorAction({ error }));
   }
 
   ngrxOnInitEffects(): Action {

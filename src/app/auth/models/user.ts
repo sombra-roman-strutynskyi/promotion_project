@@ -19,9 +19,9 @@ export interface IDialogPasswordConformationData {
   password: string;
 }
 export interface IProviders {
-  password: boolean;
-  google: boolean;
-  facebook: boolean;
+  password?: boolean;
+  google?: boolean;
+  facebook?: boolean;
 }
 export interface ICredentials {
   email: string;

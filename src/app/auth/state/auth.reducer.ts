@@ -34,7 +34,7 @@ const authReducer = createReducer(
     AuthActions.forgotPassword,
     (state) => ({
       ...state,
-      errors: null,
+      error: null,
       pending: true,
     })
   ),
@@ -57,7 +57,7 @@ const authReducer = createReducer(
     AuthActions.registerFailure,
     (state, { error }: { error: IFirebaseError }) => ({
       ...state,
-      error: error?.message || null,
+      error: error?.message ?? null,
       pending: false,
     })
   ),

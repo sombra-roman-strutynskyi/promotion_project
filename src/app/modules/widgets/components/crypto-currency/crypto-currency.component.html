@@ -31,34 +31,33 @@
       <mat-icon>settings</mat-icon>
     </button>
     <mat-list class="row crypto-currencies__list">
-      <ng-container *ngIf="getDataWidget() | async; else loading">
-        <div
-          class="col-12"
-          *ngFor="let cryptoCurrency of getDataWidget() | async"
-        >
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <img
-              [title]="cryptoCurrency.symbol"
-              mat-list-icon
-              [src]="cryptoCurrency.image"
-              [alt]="cryptoCurrency.name"
-            />
-            <div mat-line>
-              <div class="crypto-currencies__item">
-                <div
-                  [title]="cryptoCurrency.name"
-                  class="col crypto-currencies__name"
-                >
-                  {{ cryptoCurrency.name }}
-                </div>
-                <div class="col-auto crypto-currencies__price">
-                  {{ cryptoCurrency.price }}
+      <ng-container *ngLet="getDataWidget() | async as dataWidget">
+        <ng-container *ngIf="dataWidget; else loading">
+          <div class="col-12" *ngFor="let cryptoCurrency of dataWidget">
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <img
+                [title]="cryptoCurrency.symbol"
+                mat-list-icon
+                [src]="cryptoCurrency.image"
+                [alt]="cryptoCurrency.name"
+              />
+              <div mat-line>
+                <div class="crypto-currencies__item">
+                  <div
+                    [title]="cryptoCurrency.name"
+                    class="col crypto-currencies__name"
+                  >
+                    {{ cryptoCurrency.name }}
+                  </div>
+                  <div class="col-auto crypto-currencies__price">
+                    {{ cryptoCurrency.price }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </mat-list-item>
-        </div>
+            </mat-list-item>
+          </div>
+        </ng-container>
       </ng-container>
     </mat-list>
   </mat-card-content>

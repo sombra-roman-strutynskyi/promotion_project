@@ -10,7 +10,7 @@ export class AuthFacade {
   pending$ = this.store.pipe(select(authQuery.getPending));
   providers$ = this.store.pipe(select(authQuery.getProviders));
   currentUser$ = this.store.pipe(select(authQuery.getUser));
-  errors$ = this.store.pipe(select(authQuery.getError));
+  error$ = this.store.pipe(select(authQuery.getError));
 
   constructor(private store: Store<AuthState>) {}
 

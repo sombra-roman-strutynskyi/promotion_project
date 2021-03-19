@@ -1,18 +1,16 @@
 <div class="col-12">
-  <div
-    class="row"
-    [loadingOverlay]="pending$ | async"
-    *ngIf="currentUser$ | async"
-  >
-    <profile-edit-profile
-      class="col-12"
-      [currentUser]="currentUser$ | async"
-      (submitted)="updateUserProfile($event)"
-    ></profile-edit-profile>
-    <profile-change-password
-      *ngIf="showChangePassword$ | async"
-      class="col-12"
-      (submitted)="updateUserPassword($event)"
-    ></profile-change-password>
-  </div>
+  <ng-container *ngLet="currentUser$ | async as currentUser">
+    <div class="row" [loadingOverlay]="pending$ | async" *ngIf="currentUser">
+      <profile-edit-profile
+        class="col-12"
+        [currentUser]="currentUser"
+        (submitted)="updateUserProfile($event)"
+      ></profile-edit-profile>
+      <profile-change-password
+        *ngIf="showChangePassword$ | async"
+        class="col-12"
+        (submitted)="updateUserPassword($event)"
+      ></profile-change-password>
+    </div>
+  </ng-container>
 </div>

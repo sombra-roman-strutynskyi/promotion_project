@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '@env';
 import {
   UserCredential,
   UserFirebase,
@@ -14,7 +15,6 @@ import { Observable, of, from } from 'rxjs';
 import { take, map, mergeMap, exhaustMap } from 'rxjs/operators';
 import { DialogPasswordConformationComponent } from '../components/dialog-password-conformation/dialog-password-conformation.component';
 import { IDialogPasswordConformationData } from '../models';
-
 import {
   ICredentials,
   IUser,
@@ -114,16 +114,10 @@ export class AuthService {
               take(1),
               map((user: IUser) => ({
                 currentUser: new User({
-                  ...pick(userFirebase, [
-                    'uid',
-                    'firstName',
-                    'lastName',
-                    'email',
-                    'photoURL',
-                  ]),
+                  ...pick(userFirebase, ['uid', 'email', 'photoURL']),
                   ...user,
                 }),
-                providers: userFirebase?.providerData.reduce(
+                providers: (userFirebase?.providerData ?? []).reduce(
                   (providers, { providerId }) => {
                     const name = providerId.split('.')[0];
                     providers[name] = true;
@@ -162,7 +156,7 @@ export class AuthService {
   public passwordForgotten(email: string): Observable<void> {
     return from(
       this.authFirebase.sendPasswordResetEmail(email, {
-        url: 'http://localhost:4200/auth',
+        url: `${environment.url}auth`,
       })
     );
   }

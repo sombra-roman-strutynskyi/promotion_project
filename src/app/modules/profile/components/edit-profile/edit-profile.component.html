@@ -1,8 +1,8 @@
 <ui-accordion
-  [title]="'User Profile'"
-  [open]="true"
+  title="User Profile"
+  buttonLabel="Edit"
+  open="true"
   [buttonDisabled]="!formOptions?.formState?.disabled"
-  [buttonLabel]="'Edit'"
   (buttonClicked)="enableForm()"
 >
   <ui-base-form

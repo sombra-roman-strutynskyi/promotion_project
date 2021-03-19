@@ -81,19 +81,19 @@ export class UserManagementComponent
           this.form,
           this.ngSubject
         );
-        this.authService
-          .verifyPasswordResetCode(oobCode)
-          .pipe(
-            take(1),
-            tap((email: string) => {
-              this.userEmail = email;
-            }),
-            catchError(() => {
-              this.goToLogin();
-              return of(null);
-            })
-          )
-          .subscribe();
+        try {
+          this.authService
+            .verifyPasswordResetCode(oobCode)
+            .pipe(
+              take(1),
+              tap((email: string) => {
+                this.userEmail = email;
+              })
+            )
+            .subscribe();
+        } catch (err) {
+          this.goToLogin();
+        }
         break;
       case UserManagementMode.VERIFY_EMAIL:
         this.authService.verifyEmailAddress(oobCode);

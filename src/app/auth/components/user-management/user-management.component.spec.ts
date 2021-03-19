@@ -9,11 +9,11 @@ import {
 import {
   activateRouteMockFactory,
   AuthFacadeMock,
+  AuthServiceMock,
   createComponent,
   MOCK_RESET_PASSWORD,
   TestingModule,
 } from '@testing';
-import { of } from 'rxjs';
 
 import { UserManagementMode } from '../../models';
 import { UserManagementComponent } from './user-management.component';
@@ -28,10 +28,7 @@ const providers = [
   },
   {
     provide: AuthService,
-    useValue: {
-      verifyPasswordResetCode: jest.fn(() => of(MOCK_EMAIL)),
-      verifyEmailAddress: jest.fn(),
-    },
+    useClass: AuthServiceMock,
   },
   {
     provide: AuthFormService,
