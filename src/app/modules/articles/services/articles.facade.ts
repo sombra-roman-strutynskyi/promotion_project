@@ -8,8 +8,8 @@ import * as ArticlesReducer from '../state/articles.reducer';
 
 @Injectable()
 export class ArticlesFacade {
+  error$ = this.store.pipe(select(articlesQuery.getError));
   pending$ = this.store.pipe(select(articlesQuery.getPending));
-  article$ = this.store.pipe(select(articlesQuery.getArticle));
   selectedArticle$ = this.store.pipe(select(articlesQuery.getSelected));
   allArticles$ = this.store.pipe(select(articlesQuery.getAllArticles));
 

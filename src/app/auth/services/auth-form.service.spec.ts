@@ -1,6 +1,4 @@
-/* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import {
   getAgeField,
@@ -24,9 +22,9 @@ describe('Service: AuthForm', () => {
     service = TestBed.inject(AuthFormService);
   });
 
-  it('should be created', inject([AuthFormService], () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
   it('should return fields for login form', () => {
     expect(service.getLoginFormFields()).toEqual(
       getWrapperFormFields([

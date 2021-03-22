@@ -54,9 +54,9 @@ describe('Service: Auth', () => {
     authFirebase = TestBed.inject(AngularFireAuth);
   });
 
-  it('should be created', inject([AuthService], () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
   it('should return `userCredential` when login with Facebook', (done) => {
     const userCredential: Partial<UserCredential> = {

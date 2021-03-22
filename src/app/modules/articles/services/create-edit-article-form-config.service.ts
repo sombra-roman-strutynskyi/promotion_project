@@ -6,7 +6,7 @@ import { UiFormButton } from '@shared';
 export class CreateEditArticleFormConfigService {
   public getFormButtons(
     isNew: boolean,
-    removeArticleFn: () => void
+    removeArticleFn?: () => void
   ): UiFormButton[] {
     const formButtons: UiFormButton[] = [
       {

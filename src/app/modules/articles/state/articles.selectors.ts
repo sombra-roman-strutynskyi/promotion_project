@@ -13,7 +13,7 @@ export const getArticlesState = createFeatureSelector<
 
 const { selectAll, selectEntities } = articlesAdapter.getSelectors();
 
-export const getArticlesError = createSelector(
+export const getError = createSelector(
   getArticlesState,
   (state: ArticlesState) => state.error
 );
@@ -44,7 +44,7 @@ export const getPending = createSelector(
 );
 
 export const articlesQuery = {
-  getArticlesError,
+  getError,
   getSelectedId,
   getArticle,
   getAllArticles,

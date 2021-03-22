@@ -2,7 +2,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on, Action } from '@ngrx/store';
 import { IFirebaseError } from '@shared';
 import { IArticle } from '../models';
-
 import * as ArticlesActions from './articles.actions';
 
 export const ARTICLES_FEATURE_KEY = 'articles';
@@ -97,7 +96,7 @@ const articlesReducer = createReducer(
     ArticlesActions.removeArticleFailure,
     (state, { error }: { error: IFirebaseError }) => ({
       ...state,
-      error: error?.message || null,
+      error: error?.message ?? null,
       pending: false,
     })
   )

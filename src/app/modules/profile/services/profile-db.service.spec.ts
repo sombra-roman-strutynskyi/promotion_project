@@ -1,28 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFireUploadTask } from '@angular/fire/storage';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthFacade } from '@auth';
-import { environment } from '@env';
-import {
-  AuthCredential,
-  AuthProvider,
-  getUrlToFileFromFirebaseStorage$,
-  UserCredential,
-  UserFirebase,
-} from '@shared';
-import {
-  AuthFacadeMock,
-  MOCK_CREDENTIALS,
-  MOCK_FIREBASE_USER,
-  MOCK_FIREBASE_USER_CREDENTIALS,
-  MOCK_REGISTER_USER,
-  MOCK_USER,
-} from '@testing';
+import { AuthFacadeMock } from '@testing';
 import { MOCK_UPDATED_PROFILE } from '@testing';
 import { from, of } from 'rxjs';
+import { IUpdateProfile } from '../models';
 import { ProfileDbService } from './profile-db.service';
 const providers = [
   ProfileDbService,
@@ -74,20 +60,28 @@ describe('Service: ProfileDb', () => {
     authFirebase = TestBed.inject(AngularFireAuth);
   });
 
-  it('should be created', inject([ProfileDbService], () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should return `userCredential` when login with Facebook', (done) => {
+  it('should return void when call changePassword', (done) => {
     service.changePassword('oldPassword', 'newPassword').subscribe((data) => {
       expect(data).toEqual(undefined);
       done();
     });
   });
-  it('should return `userCredential` when login with Google', (done) => {
+  it('should return void when call updateProfile', (done) => {
     service.updateProfile(MOCK_UPDATED_PROFILE).subscribe((data) => {
       expect(data).toEqual(undefined);
       done();
     });
+  });
+  it('should return void when call updateProfile', (done) => {
+    service
+      .updateProfile({ ...MOCK_UPDATED_PROFILE, photo: null })
+      .subscribe((data) => {
+        expect(data).toEqual(undefined);
+        done();
+      });
   });
 });

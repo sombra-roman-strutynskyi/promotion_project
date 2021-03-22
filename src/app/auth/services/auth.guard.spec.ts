@@ -30,9 +30,9 @@ describe('AuthGuard', () => {
     guard = TestBed.inject(AuthGuard);
   });
 
-  it('should be created', inject([AuthGuard], () => {
+  it('should be created', () => {
     expect(guard).toBeTruthy();
-  }));
+  });
 
   it('should return false for child routes if the user is not logged in', () => {
     const expected = cold('(a|)', { a: false });

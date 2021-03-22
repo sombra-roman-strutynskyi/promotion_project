@@ -30,9 +30,9 @@ describe('AuthEffects', () => {
   let authService: AuthService;
   let actions$: Observable<any>;
   let routerService: Partial<Router>;
-  let router;
   let dialog: MatDialog;
   let snackBar: SnackbarService;
+  let router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

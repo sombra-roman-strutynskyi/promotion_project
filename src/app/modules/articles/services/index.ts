@@ -1,11 +1,11 @@
 import { ArticleEditGuard } from './article-edit.guard';
-import { ArticlesDBService } from './articles-db.service';
+import { ArticlesDbService } from './articles-db.service';
 import { ArticlesFacade } from './articles.facade';
 import { CreateEditArticleFormConfigService } from './create-edit-article-form-config.service';
 
 export const SERVICES = [
   ArticlesFacade,
-  ArticlesDBService,
+  ArticlesDbService,
   ArticleEditGuard,
   CreateEditArticleFormConfigService,
 ];

@@ -28,9 +28,9 @@ describe('UnauthorizedGuard', () => {
     guard = TestBed.inject(UnauthorizedGuard);
   });
 
-  it('should be created', inject([UnauthorizedGuard], () => {
+  it('should be created', () => {
     expect(guard).toBeTruthy();
-  }));
+  });
 
   it('should return false if the user is logged in ', () => {
     const expected = cold('(a|)', { a: false });

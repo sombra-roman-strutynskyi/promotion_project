@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { getAllFailureActions, ROUTES_DATA, SnackbarService } from '@shared';
+import { ROUTES_DATA, SnackbarService } from '@shared';
 import { of } from 'rxjs';
 import { map, switchMap, catchError, exhaustMap, tap } from 'rxjs/operators';
-import { ArticlesDBService } from '../services/articles-db.service';
+import { ArticlesDbService } from '../services/articles-db.service';
 import * as ArticlesActions from './articles.actions';
 
 @Injectable()
@@ -113,9 +113,15 @@ export class ArticlesEffects {
   handleError$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(...getAllFailureActions(ArticlesActions)),
-        tap((error) => {
-          const { message = null } = error;
+        ofType(
+          ArticlesActions.loadArticleByIdFailure,
+          ArticlesActions.loadArticlesFailure,
+          ArticlesActions.createArticleFailure,
+          ArticlesActions.updateArticleFailure,
+          ArticlesActions.removeArticleFailure
+        ),
+        tap(({ error }) => {
+          const { message } = error;
           if (message) {
             this.snackBar.open(message);
           }
@@ -126,7 +132,7 @@ export class ArticlesEffects {
 
   constructor(
     private actions$: Actions,
-    private articlesDB: ArticlesDBService,
+    private articlesDB: ArticlesDbService,
     private router: Router,
     private snackBar: SnackbarService
   ) {}

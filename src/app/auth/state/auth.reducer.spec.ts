@@ -4,101 +4,104 @@ import * as AuthActions from './auth.actions';
 import { AuthState, initialState, reducer } from './auth.reducer';
 
 describe('Auth Reducer', () => {
-  it('should return the default state', () => {
-    const action = {} as Action;
+  describe('valid Auth actions', () => {
+    it('should reset error in state and start pending', () => {
+      const actions = [
+        AuthActions.loginWithCredentials,
+        AuthActions.loginWithFacebook,
+        AuthActions.loginWithGoogle,
+        AuthActions.register,
+        AuthActions.forgotPassword,
+      ];
 
-    const state: AuthState = reducer(undefined, action);
+      actions.forEach((action) => {
+        const state: AuthState = reducer(initialState, action as Action);
 
-    expect(state).toBe(initialState);
-  });
+        expect(state.error).toEqual(null);
+        expect(state.pending).toBe(true);
+      });
+    });
 
-  it('should reset error in state and start pending', () => {
-    const actions = [
-      AuthActions.loginWithCredentials,
-      AuthActions.loginWithFacebook,
-      AuthActions.loginWithGoogle,
-      AuthActions.register,
-      AuthActions.forgotPassword,
-    ];
+    it('should reset error in state and end pending', () => {
+      const actions = [
+        AuthActions.loginWithCredentialsSuccess,
+        AuthActions.forgotPasswordSuccess,
+        AuthActions.registerSuccess,
+      ];
 
-    actions.forEach((action) => {
+      actions.forEach((action) => {
+        const state: AuthState = reducer(initialState, action as Action);
+
+        expect(state.error).toEqual(null);
+        expect(state.pending).toBe(false);
+      });
+    });
+
+    it('should set pending to value "true" when user logout', () => {
+      const action = AuthActions.logout;
       const state: AuthState = reducer(initialState, action as Action);
 
-      expect(state.error).toEqual(null);
       expect(state.pending).toBe(true);
     });
-  });
 
-  it('should reset error in state and end pending', () => {
-    const actions = [
-      AuthActions.loginWithCredentialsSuccess,
-      AuthActions.forgotPasswordSuccess,
-      AuthActions.registerSuccess,
-    ];
-
-    actions.forEach((action) => {
+    it('should reset to default state', () => {
+      const action = AuthActions.logoutSuccess;
       const state: AuthState = reducer(initialState, action as Action);
 
-      expect(state.error).toEqual(null);
-      expect(state.pending).toBe(false);
+      expect(state).toEqual(initialState);
     });
-  });
 
-  it('should set pending to value "true" when user logout', () => {
-    const action = AuthActions.logout;
-    const state: AuthState = reducer(initialState, action as Action);
+    it('should set error message in state when actions failure triggered', () => {
+      const actions = [
+        AuthActions.loginWithCredentialsFailure,
+        AuthActions.loginWithGoogleFailure,
+        AuthActions.loginWithFacebookFailure,
+        AuthActions.forgotPasswordFailure,
+        AuthActions.loadUserProfileFailure,
+        AuthActions.registerFailure,
+      ];
 
-    expect(state.pending).toBe(true);
-  });
+      actions.forEach((action) => {
+        const state: AuthState = reducer(
+          initialState,
+          action({ error: MOCK_FIREBASE_ERROR }) as Action
+        );
 
-  it('should reset to default state', () => {
-    const action = AuthActions.logoutSuccess;
-    const state: AuthState = reducer(initialState, action as Action);
+        expect(state.pending).toBe(false);
+        expect(state.error).toEqual(MOCK_FIREBASE_ERROR.message);
+      });
+    });
 
-    expect(state).toEqual(initialState);
-  });
+    it('should set user and providers when loadUserProfileSuccess action was triggered', () => {
+      const action = AuthActions.loadUserProfileSuccess({
+        currentUser: MOCK_USER,
+        providers: {
+          password: true,
+        },
+      });
 
-  it('should set error message in state when actions failure triggered', () => {
-    const actions = [
-      AuthActions.loginWithCredentialsFailure,
-      AuthActions.loginWithGoogleFailure,
-      AuthActions.loginWithFacebookFailure,
-      AuthActions.forgotPasswordFailure,
-      AuthActions.loadUserProfileFailure,
-      AuthActions.registerFailure,
-    ];
-
-    actions.forEach((action) => {
-      const state: AuthState = reducer(
-        initialState,
-        action({ error: MOCK_FIREBASE_ERROR }) as Action
-      );
+      const state: AuthState = reducer(initialState, action as Action);
 
       expect(state.pending).toBe(false);
-      expect(state.error).toEqual(MOCK_FIREBASE_ERROR.message);
-    });
-  });
-
-  it('should set user and providers when loadUserProfileSuccess action was triggered', () => {
-    const action = AuthActions.loadUserProfileSuccess({
-      currentUser: MOCK_USER,
-      providers: {
+      expect(state.user).toEqual({
+        ...MOCK_USER,
+      });
+      expect(state.providers).toEqual({
         password: true,
-      },
+        google: false,
+        facebook: false,
+      });
+      expect(state.error).toEqual(null);
+      expect(state.userLoaded).toBe(true);
     });
+    describe('unknown action', () => {
+      it('should return the previous state', () => {
+        const action = {} as any;
 
-    const state: AuthState = reducer(initialState, action as Action);
+        const result = reducer(initialState, action);
 
-    expect(state.pending).toBe(false);
-    expect(state.user).toEqual({
-      ...MOCK_USER,
+        expect(result).toBe(initialState);
+      });
     });
-    expect(state.providers).toEqual({
-      password: true,
-      google: false,
-      facebook: false,
-    });
-    expect(state.error).toEqual(null);
-    expect(state.userLoaded).toBe(true);
   });
 });

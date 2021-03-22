@@ -48,15 +48,6 @@ export function getUrlToFileFromFirebaseStorage$(
   );
 }
 
-export function getAllFailureActions(actions) {
-  return Object.keys(actions).reduce((failureActions, action) => {
-    if (action.toLowerCase().endsWith('failure')) {
-      failureActions.push(actions[action]);
-    }
-    return failureActions;
-  }, []);
-}
-
 export function getOptionsForSelect(
   request: Observable<{ id: string; name: string }[]>
 ): Observable<{ label: string; value: string }[]> {

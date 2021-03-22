@@ -9,13 +9,13 @@ import { map, take, mergeMap } from 'rxjs/operators';
 import { v4 as uuid } from 'uuid';
 import { IArticle, Article } from '../models';
 @Injectable()
-export class ArticlesDBService {
+export class ArticlesDbService {
   constructor(
     private dbFirebase: AngularFireDatabase,
     private storageFirebase: AngularFireStorage
   ) {}
 
-  getArticle(id: string): Observable<IArticle> {
+  public getArticle(id: string): Observable<IArticle> {
     return this.dbFirebase
       .object(`articles/${id}`)
       .valueChanges()
@@ -25,7 +25,19 @@ export class ArticlesDBService {
       );
   }
 
-  createArticle(article: IArticle): Observable<IArticle> {
+  public getArticles(): Observable<IArticle[]> {
+    return this.dbFirebase
+      .list(`articles`)
+      .valueChanges()
+      .pipe(
+        take(1),
+        map((articles: IArticle[]) =>
+          articles.map((article: IArticle) => new Article(article))
+        )
+      );
+  }
+
+  public createArticle(article: IArticle): Observable<IArticle> {
     const id = uuid();
     return this.getArticleImageUrl(article, id).pipe(
       mergeMap((imageUrl) => {
@@ -50,7 +62,7 @@ export class ArticlesDBService {
     );
   }
 
-  updateArticle(article: IArticle): Observable<IArticle> {
+  public updateArticle(article: IArticle): Observable<IArticle> {
     return this.getArticleImageUrl(article).pipe(
       mergeMap((imageUrl) => {
         const updateArticle = omit(
@@ -68,22 +80,10 @@ export class ArticlesDBService {
     );
   }
 
-  removeArticle(id): Observable<string> {
+  public removeArticle(id: string): Observable<string> {
     return from(this.dbFirebase.object(`articles/${id}`).remove()).pipe(
       map(() => id)
     );
-  }
-
-  getArticles(): Observable<IArticle[]> {
-    return this.dbFirebase
-      .list(`articles`)
-      .valueChanges()
-      .pipe(
-        take(1),
-        map((articles: IArticle[]) =>
-          articles.map((article: IArticle) => new Article(article))
-        )
-      );
   }
 
   private uploadArticlesFile(id: string, file: File): Observable<string> {
@@ -101,6 +101,6 @@ export class ArticlesDBService {
   ): Observable<string> {
     return article.image
       ? this.uploadArticlesFile(id || article.id, article.image[0])
-      : of(article?.imageUrl || '');
+      : of(article?.imageUrl ?? '');
   }
 }
