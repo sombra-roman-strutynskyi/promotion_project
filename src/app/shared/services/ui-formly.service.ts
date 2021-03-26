@@ -9,15 +9,15 @@ export class UiFormlyService {
   public bindFieldsToFormState(
     fields: FormlyFieldConfig[],
     expressions: {
-      disabled: string | any;
+      disabled: string;
       validationShow?: string;
       disabledClassName?: string;
     }
   ): void {
     fields?.forEach((field) => {
-      if (field['fieldGroup'] && field?.fieldGroup?.length) {
+      if (field?.fieldGroup?.length) {
         this.bindFieldsToFormState(field.fieldGroup, expressions);
-      } else if (!field['template'] && field.type !== 'button') {
+      } else if (!field['template']) {
         this.setExpressionDisabled(
           field,
           expressions.disabled,
@@ -63,7 +63,7 @@ export class UiFormlyService {
     childForm: FormGroup,
     parentForm: FormGroup
   ): void {
-    Object.entries(childForm.controls).forEach(([name, control]) => {
+    Object.entries(childForm.controls).forEach(([name]) => {
       parentForm.addControl(name, childForm);
     });
     childForm.setParent(parentForm);

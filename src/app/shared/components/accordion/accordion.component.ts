@@ -12,7 +12,7 @@ export class AccordionComponent {
   @Input() open = false;
   @Input() buttonDisabled = false;
   @Input() buttonLabel: string;
-  @Output() buttonClicked = new EventEmitter();
+  @Output() buttonClicked = new EventEmitter<void>();
 
   public onClick(): void {
     this.buttonClicked.emit();

@@ -2,7 +2,7 @@ import {
   AngularFireStorage,
   AngularFireUploadTask,
 } from '@angular/fire/storage';
-import { isNil, isObject, isEmpty, isString } from 'lodash';
+import { isNil, isObject, isEmpty, isString, isArray } from 'lodash';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 interface IObject {
@@ -28,13 +28,14 @@ export function deepRemoveEmptyObjProperty(object: IObject): IObject {
   const obj = { ...object };
   Object.keys(obj).forEach((key) => {
     const val = obj[key];
-    if (isObject(val) && !isEmpty(val)) {
+    if (isObject(val) && !isArray(val) && !isEmpty(val)) {
       obj[key] = deepRemoveEmptyObjProperty(val);
     }
     if (isNil(val) || (isString(val) && isEmpty(val))) {
       delete obj[key];
     }
   });
+
   return obj;
 }
 

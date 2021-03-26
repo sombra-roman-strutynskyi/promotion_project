@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthFacade } from '@auth';
 import { ProfileFormConfigService } from '@modules/profile';
 import {
   getWrapperFormFields,

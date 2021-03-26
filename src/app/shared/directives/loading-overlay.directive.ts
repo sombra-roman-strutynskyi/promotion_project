@@ -4,19 +4,15 @@ import {
   ComponentFactoryResolver,
   Directive,
   ElementRef,
-  HostBinding,
   Injector,
   Input,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 
 import { LoadingOverlayComponent } from '../components';
 
 @Directive({ selector: '[loadingOverlay]' })
-export class LoadingOverlayDirective implements OnInit, OnDestroy {
-  _loadingOverlay: boolean;
-
+export class LoadingOverlayDirective implements OnDestroy {
   private bodyPortalHost: DomPortalOutlet;
 
   @Input()
@@ -28,14 +24,7 @@ export class LoadingOverlayDirective implements OnInit, OnDestroy {
     } else {
       this.bodyPortalHost.detach();
     }
-    this._loadingOverlay = value;
   }
-  public get loadingOverlay() {
-    return this._loadingOverlay;
-  }
-
-  @HostBinding('style.position')
-  public position: string;
 
   constructor(
     private elementRef: ElementRef,
@@ -51,17 +40,13 @@ export class LoadingOverlayDirective implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnInit(): void {
-    this.position = 'relative';
-  }
-
   public ngOnDestroy(): void {
     if (this.bodyPortalHost) {
       this.bodyPortalHost.dispose();
     }
   }
 
-  initPortal() {
+  private initPortal(): ComponentPortal<LoadingOverlayComponent> {
     return new ComponentPortal(LoadingOverlayComponent);
   }
 }

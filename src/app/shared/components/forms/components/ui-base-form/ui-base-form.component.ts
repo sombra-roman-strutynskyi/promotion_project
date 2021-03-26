@@ -1,4 +1,3 @@
-// tslint:disable: ban-types
 import {
   Component,
   OnInit,
@@ -25,13 +24,13 @@ export class UiBaseFormComponent implements OnInit, AfterViewInit {
   @Input() form = new FormGroup({});
   @Input() parentForm?: FormGroup;
   @Input() fields: FormlyFieldConfig[] = [];
-  @Input() model: Object;
+  @Input() model: {};
   @Input() formOptions: FormlyFormOptions;
   @Input() formButtons: UiFormButton[];
   @Input() formClasses = '';
   @Input() classButtonNames = '';
   @Input() showBtns = true;
-  @Output() submitted = new EventEmitter<Object>();
+  @Output() submitted = new EventEmitter<{}>();
   @Output() canceled = new EventEmitter<any>();
   @Output() debug = new EventEmitter<any>();
 

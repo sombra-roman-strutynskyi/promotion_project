@@ -13,7 +13,7 @@ export class UiFormButtonsComponent {
   @Input() model: any = {};
   @Output() action: EventEmitter<any> = new EventEmitter();
 
-  public click(type: string, payload: any, handler: () => void): void {
+  public click(type: string, payload?: any, handler?: () => void): void {
     payload = payload || this.model;
     this.action.emit({ type, payload: Object.assign({}, payload) });
     if (handler) {

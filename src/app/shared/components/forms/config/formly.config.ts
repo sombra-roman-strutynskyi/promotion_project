@@ -1,4 +1,4 @@
-import { ConfigOption } from '@ngx-formly/core';
+import { ConfigOption, FormlyFieldConfig } from '@ngx-formly/core';
 import { CustomValidators } from '../../../validators/index';
 import { FormlyFieldFileComponent } from '../types';
 import { FormlyWrapperImageUploaderComponent } from '../wrappers';
@@ -31,31 +31,29 @@ export const FORMLY_CONFIG: ConfigOption = {
   },
 };
 
-export function showError(field: any) {
-  return (
-    field.formControl && field.formControl.invalid && field.formControl.touched
-  );
+export function showError(field: FormlyFieldConfig): boolean {
+  return !!(field?.formControl?.invalid && field?.formControl?.touched);
 }
 
-export function requiredValidationMessage(err, field) {
+export function requiredValidationMessage(_, field: FormlyFieldConfig): string {
   return `Please enter ${field.templateOptions.label}`;
 }
-export function patternValidationMessage(err, field) {
+
+export function patternValidationMessage(_, field: FormlyFieldConfig): string {
   return `Please enter a valid ${field.templateOptions.label}`;
 }
 
-export function patternValidationTime(err, field) {
-  return `${field.templateOptions.label} should have hh:mm format`;
-}
-
-export function minLengthValidationMessage(err, field) {
+export function minLengthValidationMessage(
+  _,
+  field: FormlyFieldConfig
+): string {
   return `Should have ${field.templateOptions.minLength} characters`;
 }
 
-export function minValueValidationMessage(err, field) {
+export function minValueValidationMessage(_, field: FormlyFieldConfig): string {
   return `Should be more then ${field.templateOptions.min}`;
 }
 
-export function maxValueValidationMessage(err, field) {
+export function maxValueValidationMessage(_, field: FormlyFieldConfig): string {
   return `Should be less then ${field.templateOptions.max}`;
 }

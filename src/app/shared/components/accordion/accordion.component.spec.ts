@@ -1,7 +1,5 @@
-/* tslint:disable:no-unused-variable */
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { ComponentMock } from '@testing';
 
 import { AccordionComponent } from './accordion.component';
 
@@ -11,7 +9,13 @@ describe('AccordionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AccordionComponent],
+      declarations: [
+        AccordionComponent,
+        ComponentMock({
+          selector: 'mat-expansion-panel',
+          inputs: ['hideToggle', 'expanded'],
+        }),
+      ],
     }).compileComponents();
   }));
 
@@ -23,5 +27,16 @@ describe('AccordionComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should click', (done) => {
+    component.buttonClicked.subscribe((data) => {
+      expect(data).toBe(undefined);
+      done();
+    });
+    component.onClick();
+  });
+  afterEach(() => {
+    fixture.destroy();
   });
 });
