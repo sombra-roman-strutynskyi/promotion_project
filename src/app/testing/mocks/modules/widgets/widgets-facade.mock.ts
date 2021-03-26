@@ -11,5 +11,5 @@ export class WidgetsFacadeMock implements Partial<WidgetsFacade> {
   cryptoCurrencyTypes$ = of([MOCK_CRYPTO_CURRENCY_TYPE]);
   currencyTypes$ = of([MOCK_CURRENCY_TYPE]);
   pending$ = of(null);
-  errors$ = of(null);
+  error$ = of(null);
 }

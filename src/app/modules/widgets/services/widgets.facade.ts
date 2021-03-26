@@ -10,7 +10,7 @@ export class WidgetsFacade {
   );
   currencyTypes$ = this.store.pipe(select(widgetsQuery.getCurrencyTypes));
   pending$ = this.store.pipe(select(widgetsQuery.getPending));
-  errors$ = this.store.pipe(select(widgetsQuery.getError));
+  error$ = this.store.pipe(select(widgetsQuery.getError));
 
   constructor(private store: Store<WidgetsState>) {}
 }

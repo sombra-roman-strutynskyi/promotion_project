@@ -8,7 +8,7 @@ export class AuthFacadeMock implements Partial<AuthFacade> {
   pending$ = of(null);
   providers$ = of({ password: true, google: true, facebook: true });
   currentUser$ = of(MOCK_USER);
-  errors$ = of(null);
+  error$ = of(null);
 
   loginWithCredentials = jest.fn();
   loginWithGoogle = jest.fn();

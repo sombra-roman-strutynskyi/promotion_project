@@ -5,7 +5,22 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/src/test.ts'],
   collectCoverage: true,
   coverageReporters: ['html'],
-  coverageDirectory: 'coverage/my-app',
+  coverageDirectory: 'coverage/project',
+  coveragePathIgnorePatterns: [
+    'node_modules',
+    'src/app/testing',
+    'src/environments',
+    '.module.ts',
+    '.mock.ts',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 20,
+      functions: 30,
+      lines: 50,
+      statements: 50,
+    },
+  },
   moduleNameMapper: {
     '@env': '<rootDir>/src/environments/environment',
     '@shared': '<rootDir>/src/app/shared/index.ts',

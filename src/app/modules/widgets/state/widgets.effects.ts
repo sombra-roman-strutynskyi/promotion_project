@@ -26,7 +26,7 @@ export class WidgetsEffects implements OnInitEffects {
             })
           ),
           catchError(({ error }) =>
-            of(WidgetsActions.loadCryptoCurrencyTypesFailure(error))
+            of(WidgetsActions.loadCryptoCurrencyTypesFailure({ error }))
           )
         )
       )
@@ -45,12 +45,10 @@ export class WidgetsEffects implements OnInitEffects {
                 id,
               })
             );
-            console.log(currencyTypes);
-
             return WidgetsActions.loadCurrencyTypesSuccess({ currencyTypes });
           }),
           catchError(({ error }) =>
-            of(WidgetsActions.loadCurrencyTypesFailure(error))
+            of(WidgetsActions.loadCurrencyTypesFailure({ error }))
           )
         )
       )
@@ -75,7 +73,9 @@ export class WidgetsEffects implements OnInitEffects {
           WidgetsActions.loadCryptoCurrencyTypesFailure
         ),
         tap(({ error }) => {
-          this.snackBar.open(error);
+          if (error) {
+            this.snackBar.open(error);
+          }
         })
       ),
     { dispatch: false }

@@ -9,7 +9,7 @@ import { WidgetsFacade } from './widgets.facade';
 export class WidgetCryptoCurrencyFormService {
   constructor(private widgetFacade: WidgetsFacade) {}
 
-  getFormFields(): FormlyFieldConfig[] {
+  public getFormFields(): FormlyFieldConfig[] {
     return [
       {
         key: 'cryptoCurrencies',
@@ -49,7 +49,7 @@ export class WidgetCryptoCurrencyFormService {
     ];
   }
 
-  getFormButtons(): UiFormButton[] {
+  public getFormButtons(): UiFormButton[] {
     return [
       {
         label: 'Save',
