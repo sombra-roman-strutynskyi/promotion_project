@@ -1,5 +1,5 @@
-import { ComponentFixture } from '@angular/core/testing';
-import { createComponent, TestingModule } from '@testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentMock } from '@testing';
 import { UiFormlyService } from '../../../../services/ui-formly.service';
 import { UiBaseFormComponent } from './ui-base-form.component';
 
@@ -11,19 +11,34 @@ const providers = [
     },
   },
 ];
-const imports = [TestingModule];
-
 describe('UiBaseFormComponent', () => {
   let component: UiBaseFormComponent;
   let fixture: ComponentFixture<UiBaseFormComponent>;
 
-  beforeEach(() => {
-    fixture = createComponent<UiBaseFormComponent>(
-      UiBaseFormComponent,
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        UiBaseFormComponent,
+        ComponentMock({
+          selector: 'formly-form',
+          inputs: ['form', 'model', 'fields', 'options'],
+        }),
+        ComponentMock({
+          selector: 'ui-form-buttons',
+          inputs: ['buttons', 'form', 'model'],
+          outputs: ['action'],
+        }),
+        ComponentMock({
+          selector: 'form',
+          inputs: ['formGroup'],
+        }),
+      ],
       providers,
-      imports,
-      true
-    );
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UiBaseFormComponent);
     component = fixture.debugElement.componentInstance;
     component.formOptions = {
       resetModel: jest.fn(),

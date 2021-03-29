@@ -15,6 +15,15 @@ describe('AccordionComponent', () => {
           selector: 'mat-expansion-panel',
           inputs: ['hideToggle', 'expanded'],
         }),
+        ComponentMock({
+          selector: 'mat-expansion-panel-header',
+        }),
+        ComponentMock({
+          selector: 'mat-panel-title',
+        }),
+        ComponentMock({
+          selector: 'mat-panel-description',
+        }),
       ],
     }).compileComponents();
   }));

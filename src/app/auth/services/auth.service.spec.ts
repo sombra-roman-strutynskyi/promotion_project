@@ -193,7 +193,7 @@ describe('Service: Auth', () => {
 
   it('should verify email address', () => {
     authFirebase['applyActionCode'] = jest.fn();
-    const spy = jest.spyOn(authFirebase, 'sendPasswordResetEmail');
+    const spy = jest.spyOn(authFirebase, 'applyActionCode');
 
     service.verifyEmailAddress('actionCode');
     expect(spy).toHaveBeenCalled();

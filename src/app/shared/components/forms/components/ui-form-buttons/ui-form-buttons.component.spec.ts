@@ -1,5 +1,5 @@
-import { async, ComponentFixture } from '@angular/core/testing';
-import { createComponent } from '@testing';
+import { ComponentFixture } from '@angular/core/testing';
+import { createComponent, TestingModule } from '@testing';
 import { UiFormButtonsComponent } from './ui-form-buttons.component';
 
 describe('UiFormButtonsComponent', () => {
@@ -10,7 +10,7 @@ describe('UiFormButtonsComponent', () => {
     fixture = createComponent<UiFormButtonsComponent>(
       UiFormButtonsComponent,
       [],
-      [],
+      [TestingModule],
       true
     );
     component = fixture.debugElement.componentInstance;
