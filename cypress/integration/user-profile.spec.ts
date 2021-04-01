@@ -3,7 +3,7 @@ import { ROUTES_DATA } from '../../src/app/shared/constants/routePaths';
 describe('User Profile', () => {
   before(() => {
     cy.login();
-    cy.wait(1000);
+    cy.wait(5000);
   });
   beforeEach(() => {
     cy.visit(`/${ROUTES_DATA.PROFILE.url}`);

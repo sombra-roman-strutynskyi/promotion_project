@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:ci": "http-server ./dist/cypressTest -a localhost -p 4200 -c-1",
+    "start:ci": "http-server ./dist/promotion-project -P http://localhost:4200? -a localhost -p 4200 -c-1",
     "build": "ng build",
     "test": "jest",
     "lint": "ng lint",
