@@ -15,10 +15,11 @@ branches:
     - master
 before_install:
   - npm i -g firebase-tools
+  - npm i -g http-server
 script:
   - npm run lint
   - npm run test
-  - npm run cy:run
+  - npm run cypress:ci
   - npm run build:prod
 # after_success:
 #   - firebase deploy --token $FIREBASE_TOKEN
