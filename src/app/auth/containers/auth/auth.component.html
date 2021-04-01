@@ -20,8 +20,9 @@
           <a
             class="col-6"
             mat-tab-link
-            *ngFor="let tab of tabs"
+            *ngFor="let tab of tabs; let i = index"
             [routerLink]="tab.url"
+            [attr.data-tab]="i"
             routerLinkActive
             #rla="routerLinkActive"
             [active]="rla.isActive"

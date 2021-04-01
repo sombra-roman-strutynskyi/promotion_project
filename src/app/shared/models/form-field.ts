@@ -80,7 +80,7 @@ export const getConfirmPasswordField = (
 export const getFirstNameField = (
   options = {} as IFieldOptions
 ): FormlyFieldConfig => ({
-  className: options?.className || 'col-12',
+  className: `first_name ${options?.className || 'col-12'}`,
   key: 'firstName',
   type: 'input',
   templateOptions: {
@@ -93,7 +93,7 @@ export const getFirstNameField = (
 export const getLastNameField = (
   options = {} as IFieldOptions
 ): FormlyFieldConfig => ({
-  className: options?.className || 'col-12',
+  className: `last_name ${options?.className || 'col-12'}`,
   key: 'lastName',
   type: 'input',
   templateOptions: {
@@ -106,7 +106,7 @@ export const getLastNameField = (
 export const getAgeField = (
   options = {} as IFieldOptions
 ): FormlyFieldConfig => ({
-  className: options?.className || 'col-12',
+  className: `age ${options?.className || 'col-12'}`,
   key: 'age',
   type: 'input',
   templateOptions: {
