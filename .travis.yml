@@ -13,7 +13,7 @@ env:
 branches:
   only:
     - master
-before_install:
+before_script:
   - npm i -g firebase-tools
   - npm i -g http-server
 script:
@@ -21,20 +21,11 @@ script:
   - npm run test
   - npm run cy:ci
   - npm run build:prod
-# after_success:
-#   - firebase deploy --token $FIREBASE_TOKEN
-deploy:
-  provider: firebase
-  token:
-    secure: $FIREBASE_TOKEN
-  project: promotion-project-rs
-  message: Success deploy
-cache:
-  directories:
-    - node_modules
+after_success:
+  - firebase deploy --token $FIREBASE_TOKEN
 notifications:
   email:
     recipients:
-      - roman.strutynskyi@gmail.com
-    on_success: always
+      - strutynskyi.roman@gmail.com
+    on_success: change
     on_failure: always
