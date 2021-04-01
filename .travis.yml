@@ -13,32 +13,27 @@ env:
 branches:
   only:
     - master
-before_script:
-  - npm install -g firebase-tools
-  - npm install -g @angular/cli
+before_install:
+  - npm i -g firebase-tools
 script:
   - npm run lint
   - npm run test
+  - npm run cy:run
   - npm run build:prod
-after_success:
-  - firebase deploy --token $FIREBASE_TOKEN
+# after_success:
+#   - firebase deploy --token $FIREBASE_TOKEN
+deploy:
+  provider: firebase
+  token:
+    secure: $FIREBASE_TOKEN
+  project: promotion-project-rs
+  message: Success deploy
+cache:
+  directories:
+    - node_modules
 notifications:
   email:
     recipients:
       - roman.strutynskyi@gmail.com
-    on_success: change
+    on_success: always
     on_failure: always
-# before_install:
-#   - npm i -g firebase-tools
-# deploy:
-#   provider: firebase
-#   token:
-#     secure: f2pXpGBq32Dwk5dMOkZS5ArioQvv9Opt2nlXbEje6FTW7N6Xs1QbzBpputquwvIr8dyYp2LuL4YahlMZwFeTmeHfTvbi8bv6dkrjp8JkZ5T4qWLxWSNjHl5M/QTz4vkU5eQPjh6AeL+lm2bkYhEWlEKlkoyL04EYF4Lnet62dXhkUF8FDYNkj7JT+gQTGoLcH7aYNUy53saOcD9u6n/kkxa8MJnOREi1uV/mr8bmwPv/50c6Z4ISYc7pIoVYgNNKM0AHYNKuGOSD58Y0pEJGmpbhxQvRm/fkj0j1d37kvDUL3zLFAno5Fmgv9uY83IbKvWeoRmWl1I+ketJ09yylQeQdKBWXiNGCabtwgr7fQp/wX1n/slXFkMKiy8o+ivqgq5ZTDv1sdhM1er4ijrQQXcHhd2DyvX5LNCTptQzoNUD1HMnyNa7YfElVJxJUArL6rghRDQBoj2qPlpLDE2vAEENTxHS3DEXXeXbslpKok3pJhOxwZcTIzBilmqKMX9aX3LIYTJ9kegeV7pX45utnhBTG/bIfNsc7m6A/GoEKo7QdApru7GpMBTGZDQPTCTfKTqb7UdN6qWi4NnJ+XqfFZkYhiueLAFrXBK5P6WP4JdD4Z67Er1jCK8oGGxmjGh6wSXlJK3UU1OQDMB8lbdjKCz7MxNTUGtu7KuU7shYSpRE=
-#   project: promotion-project-rs
-#   message: Success deploy
-# cache:
-#   directories:
-#     - node_modules
-# env:
-#   global:
-#     secure: 2HSEjqdNVj3MRyJcU6ZubL+H7G+02a0skQsxJZj2KTGwA6wUFCunMN7ezTXf9rOY5itd4iByYMSaXTsobS8lG4Jcx8AvpOgtfCh8AgzrGGaTde1fh/L7hbnXIRQPPw1erm8d+SuZlqsZmCv4DyQkzqMzRa5JUAIdPZKqvD6GT4mzejgdQoACNkRH0sX6zCxV9YGtvoODBn87FCYcmiu1ELxp4Bh9X6afFFXIY1Uo1RNRObv5LmQ3Z0RfnMB2dlXB4AhSdu3+6lINaxVwp7fyyy24SWR/eDrWwYEp0t4YlBvPeS6kBsmSA0VcnvnokSGl8Alkq4U7kjVpcpvQuppP6zk/LV7anKs1SwvGSaSs0X1Sfb22KNvkT78qc+bRiqWn3I21dHEibbfg7TBH1yJZ6mr/dRVXhuzCbKXXu4WS+7E2j08l00JKshtmupMlPPXfJES291l4vG/unOKPQJzbZh6dXDe+5YHUNugL73AZRvGWeu5oK+G8PdkuvckH0MNbBiGtEfpxTKLcdsxjmnYr8aPzKTvXOD3glr0CeV7al2n5WDYbOWH2xlKPIvWMENu4/JbIZmRjTg1J6aO/+s4OQejsngk20rcKRJWuhBWrQq0srdPq69mSrJ9k3yx2nTk+95d60LI8DQ+5v6EZA0L0c+ywtmWoEPpiP6DvI6GyJhk=
