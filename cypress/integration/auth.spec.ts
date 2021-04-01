@@ -125,6 +125,19 @@ describe('Auth', () => {
       cy.contains('Should have 6 characters');
       cy.get(submitButton).should('be.disabled');
     });
+    it('should have error message if age is invalid', () => {
+      cy.get(inputFirstName).type('first name');
+      cy.get(inputLastName).type('last name');
+
+      cy.get(inputAge).clear().type('5').blur();
+      cy.contains('Should be more then 6');
+      cy.get(submitButton).should('be.disabled');
+
+      cy.get(inputAge).clear().type('121').blur();
+      cy.contains('Should be less then 120');
+      cy.get(submitButton).should('be.disabled');
+    });
+
     it('should go to login page', () => {
       cy.get('[data-tab="0"]').click({ force: true });
       cy.url().should('include', ROUTES_DATA.AUTH.children.SIGN_IN.url);
@@ -152,7 +165,6 @@ describe('Auth', () => {
       cy.contains('This is not a valid email address');
       cy.get(submitButton).should('be.disabled');
     });
-
     it('should go to login page', () => {
       cy.visit(`/${ROUTES_DATA.AUTH.children.SIGN_IN.url}`);
       cy.get('.login__reset-password').click();
