@@ -14,7 +14,7 @@ describe('Auth', () => {
     });
     it('should active submit button', () => {
       cy.get(submitButton).should('be.disabled');
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
       cy.get(inputPassword).type('12345678');
 
       cy.get(submitButton).should('not.be.disabled');
@@ -27,7 +27,7 @@ describe('Auth', () => {
       cy.get(submitButton).should('be.disabled');
     });
     it('should have error message if invalid password to short ', () => {
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
       cy.get(inputPassword).type('12345').blur();
 
       cy.contains('Should have 6 characters');
@@ -72,7 +72,7 @@ describe('Auth', () => {
       cy.get(inputFirstName).type('first name');
       cy.get(inputLastName).type('last name');
       cy.get(inputAge).type('22');
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
       cy.get(inputPassword).type('12345678');
 
       cy.get(submitButton).should('not.be.disabled');
@@ -81,7 +81,7 @@ describe('Auth', () => {
       cy.get(inputFirstName).focus().blur();
       cy.get(inputLastName).type('last name');
       cy.get(inputAge).type('22');
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
       cy.get(inputPassword).type('12345678');
 
       cy.contains('Please enter First Name');
@@ -91,7 +91,7 @@ describe('Auth', () => {
       cy.get(inputFirstName).type('first name');
       cy.get(inputLastName).focus().blur();
       cy.get(inputAge).type('22');
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
       cy.get(inputPassword).type('12345678');
 
       cy.contains('Please enter Last Name');
@@ -115,7 +115,7 @@ describe('Auth', () => {
       cy.get(inputFirstName).type('first name');
       cy.get(inputLastName).type('last name');
       cy.get(inputAge).type('22');
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
 
       cy.get(inputPassword).focus().blur();
       cy.contains('Please enter Password');
@@ -152,7 +152,7 @@ describe('Auth', () => {
     });
     it('should active submit button', () => {
       cy.get(submitButton).should('be.disabled');
-      cy.get(inputEmail).type('test@gmail.com');
+      cy.get(inputEmail).type('test@email.com');
 
       cy.get(submitButton).should('not.be.disabled');
     });

@@ -6,12 +6,12 @@ export const environment = {
   production: false,
   url: 'http://localhost:4200/',
   firebase: {
-    apiKey: 'AIzaSyBgGOTfWGSikfNG9Xk0GjUDuKtFFY97ww8',
-    authDomain: 'promotion-project-rs.firebaseapp.com',
-    projectId: 'promotion-project-rs',
-    storageBucket: 'promotion-project-rs.appspot.com',
-    messagingSenderId: '332770876413',
-    appId: '1:332770876413:web:0eaec6533e3c95e871d794',
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
   },
 };
 
