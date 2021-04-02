@@ -21,7 +21,7 @@ describe('CreateEditArticleFormConfigService', () => {
           fieldGroupClassName: 'row',
           fieldGroup: [
             {
-              className: 'col-12',
+              className: 'title col-12',
               key: 'title',
               type: 'input',
               templateOptions: {
@@ -33,7 +33,7 @@ describe('CreateEditArticleFormConfigService', () => {
               },
             },
             {
-              className: 'col-12',
+              className: 'body col-12',
               key: 'body',
               type: 'textarea',
               templateOptions: {

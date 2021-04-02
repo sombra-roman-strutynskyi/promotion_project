@@ -1,36 +1,38 @@
-<div class="row preview-article" *ngIf="article">
-  <div class="col-12 preview-article__top">
-    <div class="row align-items-center">
-      <div class="col-6">
-        <div class="row align-items-center">
-          <a class="col-auto" [routerLink]="['./articles']" mat-icon-button>
-            <mat-icon>arrow_back_ios </mat-icon>
+<div class="row preview-article" [loadingOverlay]="pending$ | async">
+  <ng-container *ngIf="article">
+    <div class="col-12 preview-article__top">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <div class="row align-items-center">
+            <a class="col-auto" [routerLink]="['./articles']" mat-icon-button>
+              <mat-icon>arrow_back_ios </mat-icon>
+            </a>
+            <div class="col-auto">Articles</div>
+          </div>
+        </div>
+        <div class="col-6 preview-article__edit">
+          <a
+            *ngIf="article.authorId === currentUserId"
+            class="col-auto"
+            [routerLink]="['../edit/' + article.id]"
+            mat-stroked-button
+            color="primary"
+          >
+            Edit
           </a>
-          <div class="col-auto">Articles</div>
         </div>
       </div>
-      <div class="col-6 preview-article__edit">
-        <a
-          *ngIf="article.authorId === currentUserId"
-          class="col-auto"
-          [routerLink]="['../edit/' + article.id]"
-          mat-stroked-button
-          color="primary"
-        >
-          Edit
-        </a>
-      </div>
     </div>
-  </div>
 
-  <img
-    [src]="article.imageUrl"
-    alt="Article Image"
-    class="col-12 preview-article__img"
-  />
-  <span class="col-12 preview-article__date">{{
-    article.updatedAt | date: 'dd.MM.yyyy'
-  }}</span>
-  <h1 class="col-12 preview-article__title">{{ article.title }}</h1>
-  <p class="col-12 preview-article__body">{{ article.body }}</p>
+    <img
+      [src]="article.imageUrl"
+      alt="Article Image"
+      class="col-12 preview-article__img"
+    />
+    <span class="col-12 preview-article__date">{{
+      article.updatedAt | date: 'dd.MM.yyyy'
+    }}</span>
+    <h1 class="col-12 preview-article__title">{{ article.title }}</h1>
+    <p class="col-12 preview-article__body">{{ article.body }}</p>
+  </ng-container>
 </div>

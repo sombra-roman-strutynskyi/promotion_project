@@ -3,7 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthFacade } from '@auth';
 import { ROUTES_DATA, SubscriptionDisposer } from '@shared';
 import { isEmpty, isNil } from 'lodash';
-import { filter, map, take, takeUntil } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  take,
+  takeUntil,
+  tap,
+  distinctUntilChanged,
+  debounceTime,
+} from 'rxjs/operators';
 import { IArticle } from '../../models';
 import { ArticlesFacade } from '../../services';
 @Component({
@@ -17,7 +25,7 @@ export class PreviewArticleComponent
   private articleId: string;
   currentUserId: string;
   article: IArticle;
-
+  pending$ = this.articlesFacade.pending$;
   constructor(
     private articlesFacade: ArticlesFacade,
     private authFacade: AuthFacade,
@@ -32,22 +40,28 @@ export class PreviewArticleComponent
       .pipe(
         map(({ id }) => id),
         filter((d) => !isNil(d)),
-        take(1)
+        take(1),
+        tap((id) => {
+          this.articleId = id;
+          this.articlesFacade.loadArticleById(this.articleId);
+        })
       )
-      .subscribe((id) => {
-        this.articleId = id;
-        this.articlesFacade.loadArticleById(this.articleId);
-      });
+      .subscribe();
 
     this.articlesFacade.selectedArticle$
-      .pipe(takeUntil(this.ngSubject))
-      .subscribe((article) => {
-        if (!isNil(article)) {
-          this.article = { ...article };
-        } else {
-          this.router.navigateByUrl(ROUTES_DATA.ARTICLES.url);
-        }
-      });
+      .pipe(
+        debounceTime(750),
+        distinctUntilChanged(),
+        takeUntil(this.ngSubject),
+        tap((article) => {
+          if (!isNil(article)) {
+            this.article = { ...article };
+          } else {
+            this.router.navigateByUrl(ROUTES_DATA.ARTICLES.url);
+          }
+        })
+      )
+      .subscribe();
     this.getCurrentUserId();
   }
 
@@ -56,10 +70,11 @@ export class PreviewArticleComponent
       .pipe(
         filter((d) => !isEmpty(d)),
         take(1),
-        map(({ uid }) => uid)
+        map(({ uid }) => uid),
+        tap((id) => {
+          this.currentUserId = id;
+        })
       )
-      .subscribe((id) => {
-        this.currentUserId = id;
-      });
+      .subscribe();
   }
 }

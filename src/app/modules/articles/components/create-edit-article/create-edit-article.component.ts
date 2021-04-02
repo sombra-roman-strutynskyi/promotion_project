@@ -5,7 +5,7 @@ import { AuthFacade } from '@auth';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { SubscriptionDisposer, UiFormButton } from '@shared';
 import { isEmpty, isNil } from 'lodash';
-import { take, takeUntil, filter, map } from 'rxjs/operators';
+import { take, takeUntil, filter, map, tap } from 'rxjs/operators';
 import { Article, IArticle } from '../../models';
 import {
   ArticlesFacade,
@@ -49,11 +49,12 @@ export class CreateEditArticleComponent
       .pipe(
         map(({ id }) => id),
         filter((d) => !isNil(d)),
-        take(1)
+        take(1),
+        tap((id) => {
+          this.articleId = id;
+        })
       )
-      .subscribe((id) => {
-        this.articleId = id;
-      });
+      .subscribe();
 
     this.configuringForm();
   }

@@ -29,6 +29,7 @@
       "@auth": ["src/app/auth/index.ts"],
       "@testing": ["src/app/testing/index.ts"],
       "@modules/*": ["src/app/modules/*"]
-    }
+    },
+    "allowJs": true
   }
 }

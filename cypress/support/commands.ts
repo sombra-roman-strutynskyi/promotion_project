@@ -1,4 +1,5 @@
-import { environment } from '../../src/environments/environment.prod';
+import 'cypress-file-upload';
+
 Cypress.Commands.add('login', () => {
   cy.visit('/').then(() => {
     cy.get('input[type="email"]').type(Cypress.env('userEmail'));
