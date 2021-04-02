@@ -12,6 +12,7 @@ import {
 import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, tap, exhaustMap } from 'rxjs/operators';
+import { IUser } from '../models';
 import { AuthService } from '../services';
 import * as AuthActions from './auth.actions';
 
@@ -109,12 +110,14 @@ export class AuthEffects implements OnInitEffects {
       ofType(AuthActions.loadUserProfile),
       switchMap(() =>
         this.authService.getCurrentUser().pipe(
-          map(({ currentUser, providers }) =>
-            AuthActions.loadUserProfileSuccess({
+          map((data) => {
+            const currentUser = data?.currentUser ?? ({} as IUser);
+            const providers = data?.providers ?? {};
+            return AuthActions.loadUserProfileSuccess({
               currentUser,
               providers,
-            })
-          ),
+            });
+          }),
           catchError((error) =>
             of(AuthActions.loadUserProfileFailure({ error }))
           )
@@ -210,6 +213,8 @@ export class AuthEffects implements OnInitEffects {
           AuthActions.verifyEmailAddressFailure
         ),
         tap(({ error }) => {
+          console.log(error);
+
           const { message } = error;
           if (message) {
             this.snackBar.open(message);
