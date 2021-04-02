@@ -213,8 +213,6 @@ export class AuthEffects implements OnInitEffects {
           AuthActions.verifyEmailAddressFailure
         ),
         tap(({ error }) => {
-          console.log(error);
-
           const { message } = error;
           if (message) {
             this.snackBar.open(message);
