@@ -1,5 +1,4 @@
 {
-  "projectId": "5hhmb3",
   "integrationFolder": "cypress/integration",
   "supportFile": "cypress/support/index.ts",
   "videosFolder": "cypress/videos",
