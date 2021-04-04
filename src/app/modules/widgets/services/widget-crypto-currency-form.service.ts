@@ -79,7 +79,7 @@ export class WidgetCryptoCurrencyFormService {
       this.widgetFacade.cryptoCurrencyTypes$.pipe(
         filter((d) => !isNil(d)),
         take(1),
-        map((d) => d.slice(200, 2200))
+        map((d) => d.slice(200, 1200))
       )
     );
   }

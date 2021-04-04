@@ -2,12 +2,7 @@ import { ROUTES_DATA } from '../../src/app/shared/constants/routePaths';
 
 describe('User Profile', () => {
   before(() => {
-    cy.intercept(
-      'post',
-      '*identitytoolkit/v3/relyingparty/getAccountInfo?*'
-    ).as('login');
     cy.login();
-    cy.wait('@login');
   });
   beforeEach(() => {
     cy.visit(`/${ROUTES_DATA.PROFILE.url}`);

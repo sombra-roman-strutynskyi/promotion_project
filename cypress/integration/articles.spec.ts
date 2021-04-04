@@ -3,12 +3,7 @@ import { ROUTES_DATA } from '../../src/app/shared/constants/routePaths';
 
 describe('Articles', () => {
   before(() => {
-    cy.intercept(
-      'post',
-      '*identitytoolkit/v3/relyingparty/getAccountInfo?*'
-    ).as('login');
     cy.login();
-    cy.wait('@login');
   });
   describe('Create/Preview/Edit Article page', () => {
     const titleField = '.title input';
@@ -97,7 +92,7 @@ describe('Articles', () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/${articleId}`);
       });
       it('should go to article edit page after click edit button', () => {
-        cy.get(editBtn).click();
+        cy.getWithWait(editBtn).click();
         cy.url().should(
           'include',
           `${ROUTES_DATA.ARTICLES.url}/edit/${articleId}`
@@ -105,7 +100,7 @@ describe('Articles', () => {
       });
       it(`shouldn't found edit button if I'm not author for article`, () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}`);
-        cy.get('.item-article')
+        cy.getWithWait('.item-article')
           .last()
           .click()
           .then((item) => {
@@ -120,7 +115,7 @@ describe('Articles', () => {
       });
 
       it('should have error message if title is empty or invalid', () => {
-        cy.get(titleField).clear().blur();
+        cy.getWithWait(titleField).clear().blur();
         cy.contains('Please enter Title');
         cy.get(submitBtn).should('be.disabled');
 
@@ -129,7 +124,7 @@ describe('Articles', () => {
         cy.get(submitBtn).should('be.disabled');
       });
       it('should cut string to 100 symbols in title if string to long', () => {
-        cy.get(titleField)
+        cy.getWithWait(titleField)
           .clear()
           .type(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur fermentum. Proin at quis.'
@@ -146,15 +141,15 @@ describe('Articles', () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/${articleId}`);
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/edit/${articleId}`);
 
-        cy.get('button').contains('Cancel').click();
+        cy.getWithWait('button').contains('Cancel').click();
         cy.url().should('include', `${ROUTES_DATA.ARTICLES.url}/${articleId}`);
       });
       it('should go to current article page after submit', () => {
-        cy.get(submitBtn).click();
+        cy.getWithWait(submitBtn).click();
         cy.url().should('include', `${ROUTES_DATA.ARTICLES.url}/${articleId}`);
       });
       it('should go to articles page after remove', () => {
-        cy.get('button').contains('Remove').click();
+        cy.getWithWait('.create-edit-article__remove ').click();
         cy.url().should('include', ROUTES_DATA.ARTICLES.url);
       });
     });
