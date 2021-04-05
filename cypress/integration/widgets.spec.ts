@@ -81,7 +81,7 @@ describe('Widgets', () => {
           });
         cy.get(submitBtn).click();
         cy.wait('@loadCurrency').then(() => {
-          cy.getWithWait('.crypto-currencies__list').should(
+          cy.getWithWait('.crypto-currencies__list', loadOptionsTimeout).should(
             'not.contain.text',
             'Acoin'
           );

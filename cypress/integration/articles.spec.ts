@@ -43,12 +43,11 @@ describe('Articles', () => {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur fermentum. Proin at quis.'
           )
           .blur()
-          .then((input) => {
-            expect(input.val()).equal(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur ferme'
-            );
-            cy.get(submitBtn).should('not.be.disabled');
-          });
+          .should(
+            'have.value',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur ferme'
+          );
+        cy.get(submitBtn).should('not.be.disabled');
       });
       it('should have error message if body is empty or to short', () => {
         cy.get(titleField).type('test article title');
@@ -130,12 +129,11 @@ describe('Articles', () => {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur fermentum. Proin at quis.'
           )
           .blur()
-          .then((input) => {
-            expect(input.val()).equal(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur ferme'
-            );
-            cy.get(submitBtn).should('not.be.disabled');
-          });
+          .should(
+            'have.value',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat dui sed nunc efficitur ferme'
+          );
+        cy.get(submitBtn).should('not.be.disabled');
       });
       it('should go to current article page after cancel', () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/${articleId}`);

@@ -4,6 +4,6 @@ declare namespace Cypress {
   interface Chainable {
     login(): Chainable<void>;
     logout(): Chainable<void>;
-    getWithWait(selector: string, timeout?: number): Chainable<Element>;
+    getWithWait(selector: string, timeout?: number): Chainable<cy>;
   }
 }
