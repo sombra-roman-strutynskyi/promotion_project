@@ -17,7 +17,7 @@ describe('Articles', () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.children.ADD.url}`);
       });
       it('should go to articles page', () => {
-        cy.get('button').contains('Cancel').click();
+        cy.get('.create-edit-article__cancel').click();
         cy.url().should('include', ROUTES_DATA.ARTICLES.url);
       });
 
@@ -139,7 +139,7 @@ describe('Articles', () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/${articleId}`);
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/edit/${articleId}`);
 
-        cy.getWithWait('button').contains('Cancel').click();
+        cy.getWithWait('.create-edit-article__cancel').click();
         cy.url().should('include', `${ROUTES_DATA.ARTICLES.url}/${articleId}`);
       });
       it('should go to current article page after submit', () => {

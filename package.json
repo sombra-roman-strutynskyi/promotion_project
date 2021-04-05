@@ -4,14 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:server": "ng build --prod && run-p --race && http-server ./dist/promotion-project -P http://localhost:4200? -a localhost -p 4200 -c-1",
+    "start:server": "http-server ./dist/promotion-project -P http://localhost:4200? -a localhost -p 4200 -c-1",
+    "server:up": "ng build --prod && run-p --race start:server",
     "build": "ng build",
     "test": "jest",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:ci": "start:server cy:run",
+    "cy:ci": "ng build --prod && run-p --race start:server cy:run",
     "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "build:prod": "npm run ng-high-memory -- build --prod"
   },
