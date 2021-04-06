@@ -1,4 +1,3 @@
-import { is } from 'cypress/types/bluebird';
 import { ROUTES_DATA } from '../../src/app/shared/constants/routePaths';
 
 describe('Articles', () => {
