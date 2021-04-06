@@ -18,4 +18,4 @@
   { id: 'beautyk', symbol: 'btkc', name: 'BeautyK' },
   { id: 'beaxy-exchange', symbol: 'bxy', name: 'Beaxy' },
   { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin' },
-];
+]
