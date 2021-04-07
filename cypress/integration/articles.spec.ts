@@ -16,12 +16,12 @@ describe('Articles', () => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.children.ADD.url}`);
       });
       it('should go to articles page', () => {
-        cy.get('.create-edit-article__cancel').click();
+        cy.getWithWait('.create-edit-article__cancel').click();
         cy.url().should('include', ROUTES_DATA.ARTICLES.url);
       });
 
       it('should have error message if title is empty or invalid', () => {
-        cy.get(bodyField).type('test article description');
+        cy.getWithWait(bodyField).type('test article description');
         uploadImg(imageField, 'test.png');
 
         cy.get(titleField).focus().blur();
@@ -33,7 +33,7 @@ describe('Articles', () => {
         cy.get(submitBtn).should('be.disabled');
       });
       it('should cut string to 100 symbols in title if string to long', () => {
-        cy.get(bodyField).type('test article description');
+        cy.getWithWait(bodyField).type('test article description');
         uploadImg(imageField, 'test.png');
 
         cy.get(titleField)
@@ -49,7 +49,7 @@ describe('Articles', () => {
         cy.get(submitBtn).should('not.be.disabled');
       });
       it('should have error message if body is empty or to short', () => {
-        cy.get(titleField).type('test article title');
+        cy.getWithWait(titleField).type('test article title');
         uploadImg(imageField, 'test.png');
 
         cy.get(bodyField).focus().blur();
@@ -61,7 +61,7 @@ describe('Articles', () => {
         cy.get(submitBtn).should('be.disabled');
       });
       it('should have error message if image is empty', () => {
-        cy.get(titleField).type('test article title');
+        cy.getWithWait(titleField).type('test article title');
         cy.get(bodyField).type('test article description');
         cy.get(imageField).focus().blur();
         cy.contains('Please select image');
@@ -72,7 +72,7 @@ describe('Articles', () => {
       it('should active submit button', () => {
         cy.intercept('get', '*api/v3/coins/markets?*').as('loadCurrency');
 
-        cy.get(submitBtn).should('be.disabled');
+        cy.getWithWait(submitBtn).should('be.disabled');
         cy.get(titleField).type('test article title');
         cy.get(bodyField).type('test article description');
         uploadImg(imageField, 'test.png');
@@ -88,23 +88,28 @@ describe('Articles', () => {
     describe('Preview Article', () => {
       beforeEach(() => {
         cy.visit(`/${ROUTES_DATA.ARTICLES.url}/${articleId}`);
+        cy.intercept('get', '*api/v3/coins/markets?*').as('loadCurrency');
       });
       it('should go to article edit page after click edit button', () => {
-        cy.getWithWait(editBtn).click();
-        cy.url().should(
-          'include',
-          `${ROUTES_DATA.ARTICLES.url}/edit/${articleId}`
-        );
+        cy.wait('@loadCurrency').then(() => {
+          cy.getWithWait(editBtn).click();
+          cy.url().should(
+            'include',
+            `${ROUTES_DATA.ARTICLES.url}/edit/${articleId}`
+          );
+        });
       });
       it(`shouldn't found edit button if I'm not author for article`, () => {
-        cy.visit(`/${ROUTES_DATA.ARTICLES.url}`);
-        cy.getWithWait('.item-article')
-          .last()
-          .click()
-          .then((item) => {
-            cy.url().should('include', item.attr('href'));
-            cy.get(editBtn).should('not.exist');
-          });
+        cy.wait('@loadCurrency').then(() => {
+          cy.visit(`/${ROUTES_DATA.ARTICLES.url}`);
+          cy.getWithWait('.item-article')
+            .last()
+            .click()
+            .then((item) => {
+              cy.url().should('include', item.attr('href'));
+              cy.get(editBtn).should('not.exist');
+            });
+        });
       });
     });
     describe('Edit Article', () => {
@@ -154,22 +159,29 @@ describe('Articles', () => {
   describe('Articles page', () => {
     beforeEach(() => {
       cy.visit(`/${ROUTES_DATA.ARTICLES.url}`);
+      cy.intercept('get', '*api/v3/coins/markets?*').as('loadCurrency');
     });
     it(`should go to article preview if click on article`, () => {
-      cy.get('.item-article')
-        .first()
-        .click()
-        .then((item) => {
-          cy.url().should('include', item.attr('href'));
-        });
+      cy.wait('@loadCurrency').then(() => {
+        cy.get('.item-article')
+          .first()
+          .click()
+          .then((item) => {
+            cy.url().should('include', item.attr('href'));
+          });
+      });
     });
     it(`should go to create article if click on article`, () => {
-      cy.get('.article-list__button').click();
-      cy.url().should('include', ROUTES_DATA.ARTICLES.children.ADD.url);
+      cy.wait('@loadCurrency').then(() => {
+        cy.getWithWait('.article-list__button').click();
+        cy.url().should('include', ROUTES_DATA.ARTICLES.children.ADD.url);
+      });
     });
     it(`should go to user profile if click profile avatar`, () => {
-      cy.get('.layout-header__user').click();
-      cy.url().should('include', ROUTES_DATA.PROFILE.url);
+      cy.wait('@loadCurrency').then(() => {
+        cy.getWithWait('.layout-header__user').click();
+        cy.url().should('include', ROUTES_DATA.PROFILE.url);
+      });
     });
   });
   after(() => {
