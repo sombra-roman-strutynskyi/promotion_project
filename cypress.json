@@ -7,6 +7,5 @@
   "fixturesFolder": "cypress/fixtures",
   "baseUrl": "http://localhost:4200",
   "videoUploadOnPasses": false,
-  "chromeWebSecurity": false,
-  "projectId": "odyrkk"
+  "chromeWebSecurity": false
 }
