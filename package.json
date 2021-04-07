@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cy:open": "cypress open",
-    "cy:run": "cypress run --record --key c0bf6434-d97a-4150-adbf-09df0dcd9bb6",
+    "cy:run": "cypress run ",
     "cy:ci": "ng build --prod && run-p --race start:server cy:run",
     "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "build:prod": "npm run ng-high-memory -- build --prod"
