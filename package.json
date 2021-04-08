@@ -9,7 +9,6 @@
     "build": "ng build",
     "test": "jest",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "cy:open": "cypress open",
     "cy:run": "cypress run ",
     "cy:ci": "ng build --prod && run-p --race start:server cy:run",
